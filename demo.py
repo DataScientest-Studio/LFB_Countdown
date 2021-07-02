@@ -17,9 +17,13 @@ import seaborn as sns
 from preprocessing import generate_train_data
 from modelisation import get_model
 
-page = st.sidebar.radio("", options = ['Présentation', 'Modélisation']) 
+from geopy.geocoders import Nominatim
 
-df = pd.read_csv("train.csv", index_col = 'PassengerId')
+
+
+page = st.sidebar.radio("", options = ['Présentation', 'Modélisation','Application']) 
+
+#df = pd.read_csv("train.csv", index_col = 'PassengerId')
 
 if page == 'Présentation':
     st.title("Démo Streamlit Mar21 DA DS")
@@ -32,15 +36,15 @@ if page == 'Présentation':
                 
                 """)
     
-    img = plt.imread("assets/titanic.jpg")
+#    img = plt.imread("assets/titanic.jpg")
     
-    st.image(img)
+#    st.image(img)
     
-    sns.countplot(df['Survived'])
+    #sns.countplot(df['Survived'])
     
     fig = plt.gcf()
 
-    st.pyplot(fig) 
+    #st.pyplot(fig) 
     
     
     
@@ -75,11 +79,30 @@ if page == 'Modélisation':
                 """)    
     st.write(score)
 
+if page == 'Application':
+    #st.title,image...
+    options = ['Je renseigne une adresse postale',
+               'Je sélectionne un point sur la carte', 
+               'Je renseigne les coordonnées géographiques (au format xxx)']
+    choix = st.radio("Choisissez un modèle", options = options) 
 
+    if choix==options[0]:
+        adress=st.text_input("Saisissez une adresse", key="adress")
+        geolocator = Nominatim(user_agent="projet_pompier")
+        location = geolocator.geocode(adress)
+        if location==None:
+            st.write("Les coordonnées de votre adresse sont inconnues.")
+        else:
+            lat=location.latitude
+            lon=location.longitude
+            coord=(lat,lon)
+            st.write("Les coordonnées de votre adresse sont :",coord)
+            date=st.date_input("Date d'appel")
+            time=st.time_input("Heure d'appel")
 
-
-
-
+#    if choix==options[1]:
+        
+#    if choix==options[2]:
 
 
 
