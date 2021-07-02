@@ -69,7 +69,7 @@
 >   
 >   
 >   Nous avons ensuite réalisé des tests statistiques afin de vérifier que ces constats se vérifient. Nos 3 tests ANOVA concernant l'influence de nos 3 variables temporelles sur le nombre d'incidents moyen, nous indique que l'hypothèse selon laquelle les variables sont indépendantes est rejetée avec des p values extrêmement proches de 0. Nos 3 variables temporelles ont donc un effet statistique significatif sur le nombre d'incidents moyen.
->   
+>   <br/>
 >  |          |    df |         sum_sq |   mean_sq |        F |        PR(>F) |
 >  |:---------|------:|---------------:|----------:|---------:|--------------:|
 >  | Mois     |     1 | 3026.22        |  3026.22  |  25.8373 |   3.72452e-07 |
@@ -99,7 +99,7 @@
 >   <li> En revanche, nous n'observons pas de relation clairement visible entre le temps d'attente et le jour de la semaine ou l'heure de la journée.</li></ul>
 >  <br/><br/>
 >   Nous avons également vérifié à l'aide de tests ANOVA si ces variables temporelles influencent significativement le temps d'attente. 
->   
+>   <br/>
 >   |          |    df |      sum_sq |        mean_sq |        F |        PR(>F) |
 >  |:---------|------:|------------:|---------------:|---------:|--------------:|
 >  | Mois     |     1 | 1.2569e+06  |     1.2569e+06 |  18.1985 |   1.99319e-05 |
@@ -129,7 +129,7 @@
 >   <p align="center"><img src=figures\Moyenne_par_type.png width=600></p>
 >  <br/><br/>
 >   On remarque que la grande majorité des sources d'intervention sont liées aux Alarmes Automatiques d'Incendie. Ensuite, et dans une moindre mesure, on retrouve comme autres raisons principales : les incendies, les opérations d'entrée-sortie de personnes, les innondations puis les accidents de la route. D'après notre test ANOVA, le type d'incident a un lien significatif avec le nombre d'incidents (p value nulle).
->  
+>  <br/>
 >  |          |    df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >  |:---------|------:|------------:|----------------:|--------:|---------:|
 >  | type     |    25 | 9.44883e+07 |     3.77953e+06 | 238.183 |        0 |
@@ -142,7 +142,7 @@
 >  <br/><br/>
 >   Le temps d'attente évolue donc du simple au double selon le type d'incident. La LFB met deux fois plus de temps pour se rendre sur un incendie que pour porter secours lors d'une noyade.
 >  Cette influence de la nature de l'intervention sur le temps d'attente est par ailleurs confirmée par le test ANOVA qui indique un lien significatif entre les deux variables (p value nulle).
->  
+>  <br/>
 >  |          |    df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >  |:---------|------:|------------:|----------------:|--------:|---------:|
 >  | type     |    25 | 1.34913e+08 |     5.39652e+06 |  69.132 |        0 |
@@ -158,8 +158,8 @@
 >   <p align="center"><img src=figures\Carte_incident_station.png></p>
 >  <br/><br/>
 >   Le test ANOVA évaluant l'indépendance de la station de déploiement du temps d'attente nous montre un lien significatif entre ces variables (p value nulle). On peut donc supposer que : soit certaines stations sont intrinsèquement plus performantes que d'autres (grâce à des équipes plus expérimentées par exemple), soit c'est l'emplacement des stations qui va agir indirectement sur le temps d'attente.
->   
->   |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
+>   <br/>
+>  |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >  |:-------------------------|-------:|------------:|----------------:|--------:|---------:|
 >  | DeployedFromStation_Code |    101 | 5.69136e+08 |     5.63501e+06 | 315.144 |        0 |
 >  | Residual                 | 683719 | 1.22254e+10 | 17880.7         | nan     |      nan |
