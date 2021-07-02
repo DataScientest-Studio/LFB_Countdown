@@ -8,7 +8,7 @@ Created on Fri Jul  2 14:12:44 2021
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
-from joblib import dump, load
+from joblib import load
 
 import streamlit as st
 
