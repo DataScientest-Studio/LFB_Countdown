@@ -1,11 +1,11 @@
-<center><h1>Projet London Fire Brigade CountDown</h1></center>
+<p align="center"><h1>Projet London Fire Brigade CountDown</h1></p>
 <br/><br/>
-<center><img src=figures\LFB_illustration.png width=1000></center>
+<p align="center"><img src=figures\LFB_illustration.png width=1000></p>
 <br/><br/>
                                                  
 
-<center><h3>Elora VABOIS, Marie LE COZ, Nicolas RAYMOND</h3></center>
-<center><h3>DA Bootcamp Mai 2021</h3></center>
+<p align="center"><h3>Elora VABOIS, Marie LE COZ, Nicolas RAYMOND</h3></p>
+<p align="center"><h3>DA Bootcamp Mai 2021</h3></p>
 <br/><br/>
 
 
@@ -59,8 +59,8 @@
 >   Une première approche simple nous permet de vérifier visuellement si les différents facteurs temporels (mois, jour de la semaine, heure de la journée) ont une influence sur le nombre d'incidents :
 >   
 >   <p align="center"><img src=figures\Moyenne_par_mois.png width=600></p>
->   <center><img src=figures\Moyenne_par_jour.png width=600></center>
->   <center><img src=figures\Moyenne_par_heures.png width=600></center>
+>   <p align="center"><img src=figures\Moyenne_par_jour.png width=600></p>
+>   <p align="center"><img src=figures\Moyenne_par_heures.png width=600></p>
 >   
 >   Nous pouvons remarquer que le nombre moyen d'incidents varie plus ou moins fortement selon ces facteurs :
 >   <ul><li> Un nombre moyen d'incidents plus important sur les mois estivaux (de mai à septembre) par rapport au reste de l'année, avec un pic sur le mois de juillet.</li>
@@ -69,7 +69,7 @@
 >   
 >   
 >   Nous avons ensuite réalisé des tests statistiques afin de vérifier que ces constats se vérifient. Nos 3 tests ANOVA concernant l'influence de nos 3 variables temporelles sur le nombre d'incidents moyen, nous indique que l'hypothèse selon laquelle les variables sont indépendantes est rejetée avec des p values extrêmement proches de 0. Nos 3 variables temporelles ont donc un effet statistique significatif sur le nombre d'incidents moyen.
->   
+>   <p align="center">
 >   |          |    df |         sum_sq |   mean_sq |        F |        PR(>F) |
 >  |:---------|------:|---------------:|----------:|---------:|--------------:|
 >  | Mois     |     1 | 3026.22        |  3026.22  |  25.8373 |   3.72452e-07 |
@@ -84,14 +84,14 @@
 >  |:---------|-------:|----------:|-----------:|--------:|--------------:|
 >  | heures   |      1 |    25.594 | 25.594     | 383.153 |   3.20373e-85 |
 >  | Residual | 164639 | 10997.6   |  0.0667985 | nan     | nan           |
->  
+>  </p>
 >  <br/><br/>
 >   Nous nous sommes également intéressés à savoir si ces mêmes variables pouvaient avoir une incidence sur le temps d'attente, c'est-à-dire le temps passé entre l'appel des secours et leur arrivée sur place.
 >   
 >  <br/>
->   <center><img src=figures\Temps_attente_par_mois.png width=600></center>
->   <center><img src=figures\Temps_attente_par_jour.png width=600></center>
->   <center><img src=figures\Temps_attente_par_heures.png width=600></center>
+>   <p align="center"><img src=figures\Temps_attente_par_mois.png width=600></p>
+>   <p align="center"><img src=figures\Temps_attente_par_jour.png width=600></p>
+>   <p align="center"><img src=figures\Temps_attente_par_heures.png width=600></p>
 >  <br/><br/>
 >   Les variations sur le temps d'attente sont moins flagrantes, mais s'expliquent en grande partie par le fait que cette variable n'a pas une grande amplitude de manière générale.<br/><br/>
 >  Néanmoins, certains enseignements se recoupent avec la distribution des incidents décrite plus haut :
@@ -99,7 +99,7 @@
 >   <li> En revanche, nous n'observons pas de relation clairement visible entre le temps d'attente et le jour de la semaine ou l'heure de la journée.</li></ul>
 >  <br/><br/>
 >   Nous avons également vérifié à l'aide de tests ANOVA si ces variables temporelles influencent significativement le temps d'attente. 
->   
+>   <p align="center">
 >   |          |    df |      sum_sq |        mean_sq |        F |        PR(>F) |
 >  |:---------|------:|------------:|---------------:|---------:|--------------:|
 >  | Mois     |     1 | 1.2569e+06  |     1.2569e+06 |  18.1985 |   1.99319e-05 |
@@ -114,7 +114,7 @@
 >  |:---------|-------:|------------:|----------------:|--------:|--------------:|
 >  | heures   |      1 | 3.72604e+06 |     3.72604e+06 | 211.216 |   7.98411e-48 |
 >  | Residual | 164639 | 2.90438e+09 | 17640.9         | nan     | nan           |
->   
+>   </p>
 >  <br/><br/>
 >  Pour ces 3 tests, nous avons posé l'hypothèse que le temps d'attente est indépendant du mois, du jour de la semaine et de l'heure de l'incident.
 >  Les p values des tests liés au mois et à l'heure de l'incident sont extrêment proches de 0, nous pouvons donc noter un effet statistique significatif de ces variables sur le temps d'attente. La p value du test lié au jour de la semaine est d'environ 80 %, indiquant donc cette variable n'a pas d'effet statistique significatif sur le temps d'attente des secours.
@@ -126,28 +126,28 @@
 >  <br/><br/>
 >  Regardons tout d'abord la répartition des types d'incidents traités par la London Fire Brigade depuis 2014 :
 >  <br/><br/>
->   <center><img src=figures\Moyenne_par_type.png width=600> </center>
+>   <p align="center"><img src=figures\Moyenne_par_type.png width=600></p>
 >  <br/><br/>
 >   On remarque que la grande majorité des sources d'intervention sont liées aux Alarmes Automatiques d'Incendie. Ensuite, et dans une moindre mesure, on retrouve comme autres raisons principales : les incendies, les opérations d'entrée-sortie de personnes, les innondations puis les accidents de la route. D'après notre test ANOVA, le type d'incident a un lien significatif avec le nombre d'incidents (p value nulle).
->  
+>  <p align="center">
 >  |          |    df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >  |:---------|------:|------------:|----------------:|--------:|---------:|
 >  | type     |    25 | 9.44883e+07 |     3.77953e+06 | 238.183 |        0 |
 >  | Residual | 17218 | 2.73218e+08 | 15868.1         | nan     |      nan |
->  
+>  </p>
 >  <br/><br/>
 >  Ici encore, nous vérifions l'incidence sur le temps d'attente visuellement puis statistiquement.
 >  <br/><br/>
->   <center><img src=figures\Temps_attente_par_type.png width=800></center>
+>   <p align="center"><img src=figures\Temps_attente_par_type.png width=800></p>
 >  <br/><br/>
 >   Le temps d'attente évolue donc du simple au double selon le type d'incident. La LFB met deux fois plus de temps pour se rendre sur un incendie que pour porter secours lors d'une noyade.
 >  Cette influence de la nature de l'intervention sur le temps d'attente est par ailleurs confirmée par le test ANOVA qui indique un lien significatif entre les deux variables (p value nulle).
->  
+>  <p align="center">
 >  |          |    df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >  |:---------|------:|------------:|----------------:|--------:|---------:|
 >  | type     |    25 | 1.34913e+08 |     5.39652e+06 |  69.132 |        0 |
 >  | Residual | 17218 | 1.34406e+09 | 78061.1         | nan     |      nan |
-
+</p>
 <br/>
 <h4>iii - Analyse en fonction de la localisation de l'incident </h4> 
 
@@ -155,14 +155,14 @@
 >  <br/><br/>
 >  Ceci nous permet de voir la répartition des stations et leur rayon d'action :
 >  <br/><br/>
->   <center><img src=figures\Carte_incident_station.png></center>
+>   <p align="center"><img src=figures\Carte_incident_station.png></p>
 >  <br/><br/>
 >   Le test ANOVA évaluant l'indépendance de la station de déploiement du temps d'attente nous montre un lien significatif entre ces variables (p value nulle). On peut donc supposer que : soit certaines stations sont intrinsèquement plus performantes que d'autres (grâce à des équipes plus expérimentées par exemple), soit c'est l'emplacement des stations qui va agir indirectement sur le temps d'attente.
->   
+>   <p align="center">
 >   |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >  |:-------------------------|-------:|------------:|----------------:|--------:|---------:|
 >  | DeployedFromStation_Code |    101 | 5.69136e+08 |     5.63501e+06 | 315.144 |        0 |
 >  | Residual                 | 683719 | 1.22254e+10 | 17880.7         | nan     |      nan |
->   
+>   </p>
 >  <br/>
 >  Nous avons également prêté attention à la densité des incidents répartis sur l'ensemble de la ville (ici en 2020) : 
