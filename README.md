@@ -58,7 +58,7 @@
   
 >   Une première approche simple nous permet de vérifier visuellement si les différents facteurs temporels (mois, jour de la semaine, heure de la journée) ont une influence sur le nombre d'incidents :
 >   
->   <center><img src=figures\Moyenne_par_mois.png width=600></center>
+>   <p align="center"><img src=figures\Moyenne_par_mois.png width=600></p>
 >   <center><img src=figures\Moyenne_par_jour.png width=600></center>
 >   <center><img src=figures\Moyenne_par_heures.png width=600></center>
 >   
