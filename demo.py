@@ -81,29 +81,44 @@ if page == 'Modélisation':
 
 if page == 'Application':
     #st.title,image...
+    
+    date=st.date_input("Date d'appel")
+    time=st.time_input("Heure d'appel")
+    #InLondon=1
+    #Borough
+    #District
+    #st.selectbox('Property',('Comedy', 'Drama', 'Documentary'))
+    #st.selectbox('IncidentType',('Comedy', 'Drama', 'Documentary'))
+    
+    
     options = ['Je renseigne une adresse postale',
-               'Je sélectionne un point sur la carte', 
-               'Je renseigne les coordonnées géographiques (au format xxx)']
+               'Je renseigne les coordonnées géographiques',
+               'Je sélectionne un point sur la carte']
     choix = st.radio("Choisissez un modèle", options = options) 
 
     if choix==options[0]:
-        adress=st.text_input("Saisissez une adresse", key="adress")
+        address=st.text_input("Saisissez une adresse")
         geolocator = Nominatim(user_agent="projet_pompier")
-        location = geolocator.geocode(adress)
+        location = geolocator.geocode(address)
         if location==None:
             st.write("Les coordonnées de votre adresse sont inconnues.")
         else:
             lat=location.latitude
             lon=location.longitude
             coord=(lat,lon)
-            st.write("Les coordonnées de votre adresse sont :",coord)
-            date=st.date_input("Date d'appel")
-            time=st.time_input("Heure d'appel")
+            st.write(location.address,"Les coordonnées de votre adresse sont :",coord)
+            
+            
 
-#    if choix==options[1]:
         
-#    if choix==options[2]:
+    if choix==options[1]:
+        lat=st.number_input("Saisissez la latitude", 51.0,52.0,51.4671288,format='%.7f',step=0.00001)
+        lon=st.number_input("Saisissez la longitude", -1.0,1.0,-0.1689152,format='%.7f',step=0.00001)
 
+    #    if choix==options[2]:
 
-
-
+#proposer le meilleur et également le top 3 des meilleures options
+#st.selectbox('',('Comedy', 'Drama', 'Documentary'))
+#streamlit.checkbox
+#streamlit.button
+#streamlit.bokeh_chart
