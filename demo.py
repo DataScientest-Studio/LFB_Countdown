@@ -23,7 +23,9 @@ from geopy.geocoders import Nominatim
 
 page = st.sidebar.radio("", options = ['Présentation', 'Modélisation','Application']) 
 
-#df = pd.read_csv("train.csv", index_col = 'PassengerId')
+#df = pd.read_csv("data/LFB_incident_clean.csv", index_col = 1)
+#df=df[-250000:]
+#print(df['IncGeo_BoroughName'].unique())
 
 if page == 'Présentation':
     st.title("Démo Streamlit Mar21 DA DS")
@@ -42,42 +44,42 @@ if page == 'Présentation':
     
     #sns.countplot(df['Survived'])
     
-    fig = plt.gcf()
+    #fig = plt.gcf()
 
     #st.pyplot(fig) 
     
     
     
-    st.markdown("""
-                Voici un aperçu du dataset.
+    #st.markdown("""
+    #            Voici un aperçu du dataset.
                 
-                """)
-    st.write(df)
+    #            """)
+    #st.write(df)
 
-if page == 'Modélisation':
+#if page == 'Modélisation':
     
     # Import et nettoyage des données
     
-    X, y = generate_train_data()
+    #X, y = generate_train_data()
     
     # Split des données
     
-    X_train, X_test, y_train, y_test = train_test_split(X, y,test_size = 0.2, random_state = 1)
+    #X_train, X_test, y_train, y_test = train_test_split(X, y,test_size = 0.2, random_state = 1)
     
     # Entrainement du modèle
     
-    options = ['Regression Logistique', 'KNN', 'Decision Tree']
+    #options = ['Regression Logistique', 'KNN', 'Decision Tree']
     
-    choix = st.radio("Choisissez un modèle", options = options) 
+    #choix = st.radio("Choisissez un modèle", options = options) 
     
-    model, score = get_model(choix, X_train, y_train, X_test, y_test)
+    #model, score = get_model(choix, X_train, y_train, X_test, y_test)
            
         
-    st.markdown("""
-                Ce modèle a obtenu un score de :
+    #st.markdown("""
+     #           Ce modèle a obtenu un score de :
                 
-                """)    
-    st.write(score)
+    #            """)    
+    #st.write(score)
 
 if page == 'Application':
     #st.title,image...
@@ -91,14 +93,16 @@ if page == 'Application':
     #st.selectbox('IncidentType',('Comedy', 'Drama', 'Documentary'))
     
     
-    options = ['Je renseigne une adresse postale',
-               'Je renseigne les coordonnées géographiques',
+    options = ['Je renseigne les coordonnées géographiques',
+               'Je renseigne une adresse postale',
                'Je sélectionne un point sur la carte']
-    choix = st.radio("Choisissez un modèle", options = options) 
-
-    if choix==options[0]:
+    choix = st.radio("Saisissez le lieu de l'incident", options = options) 
+    
+    
+    geolocator = Nominatim(user_agent="projet_pompier")
+    if choix==options[1]:
         address=st.text_input("Saisissez une adresse")
-        geolocator = Nominatim(user_agent="projet_pompier")
+        
         location = geolocator.geocode(address)
         if location==None:
             st.write("Les coordonnées de votre adresse sont inconnues.")
@@ -111,9 +115,17 @@ if page == 'Application':
             
 
         
-    if choix==options[1]:
+    if choix==options[0]:
         lat=st.number_input("Saisissez la latitude", 51.0,52.0,51.4671288,format='%.7f',step=0.00001)
         lon=st.number_input("Saisissez la longitude", -1.0,1.0,-0.1689152,format='%.7f',step=0.00001)
+        coord=lat,lon
+        location = geolocator.reverse(coord)
+        st.write(location.address)
+        st.write(location.raw)
+        st.write(location.raw['address']['city_district'].split('of ')[-1])
+        st.write(location.raw['address']['postcode'].split(' ')[0])
+
+
 
     #    if choix==options[2]:
 
