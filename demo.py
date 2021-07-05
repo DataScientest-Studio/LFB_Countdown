@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 from preprocessing import generate_test_data
-from modelisation import get_model
+
 
 from geopy.geocoders import Nominatim
 
