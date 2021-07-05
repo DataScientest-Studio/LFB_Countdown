@@ -23,7 +23,7 @@ from geopy.geocoders import Nominatim
 
 page = st.sidebar.radio("", options = ['Présentation', 'Modélisation','Application']) 
 
-#st.sidebar.image('figures/LogoDatascientest.png')
+st.sidebar.image('figures/LogoDatascientest.png')
 
 boroughs = pd.read_csv("data/boroughs.csv", index_col = 0)
 district = pd.read_csv("data/district.csv", index_col = 0)
@@ -42,8 +42,12 @@ if page == 'Présentation':
                 sur le dataset du [titanic](https://www.kaggle.com/c/titanic/overview).
                 
                                 
-                
+                <center><h3>Elora VABOIS, Marie LE COZ, Nicolas RAYMOND</h3></center>
+                <center><h3>DA Bootcamp Mai 2021</h3></center>
+                <br/><br/>
                 """)
+                
+    st.header('titre')
     
 #    img = plt.imread("assets/titanic.jpg")
     
@@ -57,10 +61,7 @@ if page == 'Présentation':
     
     
     
-    #st.markdown("""
-    #            Voici un aperçu du dataset.
-                
-    #            """)
+    #st.markdown("<center><h3>Elora VABOIS, Marie LE COZ, Nicolas RAYMOND</h3></center>\n<center><h3>DA Bootcamp Mai 2021</h3></center>\n<br/><br/>")
     #st.write(df)
 
 #if page == 'Modélisation':
