@@ -4,7 +4,7 @@ Created on Fri Jul  2 14:12:44 2021
 
 @authors: Elora, Marie, Nicolas
 """
-
+from lightgbm import LGBMRegressor
 import streamlit as st
 import pandas as pd
 
@@ -35,15 +35,21 @@ property_type = pd.read_csv("data/property_type.csv", index_col = 0)
 
 
 if page == 'Présentation':
-    st.title("Démo Streamlit Mar21 DA DS")
+    st.title("LFB CountDown")
     
     st.markdown("""
-                Ce projet va entraîner un modèle de Machine Learning
-                sur le dataset du [titanic](https://www.kaggle.com/c/titanic/overview).
+                <center><h1>Projet London Fire Brigade CountDown</h1></center>\n
+                <br/> coucou
+                <br/>\n
+                    
+                                                     \n
+                                                     \n
+                <center><h3>Elora VABOIS, Marie LE COZ, Nicolas RAYMOND</h3></center>\n
+    
                 
                                 
                 
-                """)
+                """,unsafe_allow_html = True)
     
 #    img = plt.imread("assets/titanic.jpg")
     
