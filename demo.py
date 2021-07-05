@@ -92,8 +92,8 @@ if page == 'Présentation':
 if page == 'Application':
     #st.title,image...
     
-    date=st.date_input("Date d'appel")
-    time=st.time_input("Heure d'appel")
+    date=str(st.date_input("Date d'appel"))
+    time=str(st.time_input("Heure d'appel"))
 
     
     inc=st.selectbox("Choisissez le type d'incident",type_incident['type_incident'])
@@ -149,8 +149,8 @@ if page == 'Application':
 
 
     if st.button('Calculer'):
-        stat,res=generate_test_data('2021-07-04','15:30:00','Suicide/attempts','Dwelling','Harrow','BR1',51.5181388,0.0062938)
-        st.write('Le premier camion sera déployé depuis :', stat)
+        stat,res=generate_test_data(date,time,inc,prop,bor,dis,lat,lon)
+        st.write('Le premier véhicule sera déployé depuis :', stat)
         st.write('Le temps de déploiement dépend du nombre de camions envoyés :')
         df=pd.DataFrame({'Nombre de camions':range(1,11),"Temps d'attente (en s)":res})
         st.dataframe(df)
