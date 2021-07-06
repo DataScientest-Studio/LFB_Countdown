@@ -315,7 +315,6 @@
 	n_estimators = trial.suggest_int('n_estimators', 20,500)
 >  
 >   Best trial :
-<br/>
 
 	learning_rate = 0.1012069771826192
 	max_depth = 40
@@ -344,7 +343,6 @@
 	subsample_for_bin = trial.suggest_int('subsample_for_bin', 200000, 500000)
 >   
 >   Best trial :
-<br/>
   
 	learning_rate = 0.0735978242412042
 	max_depth = 76
@@ -375,7 +373,7 @@
 	min_child_samples = trial.suggest_int('min_child_samples', 5, 50)
 >   
 >   Best trial :
-<br/>
+
 
 	learning_rate = 0.08611376087571489
 	max_depth = 28
@@ -408,7 +406,7 @@
 	min_child_samples = trial.suggest_int('min_child_samples', 40, 200)
 >   
 >   Best trial :
->   <br/>
+
 
 	learning_rate = 0.1512198354101122
 	max_depth = 17
