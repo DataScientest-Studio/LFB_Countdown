@@ -8,10 +8,8 @@ import streamlit as st
 import pandas as pd
 #from pyproj import Proj, transform
 from bokeh.palettes import brewer
-from bokeh.plotting import figure, output_notebook, show
-output_notebook()
 import bokeh.tile_providers
-from bokeh.models import ColumnDataSource, LabelSet,HoverTool,ColorBar,LinearColorMapper
+from bokeh.models import ColumnDataSource, HoverTool,ColorBar,LinearColorMapper
 from bokeh.models.widgets import Panel, Tabs
 from bokeh.plotting import figure
 
@@ -329,5 +327,6 @@ def affichage_pres():
                 
                 >   Cette première étape d'analyse des données nous confirme bien que les indicateurs étudiés seront indispensables dans le cadre de la modélisation du temps d'intervention de la LFB. 
                 """,unsafe_allow_html = True)
-                
-   
+            
+
+    

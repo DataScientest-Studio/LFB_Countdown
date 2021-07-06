@@ -6,15 +6,7 @@ Created on Tue Jul  6 16:31:26 2021
 """
 
 import streamlit as st
-import pandas as pd
-#from pyproj import Proj, transform
-from bokeh.palettes import brewer
-from bokeh.plotting import figure, output_notebook, show
-output_notebook()
-import bokeh.tile_providers
-from bokeh.models import ColumnDataSource, LabelSet,HoverTool,ColorBar,LinearColorMapper
-from bokeh.models.widgets import Panel, Tabs
-from bokeh.plotting import figure
+
 
 
 def affichage_mod():
@@ -24,17 +16,17 @@ def affichage_mod():
                 <h2>2 - MODELISATION</h2>
 
                 <h3>A - Preprocessing des données</h3> 
-                <br\>
+                <br>
                 Une fois l’analyse du dataset réalisée, nous avons procédé au nettoyage et au preprocessing des données, afin d’assurer le bon déroulement de la phase de modélisation.
-                <br/>
+                <br>
                 Nous avons donc déterminé : 
-                </br><ul><li>Les variables explicatives à supprimer : celles n’ayant pas influence sur notre variable cible ou étant redondantes avec d’autres variables ainsi que celles n'étant connues qu'à posteriori. </li></br><li>Les variables explicatives à convertir : dichotomisation des variables catégorielles, conversion de la variable ‘TimeOfCall’ en variable numérique (float). </li> </br><li>Les variables explicatives à créer : fusion des 2 variables liées ‘SpecialServiceType’ et ‘StopCodeDescription’ en une variable unique ‘IncidentTypeGlobal’, puis, une fois les coordonnées géographiques des casernes récupérées, création d’une variable ‘distFromStation’ indiquant la distance entre le lieu de l’intervention et la caserne étant intervenue et suppression des coordonnées (car nous avons déjà les variables Borough - quartier - et DeployedFromStation - station de déploiement - qui donnent des indications sur l’emplacement de l’incident). </li></ul>
-                </br><br/>
+                <br><ul><li>Les variables explicatives à supprimer : celles n’ayant pas influence sur notre variable cible ou étant redondantes avec d’autres variables ainsi que celles n'étant connues qu'à posteriori. </li></br><li>Les variables explicatives à convertir : dichotomisation des variables catégorielles, conversion de la variable ‘TimeOfCall’ en variable numérique (float). </li> </br><li>Les variables explicatives à créer : fusion des 2 variables liées ‘SpecialServiceType’ et ‘StopCodeDescription’ en une variable unique ‘IncidentTypeGlobal’, puis, une fois les coordonnées géographiques des casernes récupérées, création d’une variable ‘distFromStation’ indiquant la distance entre le lieu de l’intervention et la caserne étant intervenue et suppression des coordonnées (car nous avons déjà les variables Borough - quartier - et DeployedFromStation - station de déploiement - qui donnent des indications sur l’emplacement de l’incident). </li></ul>
+                <br>
 
                 La majeure partie de nos features étant des variables catégorielles contenant de nombreuses modalités pour la plupart, la dichotomisation a ainsi généré un dataset final avant modélisation de dimension conséquente avec 549 colonnes pour environ 680 000 lignes.<br/><br/>
                 Nous avons ensuite mis en place un Train Test split en nous assurant que les données les plus récentes soient conservées pour le test.<br/><br/>
                 Enfin, nous avons procédé à l’étape de scaling afin de générer un dataset normalisé pour les modèles qui le nécessitent.
-                <br/>
+                <br>
 
                 <h4> i - Première itération </h4> 
 
@@ -54,7 +46,7 @@ def affichage_mod():
                 <h5><li> Résultats obtenus </li></h5> 
                 <br/>
 
-                >   |    | model                               |   R² train |      R² test |   mse train |        mse test |   mae train |         mae test | paramètres retenus                                                                                                                                                          |
+                |    | model                               |   R² train |      R² test |   mse train |        mse test |   mae train |         mae test | paramètres retenus                                                                                                                                                          |
                 |---:|:------------------------------------|-----------:|-------------:|------------:|----------------:|------------:|-----------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
                 |  0 | LinearRegression                    |   0.324491 | -4.21421e+12 |     11500.1 |     6.37987e+16 |     70.1761 | 922374           |                                                                                                                                                                             |
                 |  1 | SelectKBest régression linéaire     |   0.299405 |  0.338849    |     11927.2 | 10009.1         |     72.2332 |     68.5351      | f_regression,k=100,nb_cols=100                                                                                                                                              |
@@ -65,17 +57,17 @@ def affichage_mod():
                 |  6 | DecisionTree                        |   0.344382 |  0.347896    |     11161.5 |  9872.18        |     70.5671 |     67.6965      | max_depth=7 parmi [2, 3, 4, 5, 6, 7, 8], criterion=friedman_mse                                                                                                             |
                 |  7 | DecisionTree                        |   0.344382 |  0.347034    |     11161.5 |  9885.23        |     70.5671 |     67.7137      | max_depth=7 parmi [2, 3, 4, 5, 6, 7, 8], criterion=mse                                                                                                                      |
                 |  8 | HistGradientBoosting                |   0.391331 |  0.389738    |     10362.2 |  9238.74        |     66.6608 |     64.8576      | min_samples_leaf = 500, loss=least_squares parmi [least_squares,least_absolute_deviation], max_iter=250 parmi [50,70,100,120,150,170,200,250], max_depth=8 parmi range(3,9) |
-                > 
+                 
                 <br/><br/>
                 Le modèle le plus performant est le modèle Hist Gradient Boosting quelque soit le critère de performance observé : il présente les R² les plus élevés ainsi que les MSE et MAE les plus faibles.
 
-                <br><br/>
+                <br>
                 Pour cette première itération, nous obtenons pour l’ensemble de nos tests, hormis pour le HistGradientBoosting :
 
-                > <ul><li> Des scores R² peu concluants</li>
-                > <li>Des MAE d'environ une minute et 10 secondes pour la plupart des modèles.</li></ul>
+                <ul><li> Des scores R² peu concluants</li>
+                <li>Des MAE d'environ une minute et 10 secondes pour la plupart des modèles.</li></ul>
 
-                <br><br/>
+                <br>
 
                 Suite à cette itération, nous avons essayé de renouveler l'expérience avec ces modèles sur le dataset complet. Nous avons préparer les codes de ces modèles en élargissant les plages de recherche d'hyper-paramètres et en créant des pipelines pour les modèles qui le nécessitaient afin que notre mentor puisse les faire tourner sur ces machines, plus puissantes. Malheureusement, un des modèle à bloqué le kernel qui n'avait toujours pas abouti après plus de 24h et nous n'en avons récupéré aucun résultat.
                 <br/>
@@ -99,16 +91,24 @@ def affichage_mod():
                 <br/>
                 <h3>C - Choix et interprétabilité du modèle</h3>
 
+                
+                
+                """, unsafe_allow_html = True)
+                
+                
+                
+    st.markdown("""
+                
                 <h4> i - Modèle retenu  </h4> 
                 <br/>
                 
-                >   | model                                                                            |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
+                | model                                                                            |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
                 |:---------------------------------------------------------------------------------|--------------:|-------------:|------------:|-----------:|------------:|-----------:|
                 | LGBMRegressor1    |      0.454652 |     0.409216 |     9284.22 |    8943.85 |     62.8125 |    63.2457 ||
                 | LGBMRegressor2   |      0.459334 |     0.410594 |     9204.50  |    8923.00    |     62.5320  |    63.1363 ||
                 | LGBMRegressor3    |      0.463816 |     0.411167 |     9128.22 |    8914.33 |     62.1916 |    63.0520  ||
                 | LGBMRegressor4     |      0.445746 |     0.410001 |     9435.83 |    8931.97 |     63.1968 |    63.1481 ||            |
-                <br/><br/>  
+                <br/>
                 Finalement, nous avons décidé de retenir le modèle LGBMRegressor4 qui produit de bons résultats tout en exigeant un temps de calcul très raisonnable (non seulement par rapport aux modèles de la première itération puisque LightGBM est optimisé, mais également par rapport aux 3 premiers LGBMRegressor car c'est celui qui présente le n_estimators le plus faible). On pourra lui reprocher d’être peu interprétable mais nous allons essayer d’y remédier dans la partie suivante grâce aux packages Skater et Shap.
                 <br/>
                 <h4> ii - Interprétabilité du modèle  </h4> 
@@ -118,8 +118,17 @@ def affichage_mod():
                 Avant d'utiliser les packages d'interprétabilité, nous allons visualiser géographiquement l'erreur sur le jeu de données test, de manière à repérer d'éventuelles anomalies ou bien à confirmer la performance du modèle.
                 <br/>
                 
-                """,unsafe_allow_html = True)
-
+                
+                
+                
+                """, unsafe_allow_html = True)
+                
+                
+                
+                
+                
+                
+                
     st.markdown("""
                 <br/>
                 On peut voir sur cette figure que les erreurs importantes (nous avons représenté les erreurs de plus de 2 minutes en rouge) sont réparties de manière à peu près homogènes sur la carte. On peut cependant repérer qu'elles sont un peu plus présentes en périphérie de la ville. Cela peut être dû au fait que ces incidents - éloignés des stations - sont peu nombreux et subissent des conditions de trafic différentes de celles du centre-ville - où se trouvent la majorité des incidents.
@@ -132,7 +141,7 @@ def affichage_mod():
                 """,unsafe_allow_html = True)
     st.image("figures\Feature_importance_LGBM.png")
     st.markdown("""
-                <br/>
+                
                 Ce graphique nous permet de hiérarchiser les variables selon leur importance pour la détermination du temps d’attente des pompiers d’après notre modèle. La variable la plus importante est la distance entre le lieu de l’incident et la station depuis laquelle est déployé le véhicule (distFromStation). 
                 <br/><br/>
                 Nous voyons ensuite que l’heure d’appel (TimeOfCall) est également déterminante : en effet, on peut supposer que le trafic routier n’est pas le même en fonction de l’heure de la journée et que cela joue un rôle important. <br/>Le nombre de véhicules déployés (NumPumpsAttending) est ensuite représenté, on peut supposer que l’urgence de la situation impacte le nombre de véhicules et le temps de déploiement, ce qui pourrait lier ces deux variables.
@@ -145,9 +154,9 @@ def affichage_mod():
                 <br>
                 """,unsafe_allow_html = True)
                 
-   st.image("figures\Skater_top10.png", width=700)
-   st.markdown("""
-               <br/>
+    st.image("figures\Skater_top10.png", width=700)
+    st.markdown("""
+               
                Comme identifié précédemment avec les features_Importance du modèle LGBM retenu, la distance entre le lieu de l’incident et la station depuis laquelle le véhicule est déployé (distFromStation) est à nouveau de le feature qui contribue de très loin le plus au modèle. 
                <br/><br/>
                Nous voyons à nouveau ressortir le nombre de véhicules déployés (NumPumpsAttending) ainsi que l'heure d'appel (TimeOfCall) et certains types de propriétés (Property_NonResidential et Property_Outdoor).
@@ -160,28 +169,28 @@ def affichage_mod():
                
     st.image("figures\distFromStation.png", width=500)
     st.markdown("""
-                <br/>
+                
                 S'agissant du nombre de véhicules déployés (NumPumpsAttending), on constate que plus le nombre de camions qui interviennent est important, plus le temps d’attente prédit est court. Cela pourrait s'expliquer par le fait que les incidents necéssitant l'intervention de plusieurs véhicules ont probablement un niveau de gravité plus important et nécessitent en conséquence une réactivité plus forte des secours.
                 <br/>
                 """,unsafe_allow_html = True)
                 
-    st.image("figures\NumPumpsAttending.png", width=500)
+    st.image("figures/NumPumpsAttending.png", width=500)
     st.markdown("""
-                <br/>
+                
                 L'heure à laquelle est donnée l'alerte (TimeOfCall) est ensuite le troisième feature en termes d'importance. Le temps d’attente prédit est plus long durant les heures de nuit qu’en journée. On peut supposer qu'il y a moins d'équipes disponibles la nuit, ce qui allongerait les temps d'attente. 
                 <br/>
                 """,unsafe_allow_html = True)
                 
-    st.image("figures\TimeOfCall.png", width=500)
+    st.image("figures/TimeOfCall.png", width=500)
     st.markdown("""
-                <br/>
+                
                 Lorsqu’on compare cette courbe avec celle du temps d'attente réel (ci-dessous), on se rend compte que le modèle prend bien en compte les disparités observées selon les tranches horaires. 
                 <br/>
                 """,unsafe_allow_html = True)
                 
     st.image("figures\Temps_attente_par_heures_Xtrain.png", width=500)
     st.markdown("""
-                <br/> 
+                
                 Enfin, parmi les autres facteurs qui contribuent le plus au modèle, on retrouve différents features issus de la variable PropertyType (Outdoor, NonResidential, Roadvehicle). Si Skater identifie la nature du lieu d'intervention parmi les facteurs les plus contributifs au modèle, les graphiques ci-dessous ne montrent cependant pas de différence marquée au niveau de la prédiction. Nous pouvons en déduire que ces critères, pris indépendamment, ne jouent pas un rôle important, mais que leur importance est conditionnée par le fait d'être combinée avec un ou plusieurs autres features.
                 <br/>
                 """,unsafe_allow_html = True)
@@ -197,13 +206,13 @@ def affichage_mod():
                 """,unsafe_allow_html = True)
     st.image("figures\Shap_feature_importance.png", width=700)
     st.markdown("""
-                <br/>
+                
                 On retrouve à nouveau la distance entre la station et l’incident (distFromStation) comme étant le facteur principal de la prédiction. Nous trouvons ensuite le nombre de véhicules déployés (NumPumpsAttending), l’heure d’appel (TimeOfCall) et le fait que le lieu de l'incident soit non résidentiel (Property_NonResidential).
                 <br/>   
                 """,unsafe_allow_html = True)
     st.image("figures\Shap_value_feature.png", width=700)
     st.markdown("""
-                <br/>   
+                  
                 Sur ce second graphique, nous pouvons voir que plus la distance entre la station et l’incident est grande, plus elle influe positivement sur le temps d’attente. Et à l'inverse, une diminution de la distance tend à réduire le temps d’attente&#8239;: cela confirme la relation forte existante entre la distance séparant le lieu d'incident et la caserne avec le temps d'attente. 
                 <br><br> 
                 Concernant les deux variables suivantes, les différentes valeurs sont moins dissociées, il est donc plus difficile de tirer des conclusions. On peut tout de même dire que lorsque peu de camions sont déployés (NumPumpsAttending), le temps d'attente augmente légèrement.
