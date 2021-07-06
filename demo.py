@@ -13,6 +13,7 @@ from application_calculs import generate_test_data, affichage_resultat
 from presentation import affichage_pres
 from conclusion import affichage_conclu
 from bokeh_sim import bokeh_simulation
+from modeles import affichage_mod
 
 
 #Sidebar
@@ -34,7 +35,7 @@ property_type = pd.read_csv("data/property_type.csv", index_col = 0)
 
 #Page Présentation
 if page == 'Présentation':
-    st.title("LFB CountDown")
+    st.title("London Fire Brigade CountDown")
     
     affichage_pres()
     
@@ -42,7 +43,7 @@ if page == 'Présentation':
 if page == 'Modélisation':
     st.title("Modélisation")
     
-    #affichage_mod()
+    affichage_mod()
     
 #Page Conclusion
 if page== 'Conclusion':
