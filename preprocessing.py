@@ -45,8 +45,8 @@ def generate_test_data(date,time,inc,prop,bor,dis,lat,lon):
     
     
     day=pd.to_datetime(date,format='%Y-%m-%d')
-    #day=day.dt.weekday
-    day=day.day_of_week
+    day=day.weekday
+    #day=day.day_of_week
     
     stations=pd.read_csv('data/Stations_clean.csv',index_col=0)
     dist=stations.apply(lambda row :np.sqrt((row['Longitude']-lon)**2+(row['Latitude']-lat)**2),axis=1) 

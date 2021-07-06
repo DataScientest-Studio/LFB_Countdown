@@ -98,7 +98,7 @@ if page == 'Application':
     if st.button('Calculer'):
         stat,res=generate_test_data(date,timeofcall,inc,prop,bor,dis,lat,lon)
         
-        st.write('La caserne', stat,'prend en charge votre alerte.')
+        st.write('La caserne **{}** prend en charge votre alerte.'.format(stat))
         
         hour=int(timeofcall.split(':')[0])
         minute=int(timeofcall.split(':')[1])
@@ -144,7 +144,7 @@ if page == 'Application':
             tempsa2sec='0'+tempsa2sec
         stemps1='('+tempsa1min+'min '+tempsa1sec+'s)'
         stemps2='('+tempsa2min+'min '+tempsa2sec+'s)'
-        st.write('Les secours arriveront sur place entre',stimea1,stemps1,'et',stimea2,stemps2)
+        st.write('Les secours arriveront sur place entre **{}** {} et **{}** {}'.format(stimea1,stemps1,stimea2,stemps2))
         
 
     
