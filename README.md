@@ -6,7 +6,7 @@
 
 <h3>Elora VABOIS, Marie LE COZ, Nicolas RAYMOND</h3>
 <h3>DA Bootcamp Mai 2021</h3>
-<br/><br/>
+<br/>
 
 
 <h2>INTRODUCTION</h2>
@@ -20,11 +20,11 @@
 
 <br/><br/>
 <h2>1 - ANALYSE DES DONNEES</h2>
-<br/>
 
 <h3>A - Introduction aux données</h3> 
 
-> </br>Nous avons à notre disposition 3 jeux de données officielles afin d'analyser les contours du projet : 
+</br>
+> Nous avons à notre disposition 3 jeux de données officielles afin d'analyser les contours du projet : 
 > <ul><li>Un fichier regroupant tous les incidents entre 2009 et 2021 </li>
 >   <li>Un fichier regroupant tous les déploiements sur ces incidents (matériels) sur la même période </li> 
 >   <li>Un fichier récent de la liste des casernes de la brigade </li></ul>
