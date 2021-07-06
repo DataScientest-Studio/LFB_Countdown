@@ -7,24 +7,18 @@ Created on Fri Jul  2 14:12:44 2021
 from lightgbm import LGBMRegressor
 import streamlit as st
 import pandas as pd
+from geopy.geocoders import Nominatim
 
-from sklearn.model_selection import train_test_split
-
-
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 
 from application_calculs import generate_test_data, affichage_resultat
 from presentation import affichage_pres
 from conclusion import affichage_conclu
 
-from preprocessing import generate_test_data
-from modelisation import get_model
 
 
-from geopy.geocoders import Nominatim
-from presentation import affichage_pres
+
+
 
 
 
