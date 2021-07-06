@@ -39,8 +39,6 @@
 >   Le but de notre étude est de pouvoir mettre en place un modèle prédictif qui indiquera le temps d'attente entre un appel et l'arrivée des secours sur place en fonction de plusieurs critères à déterminer. 
 <br/>
 
-
-<br/>
 <h3>B - Nettoyage des données</h3> 
 
 >   Dans un premier temps, un nettoyage et une réduction du jeu de données s'avère indispensable afin de :
@@ -50,9 +48,8 @@
 >   Nous avons donc réduit et nettoyé au maximum notre dataset pour en faciliter l'étude. Notre action majeure a été d'éliminer toutes les données antérieures à 2014 en raison de la fermeture d'une dizaine de stations à cette date, cela induisant inévitablement un problème de comparabilité de plusieurs indicateurs.<br/>
 >  Nous avons également éliminé nombre de variables inutiles à notre étude et avons reconstitué les données manquantes, notamment les coordonnées géographiques des incidents et des stations. <br/>
 >  Enfin, nous avons supprimé quelques incidents ayant peu de sens pour notre étude, comme les incidents de type "Water Provision" pour lequels nous avions très peu d'observations.
-
-
 <br/>
+
 <h3>C - Analyse des données</h3> 
 
 <h4>i - Analyse des incidents en fonction des variables temporelles </h4> 
@@ -89,7 +86,7 @@
 >  <br/>
 >   Nous nous sommes également intéressés à savoir si ces mêmes variables pouvaient avoir une incidence sur le temps d'attente, c'est-à-dire le temps passé entre l'appel des secours et leur arrivée sur place.
 >   
->  <br/>
+>  <br/><br/>
 >   <p align="center"><img src=figures\Temps_attente_par_mois.png width=600></p>
 >   <p align="center"><img src=figures\Temps_attente_par_jour.png width=600></p>
 >   <p align="center"><img src=figures\Temps_attente_par_heures.png width=600></p>
@@ -140,9 +137,9 @@
 >  
 >  <br/><br/>
 >  Ici encore, nous vérifions l'incidence sur le temps d'attente visuellement puis statistiquement.
->  <br/><br/>
+>  <br/>
 >   <p align="center"><img src=figures\Temps_attente_par_type.png width=800></p>
->  <br/><br/>
+>  <br/>
 >   Le temps d'attente évolue donc du simple au double selon le type d'incident. La LFB met deux fois plus de temps pour se rendre sur un incendie que pour porter secours lors d'une noyade.
 >  Cette influence de la nature de l'intervention sur le temps d'attente est par ailleurs confirmée par le test ANOVA qui indique un lien significatif entre les deux variables (p value nulle).
 >  <br/><br/>
@@ -158,7 +155,7 @@
 >   Dans un premier temps, nous avons souhaité visualiser l'ensemble des incidents en fonction de leur localisation, en colorant chaque point, représentant un incident, en fonction de la station qui a répondu en premier sur l'intervention.
 >  <br/><br/>
 >  Ceci nous permet de voir la répartition des stations et leur rayon d'action :
->  <br/><br/>
+>  <br/>
 >   <p align="center"><img src=figures\Carte_incident_station.png></p>
 >  
 >   Le test ANOVA évaluant l'indépendance de la station de déploiement du temps d'attente nous montre un lien significatif entre ces variables (p value nulle). On peut donc supposer que : soit certaines stations sont intrinsèquement plus performantes que d'autres (grâce à des équipes plus expérimentées par exemple), soit c'est l'emplacement des stations qui va agir indirectement sur le temps d'attente.
@@ -315,9 +312,9 @@
 >   3 hyper-paramètres testés avec 200 trials :
 >   <br/>
 >   ```py
-learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
-max_depth = trial.suggest_int('max_depth', 2, 50)
-n_estimators = trial.suggest_int('n_estimators', 20,500)
+	learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
+	max_depth = trial.suggest_int('max_depth', 2, 50)
+	n_estimators = trial.suggest_int('n_estimators', 20,500)
 >   ```
 >   Best trial :
 <br/>
