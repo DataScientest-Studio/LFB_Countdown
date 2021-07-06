@@ -13,9 +13,7 @@ def affichage_mod():
 
     st.markdown("""
 
-                <h2>2 - MODELISATION</h2>
-
-                <h3>A - Preprocessing des données</h3> 
+                <h2> A - Preprocessing des données</h2> 
                 <br>
                 Une fois l’analyse du dataset réalisée, nous avons procédé au nettoyage et au preprocessing des données, afin d’assurer le bon déroulement de la phase de modélisation.
                 <br>
@@ -28,6 +26,7 @@ def affichage_mod():
                 Enfin, nous avons procédé à l’étape de scaling afin de générer un dataset normalisé pour les modèles qui le nécessitent.
                 <br>
 
+                <h2> B - Modélisations<h2/>
                 <h4> i - Première itération </h4> 
 
                 <h5><li> Modèles entraînés </li></h5> 
@@ -89,7 +88,7 @@ def affichage_mod():
                 <br/>
                 Nous avons entraîné le modèle LGBMRegressor avec le package Optuna. Nous avons procédé en plusieurs itérations pour trouver quels hyper-paramètres tester et sur quelles plages.
                 <br/>
-                <h3>C - Choix et interprétabilité du modèle</h3>
+                <h2>C - Choix et interprétabilité du modèle</h2>
 
                 
                 
