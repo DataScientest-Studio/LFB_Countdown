@@ -126,7 +126,7 @@
 >  Regardons tout d'abord la répartition des types d'incidents traités par la London Fire Brigade depuis 2014 :
 >  <br/><br/>
 >   <p align="center"><img src=figures\Moyenne_par_type.png width=600></p>
->  <br/><br/>
+>  <br/>
 >   On remarque que la grande majorité des sources d'intervention sont liées aux Alarmes Automatiques d'Incendie. Ensuite, et dans une moindre mesure, on retrouve comme autres raisons principales : les incendies, les opérations d'entrée-sortie de personnes, les innondations puis les accidents de la route. D'après notre test ANOVA, le type d'incident a un lien significatif avec le nombre d'incidents (p value nulle).
 >  <br/><br/>
 >
@@ -155,7 +155,7 @@
 >   Dans un premier temps, nous avons souhaité visualiser l'ensemble des incidents en fonction de leur localisation, en colorant chaque point, représentant un incident, en fonction de la station qui a répondu en premier sur l'intervention.
 >  <br/><br/>
 >  Ceci nous permet de voir la répartition des stations et leur rayon d'action :
->  <br/>
+>  
 >   <p align="center"><img src=figures\Carte_incident_station.png></p>
 >  
 >   Le test ANOVA évaluant l'indépendance de la station de déploiement du temps d'attente nous montre un lien significatif entre ces variables (p value nulle). On peut donc supposer que : soit certaines stations sont intrinsèquement plus performantes que d'autres (grâce à des équipes plus expérimentées par exemple), soit c'est l'emplacement des stations qui va agir indirectement sur le temps d'attente.
@@ -168,7 +168,7 @@
 >   
 >  <br/>
 >  Nous avons également prêté attention à la densité des incidents répartis sur l'ensemble de la ville (ici en 2020) : 
->
+> <br>
 >  voir figure CarteDeDensiteBokeh.html
 >
 >   Comme nous nous y attendions, les incidents sont plus nombreux au centre-ville qu'en périphérie, tout comme le sont les stations.
@@ -183,7 +183,7 @@
 >
 >   <br/>
 > Nous avons ensuite souhaité voir la répartition géographique des incidents sur la carte de Londres, en filtrant les données par année et en colorant ces points par rapport aux temps d'attente (les points verts représentant les temps d'attente les plus faibles, les points rouges les plus longs). Nous avons inséré les stations sur cette carte (triangles noirs) afin de visualiser l'impact de la proximité avec une station sur le délai d'intervention.
->
+><br>
 >  voir figure TempsDAttenteParAn.html
 >
 >   Cette dernière visualisation permet de bien identifier les zones en fonction de la réactivité des secours. On observe que plus l'incident est éloigné d'une station, plus le temps d'attente tend à augmenter. 
@@ -229,7 +229,7 @@
 >   Une fois l’analyse du dataset réalisée, nous avons procédé au nettoyage et au preprocessing des données, afin d’assurer le bon déroulement de la phase de modélisation.
 >   Nous avons donc déterminé : </br><ul><li>Les variables explicatives à supprimer : celles n’ayant pas influence sur notre variable cible ou étant redondantes avec d’autres variables ainsi que celles n'étant connues qu'à posteriori. </li></br><li>Les variables explicatives à convertir : dichotomisation des variables catégorielles, conversion de la variable ‘TimeOfCall’ en variable numérique (float). </li> </br><li>Les variables explicatives à créer : fusion des 2 variables liées ‘SpecialServiceType’ et ‘StopCodeDescription’ en une variable unique ‘IncidentTypeGlobal’, puis, une fois les coordonnées géographiques des casernes récupérées, création d’une variable ‘distFromStation’ indiquant la distance entre le lieu de l’intervention et la caserne étant intervenue et suppression des coordonnées (car nous avons déjà les variables Borough - quartier - et DeployedFromStation - station de déploiement - qui donnent des indications sur l’emplacement de l’incident). </li></ul>
 >   </br>
->   La majeure partie de nos features étant des variables catégorielles contenant de nombreuses modalités pour la plupart, la dichotomisation a ainsi généré un dataset final avant modélisation de dimension conséquente avec 549 colonnes pour environ 680 000 lignes.<br/><br/>
+>   La majeure partie de nos features étant des variables catégorielles contenant de nombreuses modalités pour la plupart, la dichotomisation a ainsi généré un dataset final avant modélisation de dimension conséquente avec 549 colonnes pour environ 680&#8239;000 lignes.<br/><br/>
 >   Nous avons ensuite mis en place un Train Test split en nous assurant que les données les plus récentes soient conservées pour le test.<br/><br/>
 >   Enfin, nous avons procédé à l’étape de scaling afin de générer un dataset normalisé pour les modèles qui le nécessitent.
 
