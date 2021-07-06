@@ -14,6 +14,7 @@ from presentation import affichage_pres
 from conclusion import affichage_conclu
 from bokeh_sim import bokeh_simulation
 from modeles import affichage_mod
+from analyse import affichage_ana
 
 
 #Sidebar
@@ -38,6 +39,13 @@ if page == 'Présentation':
     st.title("London Fire Brigade CountDown")
     
     affichage_pres()
+    
+    
+#Page Analyse des données
+if page == 'Analyse des données':
+    st.title("Analyse des données")
+    
+    affichage_ana()
     
 #Page Modélisation
 if page == 'Modélisation':

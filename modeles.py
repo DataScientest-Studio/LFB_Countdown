@@ -19,7 +19,7 @@ def affichage_mod():
 
     st.markdown("""
 
-                <h2>2 - MODELISATION</h2>
+                
 
                 <h3>A - Preprocessing des données</h3> 
                 <br>
@@ -110,10 +110,10 @@ def affichage_mod():
                 
                 | model                                                                            |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
                 |:---------------------------------------------------------------------------------|--------------:|-------------:|------------:|-----------:|------------:|-----------:|
-                | LGBMRegressor1    |      0.454652 |     0.409216 |     9284.22 |    8943.85 |     62.8125 |    63.2457 ||
-                | LGBMRegressor2   |      0.459334 |     0.410594 |     9204.50  |    8923.00    |     62.5320  |    63.1363 ||
-                | LGBMRegressor3    |      0.463816 |     0.411167 |     9128.22 |    8914.33 |     62.1916 |    63.0520  ||
-                | LGBMRegressor4     |      0.445746 |     0.410001 |     9435.83 |    8931.97 |     63.1968 |    63.1481 ||            |
+                | LGBMRegressor1    |      0.454652 |     0.409216 |     9284.22 |    8943.85 |     62.8125 |    63.2457 |
+                | LGBMRegressor2   |      0.459334 |     0.410594 |     9204.50  |    8923.00    |     62.5320  |    63.1363 |
+                | LGBMRegressor3    |      0.463816 |     0.411167 |     9128.22 |    8914.33 |     62.1916 |    63.0520  |
+                | LGBMRegressor4     |      0.445746 |     0.410001 |     9435.83 |    8931.97 |     63.1968 |    63.1481 |
                 <br/>
                 Finalement, nous avons décidé de retenir le modèle LGBMRegressor4 qui produit de bons résultats tout en exigeant un temps de calcul très raisonnable (non seulement par rapport aux modèles de la première itération puisque LightGBM est optimisé, mais également par rapport aux 3 premiers LGBMRegressor car c'est celui qui présente le n_estimators le plus faible). On pourra lui reprocher d’être peu interprétable mais nous allons essayer d’y remédier dans la partie suivante grâce aux packages Skater et Shap.
                 <br/>
