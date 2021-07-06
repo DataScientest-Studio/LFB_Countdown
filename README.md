@@ -24,6 +24,7 @@
 <h3>A - Introduction aux données</h3> 
 
 </br>
+
 > Nous avons à notre disposition 3 jeux de données officielles afin d'analyser les contours du projet : 
 > <ul><li>Un fichier regroupant tous les incidents entre 2009 et 2021 </li>
 >   <li>Un fichier regroupant tous les déploiements sur ces incidents (matériels) sur la même période </li> 
