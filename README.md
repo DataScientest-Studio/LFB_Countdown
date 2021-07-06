@@ -85,7 +85,7 @@
 >  | heures   |      1 |    25.594 | 25.594     | 383.153 |   3.20373e-85 |
 >  | Residual | 164639 | 10997.6   |  0.0667985 | nan     | nan           |
 >  
->  <br/><br/>
+>  <br/>
 >   Nous nous sommes également intéressés à savoir si ces mêmes variables pouvaient avoir une incidence sur le temps d'attente, c'est-à-dire le temps passé entre l'appel des secours et leur arrivée sur place.
 >   
 >  <br/>
@@ -100,7 +100,6 @@
 >  <br/><br/>
 >   Nous avons également vérifié à l'aide de tests ANOVA si ces variables temporelles influencent significativement le temps d'attente. 
 >   <br/>
->
 >   |          |    df |      sum_sq |        mean_sq |        F |        PR(>F) |
 >  |:---------|------:|------------:|---------------:|---------:|--------------:|
 >  | Mois     |     1 | 1.2569e+06  |     1.2569e+06 |  18.1985 |   1.99319e-05 |
@@ -116,7 +115,7 @@
 >  | heures   |      1 | 3.72604e+06 |     3.72604e+06 | 211.216 |   7.98411e-48 |
 >  | Residual | 164639 | 2.90438e+09 | 17640.9         | nan     | nan           |
 >   
->  <br/><br/>
+>  <br/>
 >  Pour ces 3 tests, nous avons posé l'hypothèse que le temps d'attente est indépendant du mois, du jour de la semaine et de l'heure de l'incident.
 >  Les p values des tests liés au mois et à l'heure de l'incident sont extrêment proches de 0, nous pouvons donc noter un effet statistique significatif de ces variables sur le temps d'attente. La p value du test lié au jour de la semaine est d'environ 80 %, indiquant donc cette variable n'a pas d'effet statistique significatif sur le temps d'attente des secours.
 
@@ -131,7 +130,6 @@
 >  <br/><br/>
 >   On remarque que la grande majorité des sources d'intervention sont liées aux Alarmes Automatiques d'Incendie. Ensuite, et dans une moindre mesure, on retrouve comme autres raisons principales : les incendies, les opérations d'entrée-sortie de personnes, les innondations puis les accidents de la route. D'après notre test ANOVA, le type d'incident a un lien significatif avec le nombre d'incidents (p value nulle).
 >  <br/>
->
 >  |          |    df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >  |:---------|------:|------------:|----------------:|--------:|---------:|
 >  | type     |    25 | 9.44883e+07 |     3.77953e+06 | 238.183 |        0 |
@@ -145,7 +143,6 @@
 >   Le temps d'attente évolue donc du simple au double selon le type d'incident. La LFB met deux fois plus de temps pour se rendre sur un incendie que pour porter secours lors d'une noyade.
 >  Cette influence de la nature de l'intervention sur le temps d'attente est par ailleurs confirmée par le test ANOVA qui indique un lien significatif entre les deux variables (p value nulle).
 >  <br/>
->
 >  |          |    df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >  |:---------|------:|------------:|----------------:|--------:|---------:|
 >  | type     |    25 | 1.34913e+08 |     5.39652e+06 |  69.132 |        0 |
@@ -162,7 +159,6 @@
 >  <br/><br/>
 >   Le test ANOVA évaluant l'indépendance de la station de déploiement du temps d'attente nous montre un lien significatif entre ces variables (p value nulle). On peut donc supposer que : soit certaines stations sont intrinsèquement plus performantes que d'autres (grâce à des équipes plus expérimentées par exemple), soit c'est l'emplacement des stations qui va agir indirectement sur le temps d'attente.
 >   <br/>
->
 >  |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >  |:-------------------------|-------:|------------:|----------------:|--------:|---------:|
 >  | DeployedFromStation_Code |    101 | 5.69136e+08 |     5.63501e+06 | 315.144 |        0 |
@@ -176,7 +172,7 @@
 >   Comme nous nous y attendions, les incidents sont plus nombreux au centre-ville qu'en périphérie, tout comme le sont les stations.
 > <br/><br/>
 > Le test ANOVA entre le nombre d'incidents et le district (PostCode_district) du lieu d'incident indique un lien significatif entre ces variables (p value nulle).
->   
+>   <br/>
 >   |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
 > |:-------------------------|-------:|------------:|----------------:|--------:|---------:|
 > | District |    328.0 | 3.343984e+08 |     1.019507e+06 | 22.724574 |        0 |
@@ -190,7 +186,7 @@
 >   Cette dernière visualisation permet de bien identifier les zones en fonction de la réactivité des secours. On observe que plus l'incident est éloigné d'une station, plus le temps d'attente tend à augmenter. 
 >   <br/><br/>
 >   Le test ANOVA qui concerne le temps d'attente et le district (PostCode_district) du lieu d'incident indique un lien significatif entre ces variables (p value nulle).
->   
+>   <br/>
 >   |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >   |:-------------------------|-------:|------------:|----------------:|--------:|---------:|
 >   | District |    328.0 | 9.468728e+05 |     2886.807444 | 88.86169 |        0 |
@@ -198,7 +194,7 @@
 >  
 >   <br/>
 >   De plus, le test de Pearson liant la distance entre le lieu d'incident et la station de déploiement avec le temps d'attente nous indique que ces variables ont un lien significatif (p value nulle) et que leur corrélation est relativement importante (coefficient de Pearson : 51.5%).
->   
+>   <br/>
 >   |                          |     résultat test |
 >   |:-------------------------|-------:|
 >   | pearson_coeff |    0.515065 | 
@@ -208,7 +204,7 @@
 <h4>iv - Autres tests statistiques réalisés </h4> 
 
 >   Nous avons également étudié la corrélation entre le type de retard éventuel (DelayCode_Description) et le temps d'attente et notre test ANOVA indique un lien significatif entre ces variables (p value nulle). Cependant, nous ne pourrons pas conserver cette variable pour la modélisation car elle n'est connu qu'à posteriori : elle ne peut donc pas servir à la prédiction.
->
+>   <br/>
 >   |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >   |:-------------------------|-------:|------------:|----------------:|--------:|---------:|
 >   | DelayCode_Description |    9.0 | 3.273134e+09 |     3.636815e+08 | 26118.986271 |        0 |
@@ -321,7 +317,7 @@ learning_rate = 0.1012069771826192
 max_depth = 40
 n_estimators = 488
 >   ```
->   
+>   <br/>  
 >   | model                                                                         |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
 >   |:------------------------------------------------------------------------------|-----------:|----------:|------------:|-----------:|------------:|-----------:|
 >   |LGBMRegressor1 |   0.454652 |  0.409216 |     9284.22 |    8943.85 |     62.8125 |    63.2457 |
@@ -352,7 +348,7 @@ reg_alpha = 0.000987737786289064
 reg_lambda = 3.6393223694815996e-05
 subsample_for_bin = 226071
 >   ```
->   
+>   <br/> 
 >   | model                                                                            |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
 >   |:---------------------------------------------------------------------------------|--------------:|-------------:|------------:|-----------:|------------:|-----------:|
 >   |LGBMRegressor2    |      0.459334 |     0.410594 |      9204.5 |       8923 |      62.532 |    63.1363 ||
@@ -384,6 +380,7 @@ num_leaves = 47
 min_split_gain = 0.5709551773016567
 min_child_samples = 32
 >   ```
+>   <br/>
 >   |model                                                                           |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
 >   |:--------------------------------------------------------------------------------|--------------:|-------------:|------------:|-----------:|------------:|-----------:|
 >   |LGBMRegressor3    |      0.463816 |     0.411167 |     9128.22 |    8914.33 |     62.1916 |     63.052 ||
@@ -415,6 +412,7 @@ num_leaves = 32
 min_split_gain = 0.473924522550586
 min_child_samples = 43
 >   ```
+>   <br/>
 >   |model                                                                        |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
 >   |:-----------------------------------------------------------------------------|--------------:|-------------:|------------:|-----------:|------------:|-----------:|
 >   |LGBMRegressor4 |      0.445746 |     0.410001 |     9435.83 |    8931.97 |     63.1968 |    63.1481 ||
