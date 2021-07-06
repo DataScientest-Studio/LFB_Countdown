@@ -15,7 +15,7 @@ from preprocessing2 import generate_test_data
 from geopy.geocoders import Nominatim
 
 
-st.sidebar.image('figures/LogoLFB.png')
+st.sidebar.image('figures/logoLFB.png')
 page = st.sidebar.radio("", options = ['Présentation', 'Application']) 
 
 st.sidebar.image('figures/LogoDatascientest.png')

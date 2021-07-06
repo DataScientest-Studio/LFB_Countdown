@@ -63,56 +63,59 @@ def generate_test_data(date,time,inc,prop,bor,dis,lat,lon):
     lgbm4=load("models/lgbm4.joblib")
     
 
-            
-    df.loc['distFromStation']=stat['dist'][0]
+    df0=df.copy()        
+    df0.loc['distFromStation']=stat['dist'][0]
     stat_col='DeployedFromSt_'+stat['NomStation'][0]
     stat_col=re.sub('[^A-Za-z0-9_]+', '', stat_col)
-    df.loc[stat_col]=1
+    df0.loc[stat_col]=1
     
-    df=df.transpose()
+    df0=df0.transpose()
     
     
     
     res0=[]
     for pumps in range(1,6):
-        df['NumPumpsAttending']=[pumps]
-        tab=lgbm4.predict(df)
+        df0['NumPumpsAttending']=[pumps]
+        tab=lgbm4.predict(df0)
         res0.append(*tab)
     
     
-    df.transpose()
-    df.loc['distFromStation']=stat['dist'][1]
+    df1=df.copy()
+    df1.loc['distFromStation']=stat['dist'][1]
     stat_col='DeployedFromSt_'+stat['NomStation'][1]
     stat_col=re.sub('[^A-Za-z0-9_]+', '', stat_col)
-    df.loc[stat_col]=1
+    df1.loc[stat_col]=1
     
-    df=df.transpose()
+    df1=df1.transpose()
     
-    print(df.columns)
+  
     
     res1=[]
     for pumps in range(1,6):
-        df['NumPumpsAttending']=[pumps]
-        tab=lgbm4.predict(df)
+        df1['NumPumpsAttending']=[pumps]
+        tab=lgbm4.predict(df1)
         res1.append(*tab)
     
-    df.transpose()
-    df.loc['distFromStation']=stat['dist'][2]
+    df2=df.copy()
+    df2.loc['distFromStation']=stat['dist'][2]
     stat_col='DeployedFromSt_'+stat['NomStation'][2]
     stat_col=re.sub('[^A-Za-z0-9_]+', '', stat_col)
-    df.loc[stat_col]=1
+    df2.loc[stat_col]=1
     
-    df=df.transpose()
+    df2=df2.transpose()
     
     
     
     res2=[]
     for pumps in range(1,6):
-        df['NumPumpsAttending']=[pumps]
-        tab=lgbm4.predict(df)
+        df2['NumPumpsAttending']=[pumps]
+        tab=lgbm4.predict(df2)
         res2.append(*tab)
         
     res=pd.DataFrame({'Nb vehicules':range(1,6),'Stat0':res0,'Stat1':res1,'Stat2':res2}).set_index('Nb vehicules')
+    
+    print(res)
+    
     return station_proche,res
     
 
