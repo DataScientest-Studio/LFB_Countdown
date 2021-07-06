@@ -161,7 +161,7 @@
 >   <p align="center"><img src=figures\Carte_incident_station.png></p>
 >  
 >   Le test ANOVA évaluant l'indépendance de la station de déploiement du temps d'attente nous montre un lien significatif entre ces variables (p value nulle). On peut donc supposer que : soit certaines stations sont intrinsèquement plus performantes que d'autres (grâce à des équipes plus expérimentées par exemple), soit c'est l'emplacement des stations qui va agir indirectement sur le temps d'attente.
->   <br/><br/>
+>   <br/>
 >
 >  |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >  |:-------------------------|-------:|------------:|----------------:|--------:|---------:|
@@ -200,7 +200,7 @@
 >  
 >   <br/>
 >   De plus, le test de Pearson liant la distance entre le lieu d'incident et la station de déploiement avec le temps d'attente nous indique que ces variables ont un lien significatif (p value nulle) et que leur corrélation est relativement importante (coefficient de Pearson : 51.5%).
->   <br/>
+>   <br/><br/>
 >
 >   |                          |     résultat test |
 >   |:-------------------------|-------:|
@@ -218,13 +218,13 @@
 >   | DelayCode_Description |    9.0 | 3.273134e+09 |     3.636815e+08 | 26118.986271 |        0 |
 >   | Residual                 | 683811.0 | 9.521404e+09 | 1.392403e+04         | nan     |      nan |
 
-
 <br/>
 <h3>D - Conclusion sur l'analyse des données</h3> 
 
 >   Cette première étape d'analyse des données nous confirme bien que les indicateurs étudiés seront indispensables dans le cadre de la modélisation du temps d'intervention de la LFB. 
-<h2>2 - MODELISATION</h2>
 <br/>
+
+<h2>2 - MODELISATION</h2>
 
 <h3>A - Preprocessing des données</h3> 
 
