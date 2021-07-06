@@ -4,22 +4,14 @@ Created on Fri Jul  2 14:12:44 2021
 
 @authors: Elora, Marie, Nicolas
 """
-from lightgbm import LGBMRegressor
+
+#Importation des packages
 import streamlit as st
 import pandas as pd
 from geopy.geocoders import Nominatim
-
-
-
 from application_calculs import generate_test_data, affichage_resultat
 from presentation import affichage_pres
 from conclusion import affichage_conclu
-
-
-
-
-
-
 
 
 #Sidebar
