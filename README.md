@@ -97,9 +97,9 @@
 >  Néanmoins, certains enseignements se recoupent avec la distribution des incidents décrite plus haut :
 >   <ul><li> Le temps d'attente est sensiblement plus important sur les mois estivaux, tout comme l'était la densité des incidents.</li>
 >   <li> En revanche, nous n'observons pas de relation clairement visible entre le temps d'attente et le jour de la semaine ou l'heure de la journée.</li></ul>
->  <br/><br/>
+>  <br/>
 >   Nous avons également vérifié à l'aide de tests ANOVA si ces variables temporelles influencent significativement le temps d'attente. 
->   <br/>
+>   <br/><br>
 >
 >   |          |    df |      sum_sq |        mean_sq |        F |        PR(>F) |
 >  |:---------|------:|------------:|---------------:|---------:|--------------:|
