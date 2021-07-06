@@ -6,6 +6,12 @@ Created on Tue Jul  6 16:31:26 2021
 """
 
 import streamlit as st
+import pandas as pd
+from pyproj import Proj, transform
+from bokeh.palettes import brewer
+import bokeh.tile_providers
+from bokeh.models import ColumnDataSource, HoverTool,ColorBar,LinearColorMapper
+from bokeh.plotting import figure
 
 
 
@@ -119,13 +125,41 @@ def affichage_mod():
                 <br/>
                 
                 
-                
-                
                 """, unsafe_allow_html = True)
                 
-                
-                
-                
+    dferreur=pd.read_csv('data/erreur.csv')            
+    source_erreur=ColumnDataSource(data=dferreur)      
+
+    stations=pd.read_csv('data/Stations_clean.csv',index_col=0)
+    stations['Longmerc'],stations['Latmerc']=(transform(Proj(init='epsg:4326'), Proj(init='epsg:3857'), stations['Longitude'].values, stations['Latitude'].values));
+    sourcest=ColumnDataSource(data=stations)
+      
+    tuile=bokeh.tile_providers.get_provider('CARTODBPOSITRON')
+
+    #Création de la colorbar
+    palette = brewer['RdYlGn'][5]
+    color_mapper = LinearColorMapper(palette=palette, low=0, high=150)
+    color_bar = ColorBar(color_mapper=color_mapper, width=8,location=(0,0), label_standoff=8)
+
+    #Création de la figure
+    p=figure(title="Erreur de prédiction (en s)",x_axis_label='Longitude',y_axis_label='Latitude',
+         width=900,height=600,x_range=(-53000, 31000), y_range=(6660000, 6755000), x_axis_type='mercator', y_axis_type ='mercator')
+    p.add_tile(tuile)
+    #Plot des erreurs pour chanque incident
+    p.circle(source=source_erreur,x='Longmerc',y='Latmerc',alpha=0.5,line_alpha =0.5,size=2.5,color = {'field' :'erreur', 'transform' : color_mapper})
+    #Plot des stations
+    s=p.triangle(source=sourcest,x='Longmerc',y='Latmerc',color='black',size=7)
+
+    #Outil de survol pour les informations de chaque station
+    hover=HoverTool(renderers=[s],tooltips=[("station", "@NomStation")])
+
+    #Ajout de la colorbar à la figure
+    p.add_layout(color_bar, 'left')
+    #Ajout de l'outil de survoll à la figure
+    p.add_tools(hover)
+
+    #Affichage de la figure
+    st.bokeh_chart(p, use_container_width=True)
                 
                 
                 
