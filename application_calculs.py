@@ -178,5 +178,3 @@ def affichage_resultat(timeofcall,res):
         
     return stimea1,stimea2,stemps1,stemps2
 
-stat,res,detstat=generate_test_data('2021-07-04','15:30','Flooding','Dwelling','NEWHAM','E7',51.2,0.2)
-print(detstat)
