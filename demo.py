@@ -21,7 +21,7 @@ page = st.sidebar.radio("", options = ['Présentation', 'Analyse des données','
 st.sidebar.markdown("<br><br>",unsafe_allow_html = True)
 st.sidebar.image('figures/LogoDatascientest.png')
 
-page = st.sidebar.radio("", options = ['Présentation', 'Modélisation','Application']) 
+
 
 
 #Importation des fichiers
@@ -59,19 +59,6 @@ if page == 'Application':
     inc=st.selectbox("Choisissez le type d'incident",type_incident['type_incident'])
     ##Lieu
     st.image("figures/localisation.png")
-
-
-if page == 'Application':
-    
-    st.image('figures/header.png')
-    st.image('figures/date.png')
-    date=st.date_input("Date d'appel")
-    time=st.time_input("Heure d'appel")
-
-    st.image('figures/type.png')
-    inc=st.selectbox("Choisissez le type d'incident",type_incident['type_incident'])
-    
-    st.image('figures/localisation.png')
     prop=st.selectbox('Choisissez le type de lieu',property_type['property_type'])
     
     options = ['Je renseigne les coordonnées géographiques',
