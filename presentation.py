@@ -6,7 +6,7 @@ Created on Fri Jul  2 14:12:44 2021
 """
 import streamlit as st
 import pandas as pd
-from pyproj import Proj, transform
+#from pyproj import Proj, transform
 from bokeh.palettes import brewer
 from bokeh.plotting import figure, output_notebook, show
 output_notebook()

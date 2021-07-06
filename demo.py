@@ -19,6 +19,7 @@ from modelisation import get_model
 
 from geopy.geocoders import Nominatim
 from presentation import affichage_pres
+from modeles import affichage_mod
 
 
 page = st.sidebar.radio("", options = ['Présentation', 'Modélisation','Application']) 
@@ -47,7 +48,7 @@ if page == 'Présentation':
     
     #fig = plt.gcf()
 
-(    #st.pyplot(fig) 
+    #st.pyplot(fig) 
     
     
     
@@ -57,7 +58,9 @@ if page == 'Présentation':
     #            """)
     #st.write(df)
 
-#if page == 'Modélisation':
+if page == 'Modélisation':
+    affichage_mod()
+    
     
     # Import et nettoyage des données
     
@@ -95,7 +98,7 @@ if page == 'Application':
     
     options = ['Je renseigne les coordonnées géographiques',
                'Je renseigne une adresse postale',
-               #'Je sélectionne un point sur la carte'
+               'Je sélectionne un point sur la carte'
                ]
     choix = st.radio("Saisissez le lieu de l'incident", options = options) 
     
