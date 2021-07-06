@@ -170,3 +170,277 @@
 >   
 >  <br/>
 >  Nous avons également prêté attention à la densité des incidents répartis sur l'ensemble de la ville (ici en 2020) : 
+>
+>  voir figure CarteDeDensiteBokeh.html
+>
+>   Comme nous nous y attendions, les incidents sont plus nombreux au centre-ville qu'en périphérie, tout comme le sont les stations.
+> <br/><br/>
+> Le test ANOVA entre le nombre d'incidents et le district (PostCode_district) du lieu d'incident indique un lien significatif entre ces variables (p value nulle).
+>   
+>   |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
+> |:-------------------------|-------:|------------:|----------------:|--------:|---------:|
+> | District |    328.0 | 3.343984e+08 |     1.019507e+06 | 22.724574 |        0 |
+> | Residual                 | 134211.0 | 6.021195e+09 | 4.486365e+04         | nan     |      nan ||
+>
+>   <br/>
+> Nous avons ensuite souhaité voir la répartition géographique des incidents sur la carte de Londres, en filtrant les données par année et en colorant ces points par rapport aux temps d'attente (les points verts représentant les temps d'attente les plus faibles, les points rouges les plus longs). Nous avons inséré les stations sur cette carte (triangles noirs) afin de visualiser l'impact de la proximité avec une station sur le délai d'intervention.
+>
+>  voir figure TempsDAttenteParAn.html
+>
+>   Cette dernière visualisation permet de bien identifier les zones en fonction de la réactivité des secours. On observe que plus l'incident est éloigné d'une station, plus le temps d'attente tend à augmenter. 
+>   <br/><br/>
+>   Le test ANOVA qui concerne le temps d'attente et le district (PostCode_district) du lieu d'incident indique un lien significatif entre ces variables (p value nulle).
+>   
+>   |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
+>   |:-------------------------|-------:|------------:|----------------:|--------:|---------:|
+>   | District |    328.0 | 9.468728e+05 |     2886.807444 | 88.86169 |        0 |
+>   | Residual                 | 134211.0 | 4.360049e+06 | 32.486524         | nan     |      nan ||
+>  
+>   <br/>
+>   De plus, le test de Pearson liant la distance entre le lieu d'incident et la station de déploiement avec le temps d'attente nous indique que ces variables ont un lien significatif (p value nulle) et que leur corrélation est relativement importante (coefficient de Pearson : 51.5%).
+>   
+>   |                          |     résultat test |
+>   |:-------------------------|-------:|
+>   | pearson_coeff |    0.515065 | 
+>   | p-value                 | 0.000000 ||
+
+
+<h4>iv - Autres tests statistiques réalisés </h4> 
+
+>   Nous avons également étudié la corrélation entre le type de retard éventuel (DelayCode_Description) et le temps d'attente et notre test ANOVA indique un lien significatif entre ces variables (p value nulle). Cependant, nous ne pourrons pas conserver cette variable pour la modélisation car elle n'est connu qu'à posteriori : elle ne peut donc pas servir à la prédiction.
+>
+>   |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
+>   |:-------------------------|-------:|------------:|----------------:|--------:|---------:|
+>   | DelayCode_Description |    9.0 | 3.273134e+09 |     3.636815e+08 | 26118.986271 |        0 |
+>   | Residual                 | 683811.0 | 9.521404e+09 | 1.392403e+04         | nan     |      nan |
+
+
+<br/>
+<h3>D - Conclusion sur l'analyse des données</h3> 
+
+>   Cette première étape d'analyse des données nous confirme bien que les indicateurs étudiés seront indispensables dans le cadre de la modélisation du temps d'intervention de la LFB. 
+<h2>2 - MODELISATION</h2>
+<br/>
+
+<h3>A - Preprocessing des données</h3> 
+
+>   Une fois l’analyse du dataset réalisée, nous avons procédé au nettoyage et au preprocessing des données, afin d’assurer le bon déroulement de la phase de modélisation.
+>   Nous avons donc déterminé : </br><ul><li>Les variables explicatives à supprimer : celles n’ayant pas influence sur notre variable cible ou étant redondantes avec d’autres variables ainsi que celles n'étant connues qu'à posteriori. </li></br><li>Les variables explicatives à convertir : dichotomisation des variables catégorielles, conversion de la variable ‘TimeOfCall’ en variable numérique (float). </li> </br><li>Les variables explicatives à créer : fusion des 2 variables liées ‘SpecialServiceType’ et ‘StopCodeDescription’ en une variable unique ‘IncidentTypeGlobal’, puis, une fois les coordonnées géographiques des casernes récupérées, création d’une variable ‘distFromStation’ indiquant la distance entre le lieu de l’intervention et la caserne étant intervenue et suppression des coordonnées (car nous avons déjà les variables Borough - quartier - et DeployedFromStation - station de déploiement - qui donnent des indications sur l’emplacement de l’incident). </li></ul>
+>   </br>
+>   La majeure partie de nos features étant des variables catégorielles contenant de nombreuses modalités pour la plupart, la dichotomisation a ainsi généré un dataset final avant modélisation de dimension conséquente avec 549 colonnes pour environ 680 000 lignes.<br/><br/>
+>   Nous avons ensuite mis en place un Train Test split en nous assurant que les données les plus récentes soient conservées pour le test.<br/><br/>
+>   Enfin, nous avons procédé à l’étape de scaling afin de générer un dataset normalisé pour les modèles qui le nécessitent.
+
+<br/>
+<h3>B - Itérations modélisation</h3> 
+
+<h4> i - Première itération </h4> 
+
+<h5><li> Modèles entraînés </li></h5> 
+
+>   Les modèles qu'on a instanciés dans un premier temps sont les modèles de régression linéaires classiques (LinearRegression seul puis avec SelectKBest et SelectFromModel, ElasticNetCV), HistGradientBoosting, DecisionTree, ainsi que Lasso et Ridge. Nous avons décidé de ne pas tester KNN qui n'est pas adapté aux gros datasets de par son mode de calcul.
+>   <br>
+>   Nous avons recherché les hyper-paramètres optimaux à l'aide d'une GridSearch pour les modèles qui le permettaient.
+
+<h5><li> Contraintes rencontrées </li></h5> 
+
+>   Nous avons rencontré de nombreuses difficultés techniques liées à la taille du dataset (memory error, interruption kernels et temps de calculs extrêmement importants… ).
+>   Nous avons donc dû nous limiter à un dataset contenant les 250 000 dernières lignes (les plus récentes).
+
+<h5><li> Résultats obtenus </li></h5> 
+
+>   |    | model                               |   R² train |      R² test |   mse train |        mse test |   mae train |         mae test | paramètres retenus                                                                                                                                                          |
+>   |---:|:------------------------------------|-----------:|-------------:|------------:|----------------:|------------:|-----------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+>   |  0 | LinearRegression                    |   0.324491 | -4.21421e+12 |     11500.1 |     6.37987e+16 |     70.1761 | 922374           |                                                                                                                                                                             |
+>   |  1 | SelectKBest régression linéaire     |   0.299405 |  0.338849    |     11927.2 | 10009.1         |     72.2332 |     68.5351      | f_regression,k=100,nb_cols=100                                                                                                                                              |
+>   |  2 | SelectFromModel régression linéaire |   0.068366 | -2.02101e+15 |     15860.5 |     3.05961e+19 |     89.8018 |      2.01978e+07 | nb_cols=111                                                                                                                                                                 |
+>   |  3 | ElasticNetCV                        |   0.323789 |  0.355323    |     11512.1 |  9759.74        |     70.2753 |     67.4525      | alpha :  0.05 parmi alphas=(0.001, 0.01, 0.02, 0.025, 0.05, 0.1, 0.25, 0.5, 0.8, 1.0), l1_ratio :  0.75 parmi l1_ratio=(0.1, 0.25, 0.5, 0.7, 0.75, 0.8, 0.85, 0.9, 0.99)    |
+>   |  4 | LassoCV                             |   0.32375  |  0.356218    |     11512.7 |  9746.19        |     70.1925 |     67.3646      | alpha=0.066393                                                                                                                                                              |
+>   |  5 | RidgeCV                             |   0.324491 |  0.35625     |     11500.1 |  9745.71        |     70.1762 |     67.3651      | alpha=1 parmi alphas= (0.0001,0.0005,0.001, 0.005,0.01, 0.05,0.1,0.5,1)                                                                                                     |
+>   |  6 | DecisionTree                        |   0.344382 |  0.347896    |     11161.5 |  9872.18        |     70.5671 |     67.6965      | max_depth=7 parmi [2, 3, 4, 5, 6, 7, 8], criterion=friedman_mse                                                                                                             |
+>   |  7 | DecisionTree                        |   0.344382 |  0.347034    |     11161.5 |  9885.23        |     70.5671 |     67.7137      | max_depth=7 parmi [2, 3, 4, 5, 6, 7, 8], criterion=mse                                                                                                                      |
+>   |  8 | HistGradientBoosting                |   0.391331 |  0.389738    |     10362.2 |  9238.74        |     66.6608 |     64.8576      | min_samples_leaf = 500, loss=least_squares parmi [least_squares,least_absolute_deviation], max_iter=250 parmi [50,70,100,120,150,170,200,250], max_depth=8 parmi range(3,9) |
+> 
+> Le modèle le plus performant est le modèle Hist Gradient Boosting quelque soit le critère de performance observé : il présente les R² les plus élevés ainsi que les MSE et MAE les plus faibles.
+>   <br>
+>   Pour cette première itération, nous obtenons pour l’ensemble de nos tests, hormis pour le HistGradientBoosting :
+> <ul><li> Des scores R² peu concluants</li>
+> <li>Des MAE d'environ une minute et 10 secondes pour la plupart des modèles.</li></ul>
+>   <br>
+>   Suite à cette itération, nous avons essayé de renouveler l'expérience avec ces modèles sur le dataset complet.
+
+<br>
+<h4> ii - Deuxième itération </h4> 
+
+<h5><li> Objectifs </li></h5> 
+
+>   Nous avons créé un script regroupant tous nos modèles et produisant un fichier “Resultat.csv” de manière à pouvoir tester nos modèles sur le dataset complet (très lourd) sur une machine plus puissante. Nous avons également ajouté des hyper-paramètres que nous n’avions pas pu tester sur nos machines (par exemple des criterions pour les DecisionTree).
+
+<h5><li> Modèles entraînés et ajustement réalisés </li></h5> 
+
+>   Nous avons utilisé les mêmes modèles que précédemment et y avons ajouté les modèles GradientBoosting, HistGradientBoosting, LassoCV et Ridge sur le dataset pré-formaté grâce au transformateur PolynomialFeatures. Ce dernier permet de créer de nouvelles variables représentant l'interaction des variables initiales (si on a un dataset avec les variables a et b, PolynomialFeatures renverra un nouveau dataset avec les variables 1, a, b et ab avec les paramètres degree=2 et interaction_only=True).
+
+
+<h5><li> Contraintes rencontrées </li></h5> 
+
+>   Le modèle DecisionTree a bloqué le script qui ne s’était toujours pas arrêté après plus de 24 heures.
+
+<h5><li> Résultats obtenus </li></h5> 
+
+>   Nous n’avons pu recueillir aucun résultat au cours de cette tentative.
+
+<br/>
+<h4> iii - Troisième itération </h4> 
+
+<h5><li> Objectifs </li></h5>
+
+>   Suite à notre échec précédent, nous avons repris notre dataset réduit avec les 250 000 mobilisations les plus récentes. Nous avons essayé d'améliorer les premières performances obtenues grâce au modèle HistGradientBoosting.
+>   <br/><br/>
+>   Nous avons décidé d’optimiser la recherche d’hyper-paramètres à l’aide du package Optuna. Optuna a le même objectif que la GridSearchCV&#8239;: il permet de trouver la combinaison d'hyper-paramètres la plus performante. Cependant, il n'opère pas de la même manière. Tandis que la GridSearch évalue toutes les combinaisons d'hyper-paramètres existantes parmi les valeurs qui lui ont été fournies, ce sont des plages de valeurs qui sont fournies à Optuna. Cela lui permet d'explorer l'ensemble de l'espace sans avoir à tester toutes les combinaisons pour un paramètre ayant peu d'influence par exemple.
+>   <br>Nous avons également remplacé HistGradientBoosting par LightGBM qui est optimisé en temps de calcul.
+>   Au cours des différentes itérations, il a fallu déterminer si nous étions en régime de sur ou sous-apprentissage et le combattre.
+
+<h5><li> Modèles entraînés et ajustement réalisés </li></h5>
+
+>   Nous avons entraîné le modèle LGBMRegressor avec le package Optuna. Nous avons procédé en plusieurs itérations pour trouver quels hyper-paramètres tester et sur quelles plages.
+
+<h5><li> Résultats obtenus au cours des différentes étapes </li></h5>
+
+<u><em>Etape 1</em></u>
+>   3 hyper-paramètres testés avec 200 trials :
+>   <br/>
+>   ```py
+learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
+max_depth = trial.suggest_int('max_depth', 2, 50)
+n_estimators = trial.suggest_int('n_estimators', 20,500)
+>   ```
+>   Best trial :
+<br/>
+>   ```py
+learning_rate = 0.1012069771826192
+max_depth = 40
+n_estimators = 488
+>   ```
+>   
+>   | model                                                                         |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
+>   |:------------------------------------------------------------------------------|-----------:|----------:|------------:|-----------:|------------:|-----------:|
+>   |LGBMRegressor1 |   0.454652 |  0.409216 |     9284.22 |    8943.85 |     62.8125 |    63.2457 |
+>   
+>   Les performances sont plutôt satisfaisantes, la MAE s'est rapproché d'une minute.
+>   <br/>
+>   Nous sommes en sur-apprentissage léger. 
+>   Pour l’étape 2, nous essaierons d’ajouter d’autres hyper-paramètres afin de tenter de le réduire.
+
+<u><em>Etape 2</em></u>
+>   6 hyper-paramètres testés avec 200 trials :
+>   <br/>
+>   ```py
+learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
+max_depth = trial.suggest_int('max_depth', 2, 80)
+n_estimators = trial.suggest_int('n_estimators', 20,800)
+reg_alpha = trial.suggest_loguniform('reg_alpha', 1e-5,10)
+reg_lambda = trial.suggest_loguniform('reg_lambda', 1e-5,10)
+subsample_for_bin = trial.suggest_int('subsample_for_bin', 200000, 500000)
+>   ```
+>   Best trial :
+<br/>
+>   ```py
+learning_rate = 0.0735978242412042
+max_depth = 76
+n_estimators = 737
+reg_alpha = 0.000987737786289064
+reg_lambda = 3.6393223694815996e-05
+subsample_for_bin = 226071
+>   ```
+>   
+>   | model                                                                            |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
+>   |:---------------------------------------------------------------------------------|--------------:|-------------:|------------:|-----------:|------------:|-----------:|
+>   |LGBMRegressor2    |      0.459334 |     0.410594 |      9204.5 |       8923 |      62.532 |    63.1363 ||
+>   
+>   Les performances ont légèrement augmenté. En examinant les essais, le paramètre subsample_for_bin ne semble pas avoir beaucoup d’influence, c’est pourquoi nous avons décidé de le laisser à sa valeur par défaut et de tester d’autres paramètres connus pour agir contre le sur-apprentissage. Nous allons également réduire les plages de max_depth et n_estimators pour essayer de limiter ce sur-apprentissage.
+
+<u><em>Etape 3</em></u>
+>   8 hyper-paramètres testés avec 200 trials :
+>   <br/>
+>   ```py
+learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
+max_depth = trial.suggest_int('max_depth', 2, 40)
+n_estimators = trial.suggest_int('n_estimators', 20,500)
+reg_alpha = trial.suggest_loguniform('reg_alpha', 1e-5,10)
+reg_lambda = trial.suggest_loguniform('reg_lambda', 1e-5,10)
+num_leaves = trial.suggest_int('num_leaves', 10, 50)
+min_split_gain = trial.suggest_uniform('min_split_gain', 0,1)
+min_child_samples = trial.suggest_int('min_child_samples', 5, 50)
+>   ```
+>   Best trial :
+<br/>
+>   ```py
+learning_rate = 0.08611376087571489
+max_depth = 28
+n_estimators = 467
+reg_alpha = 0.007369798680853325
+reg_lambda = 0.0002296807544488281
+num_leaves = 47
+min_split_gain = 0.5709551773016567
+min_child_samples = 32
+>   ```
+>   |model                                                                           |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
+>   |:--------------------------------------------------------------------------------|--------------:|-------------:|------------:|-----------:|------------:|-----------:|
+>   |LGBMRegressor3    |      0.463816 |     0.411167 |     9128.22 |    8914.33 |     62.1916 |     63.052 ||
+>   
+>   Le sur-apprentissage a légèrement augmenté, nous allons essayer de le réduire en diminuant les plages de test des hyper-paramètres.
+
+<u><em>Etape 4</em></u>
+>   8 hyper-paramètres testés avec 400 trials :
+<br/>
+>   ```py 
+learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
+max_depth = trial.suggest_int('max_depth', 2, 20)
+n_estimators = trial.suggest_int('n_estimators', 20,300)
+reg_alpha = trial.suggest_loguniform('reg_alpha', 1e-5,10)
+reg_lambda = trial.suggest_loguniform('reg_lambda', 1e-5,10)
+num_leaves = trial.suggest_int('num_leaves', 10, 35)
+min_split_gain = trial.suggest_uniform('min_split_gain', 0,1)
+min_child_samples = trial.suggest_int('min_child_samples', 40, 200)
+>   ```
+>   Best trial :
+>   <br/>
+>   ```py
+learning_rate = 0.1512198354101122
+max_depth = 17
+n_estimators = 295
+reg_alpha = 0.0005383830447172724
+reg_lambda = 0.00011538095876075694
+num_leaves = 32
+min_split_gain = 0.473924522550586
+min_child_samples = 43
+>   ```
+>   |model                                                                        |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
+>   |:-----------------------------------------------------------------------------|--------------:|-------------:|------------:|-----------:|------------:|-----------:|
+>   |LGBMRegressor4 |      0.445746 |     0.410001 |     9435.83 |    8931.97 |     63.1968 |    63.1481 ||
+>   
+>   Lors de cet essai, le sur-apprentissage est moins important qu’auparavant et la performance est quasiment identique (à peine moindre), c’est pourquoi cela nous paraît être un compromis acceptable.
+
+
+<h3>C - Choix et interprétabilité du modèle</h3>
+
+
+<h4> i - Modèle retenu  </h4> 
+
+>   | model                                                                            |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
+>   |:---------------------------------------------------------------------------------|--------------:|-------------:|------------:|-----------:|------------:|-----------:|
+>   | LGBMRegressor1    |      0.454652 |     0.409216 |     9284.22 |    8943.85 |     62.8125 |    63.2457 ||
+>   | LGBMRegressor2   |      0.459334 |     0.410594 |     9204.50  |    8923.00    |     62.5320  |    63.1363 ||
+>   | LGBMRegressor3    |      0.463816 |     0.411167 |     9128.22 |    8914.33 |     62.1916 |    63.0520  ||
+>   | LGBMRegressor4     |      0.445746 |     0.410001 |     9435.83 |    8931.97 |     63.1968 |    63.1481 ||            |
+>   
+>   Finalement, nous avons décidé de retenir le modèle LGBMRegressor4 qui produit de bons résultats tout en exigeant un temps de calcul très raisonnable (non seulement par rapport aux modèles de la première itération puisque LightGBM est optimisé, mais également par rapport aux 3 premiers LGBMRegressor car c'est celui qui présente le n_estimators le plus faible). On pourra lui reprocher d’être peu interprétable mais nous allons essayer d’y remédier dans la partie suivante grâce aux packages Skater et Shap.
+
+<br/>
+<h4> ii - Interprétabilité du modèle  </h4> 
+
+<h5><li> Visualisation géographique de l'erreur </li></h5>
+
+>   Avant d'utiliser les packages d'interprétabilité, nous allons visualiser géographiquement l'erreur sur le jeu de données test, de manière à repérer d'éventuelles anomalies ou bien à confirmer la performance du modèle.
+
+

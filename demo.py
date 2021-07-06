@@ -9,42 +9,51 @@ import streamlit as st
 import pandas as pd
 
 
-from preprocessing import generate_test_data
+from application_calculs import generate_test_data, affichage_resultat
 from presentation import affichage_pres
+from conclusion import affichage_conclu
 
 from geopy.geocoders import Nominatim
 
-
+#Sidebar
 st.sidebar.image('figures/logoLFB.png')
 st.sidebar.markdown("<br>",unsafe_allow_html = True)
-page = st.sidebar.radio("", options = ['Présentation', 'Application']) 
-st.sidebar.markdown("<br><br><br>",unsafe_allow_html = True)
+page = st.sidebar.radio("", options = ['Présentation', 'Analyse des données','Modélisation','Conclusion','Application']) 
+st.sidebar.markdown("<br><br>",unsafe_allow_html = True)
 st.sidebar.image('figures/LogoDatascientest.png')
 
+#Importation des fichiers
 boroughs = pd.read_csv("data/boroughs.csv", index_col = 0)
 district = pd.read_csv("data/district.csv", index_col = 0)
 type_incident = pd.read_csv("data/type_incident.csv", index_col = 0)
 property_type = pd.read_csv("data/property_type.csv", index_col = 0)
 
-
+#Page Présentation
 if page == 'Présentation':
     st.title("Projet London Fire Brigade CountDown")
     
     affichage_pres()
     
-
-
-
-
+    
+#Page Conclusion
+if page== 'Conclusion':
+    st.title("Bilan du projet")
+    affichage_conclu()
+    
+#Page Application
 if page == 'Application':
+    #Header
     st.image("figures/header.png")
     st.image("figures/simulation.png")
+    #Formulaire
+    ##Date/heure
     st.image("figures/date.png")
     date=str(st.date_input("Date d'appel"))
     timeofcall=str(st.time_input("Heure d'appel"))
-
+    ##Type
     st.image("figures/type.png")
     inc=st.selectbox("Choisissez le type d'incident",type_incident['type_incident'])
+    ##Lieu
     st.image("figures/localisation.png")
     prop=st.selectbox('Choisissez le type de lieu',property_type['property_type'])
     
@@ -53,8 +62,10 @@ if page == 'Application':
     
     choix = st.radio("Saisissez le lieu de l'incident", options = options) 
     
-    
+    #Utilisation du package geopy pour définir l'adresse, les coordonnées, le borough et le district en 
+    #fonction de la saisie utilisateur
     geolocator = Nominatim(user_agent="projet_pompier")
+    #Pour les saisies d'adresse
     if choix==options[1]:
         address=st.text_input("Saisissez une adresse","Birch Close, Canning Town")
         location = geolocator.geocode(address)
@@ -68,7 +79,7 @@ if page == 'Application':
             st.write("L'adresse suivante a été reconnue :", location.address)
             st.write("Les coordonnées de cette adresse sont :",coord)
 
-        
+    #Pour les saisies de coordonnées
     if choix==options[0]:
         lat=st.number_input("Saisissez la latitude", 51.0,52.0,51.5181388,format='%.7f',step=0.00001)
         lon=st.number_input("Saisissez la longitude", -1.0,1.0,0.0062938,format='%.7f',step=0.00001)
@@ -76,80 +87,38 @@ if page == 'Application':
         location = geolocator.reverse(coord)
         st.write("L'adresse suivante a été reconnue :", location.address)
         
-    
+    #Détermination du borough
     bor_connu=False
     if 'city_district' in location.raw['address']:
         for i in range(len(boroughs)):
             if location.raw['address']['city_district'].split('of ')[-1].upper()==sorted(boroughs['boroughs'])[i]:  
                 bor=st.selectbox('Confirmez le borough correspondant',sorted(boroughs['boroughs']),i)
                 bor_connu=True
+    #Si geopy ne détermine pas le quartier, c'est l'utilisateur qui doit le choisir
     if not bor_connu:
         bor=st.selectbox('Choisissez le borough correspondant',sorted(boroughs['boroughs']))
+    #Determination du district
     dis_connu = False
     if 'postcode' in location.raw['address']:
         for i in range(len(district)):
             if location.raw['address']['postcode'].split(' ')[0]==sorted(district['district'])[i]:  
                 dis=st.selectbox('Confirmez le district correspondant',sorted(district['district']),i)
                 dis_connu = True
+    #Si geopy ne détermine pas le district, c'est l'utilisateur qui doit le choisir
     if not dis_connu:
         dis=st.selectbox('Choisissez le district correspondant',sorted(district['district']))
 
-
+    #Calcul de la prédiction
     if st.button('Calculer'):
         stat,res=generate_test_data(date,timeofcall,inc,prop,bor,dis,lat,lon)
         
+        #Affichage de la station retenue
         st.write('La caserne **{}** prend en charge votre alerte.'.format(stat))
         
-        hour=int(timeofcall.split(':')[0])
-        minute=int(timeofcall.split(':')[1])
-        second=int(timeofcall.split(':')[2][:2])
+        #Calcul des temps et heures d'arrivée de la fourchette résultat
+        stimea1,stimea2,stemps1,stemps2=affichage_resultat(timeofcall,res)
         
-        timecall=second+60*minute+3600*hour
-        if res[5]<res[1]:
-            reslow=res[5]
-            reshigh=res[1]
-        else :
-            reslow=res[1]
-            reshigh=res[5]
-            
-        timea1=timecall+reslow
-        timea2=timecall+reshigh
-        if timea1>=86400:
-            timea1=timea1-86400
-        if timea2>=86400:
-            timea2=timea2-86400
-        timea1h=str(int(timea1//3600))
-        if int(timea1h)<10:
-            timea1h='0'+timea1h
-        timea1s=timea1%3600
-        timea1m=str(int(timea1s//60))
-        if int(timea1m)<10:
-            timea1m='0'+timea1m
-        timea1s=str(int(timea1s%60))
-        if int(timea1s)<10:
-            timea1s='0'+timea1s
-        stimea1=timea1h+':'+timea1m+':'+timea1s
-        timea2h=str(int(timea2//3600))
-        if int(timea2h)<10:
-            timea2h='0'+timea2h
-        timea2s=timea2%3600
-        timea2m=str(int(timea2s//60))
-        if int(timea2m)<10:
-            timea2m='0'+timea2m
-        timea2s=str(int(timea2s%60))
-        if int(timea2s)<10:
-            timea2s='0'+timea2s
-        stimea2=timea2h+':'+timea2m+':'+timea2s
-        tempsa1min=str(int(reslow//60))
-        tempsa1sec=str(int(reslow%60))
-        if int(tempsa1sec)<10:
-            tempsa1sec='0'+tempsa1sec
-        tempsa2min=str(int(reshigh//60))
-        tempsa2sec=str(int(reshigh%60))
-        if int(tempsa2sec)<10:
-            tempsa2sec='0'+tempsa2sec
-        stemps1='('+tempsa1min+'min '+tempsa1sec+'s)'
-        stemps2='('+tempsa2min+'min '+tempsa2sec+'s)'
+        #affichage des temps et heures calculés
         st.write('Les secours arriveront sur place entre **{}** {} et **{}** {}'.format(stimea1,stemps1,stimea2,stemps2))
         
 
