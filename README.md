@@ -316,7 +316,7 @@
 >  
 >   Best trial :
 <br/>
->   
+
 	learning_rate = 0.1012069771826192
 	max_depth = 40
 	n_estimators = 488
@@ -345,7 +345,7 @@
 >   
 >   Best trial :
 <br/>
->   
+  
 	learning_rate = 0.0735978242412042
 	max_depth = 76
 	n_estimators = 737
@@ -376,7 +376,7 @@
 >   
 >   Best trial :
 <br/>
->   
+
 	learning_rate = 0.08611376087571489
 	max_depth = 28
 	n_estimators = 467
@@ -409,7 +409,7 @@
 >   
 >   Best trial :
 >   <br/>
->   
+
 	learning_rate = 0.1512198354101122
 	max_depth = 17
 	n_estimators = 295
