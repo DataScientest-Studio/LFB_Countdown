@@ -310,9 +310,9 @@
 >   3 hyper-paramètres testés avec 200 trials :
 >   <br/>
 >   
-	>learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
-	>max_depth = trial.suggest_int('max_depth', 2, 50)
-	>n_estimators = trial.suggest_int('n_estimators', 20,500)
+>	learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
+>	max_depth = trial.suggest_int('max_depth', 2, 50)
+>	n_estimators = trial.suggest_int('n_estimators', 20,500)
 >  
 >   Best trial :
 <br/>
