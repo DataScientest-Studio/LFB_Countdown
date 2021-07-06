@@ -12,6 +12,7 @@ from geopy.geocoders import Nominatim
 from application_calculs import generate_test_data, affichage_resultat
 from presentation import affichage_pres
 from conclusion import affichage_conclu
+from bokeh_sim import bokeh_simulation
 
 
 #Sidebar
@@ -37,7 +38,11 @@ if page == 'Présentation':
     
     affichage_pres()
     
-
+#Page Modélisation
+if page == 'Modélisation':
+    st.title("Modélisation")
+    
+    #affichage_mod()
     
 #Page Conclusion
 if page== 'Conclusion':
@@ -113,7 +118,7 @@ if page == 'Application':
 
     #Calcul de la prédiction
     if st.button('Calculer'):
-        stat,res=generate_test_data(date,timeofcall,inc,prop,bor,dis,lat,lon)
+        stat,res,detstat=generate_test_data(date,timeofcall,inc,prop,bor,dis,lat,lon)
         
         #Affichage de la station retenue
         st.write('La caserne **{}** prend en charge votre alerte.'.format(stat))
@@ -123,3 +128,7 @@ if page == 'Application':
         
         #affichage des temps et heures calculés
         st.write('Les secours arriveront sur place entre **{}** {} et **{}** {}'.format(stimea1,stemps1,stimea2,stemps2))
+        
+        
+        bokeh_simulation(lat,lon,detstat)
+    

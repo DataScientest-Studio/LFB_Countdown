@@ -117,12 +117,12 @@ def generate_test_data(date,time,inc,prop,bor,dis,lat,lon):
     #On agrège le nom des 3 stations dans une liste
     stations=[*stat0,*stat1,*stat2]
     
-    #On récupère le nom de station et les résultats pour la station la plus rapide (moyenne des 5 déploiements)
+    #On récupère le nom de station, les résultats pour la station la plus rapide (moyenne des 5 déploiements) et ses informations
     station=stations[res.describe().loc['mean'].argmin()]
     res=res[res.columns[res.describe().loc['mean'].argmin()]]
+    detstat=stat[stat['NomStation']==station]
     
-    
-    return station,res
+    return station,res,detstat
     
 def affichage_resultat(timeofcall,res):
     hour=int(timeofcall.split(':')[0])
@@ -177,3 +177,6 @@ def affichage_resultat(timeofcall,res):
     stemps2='('+tempsa2min+'min '+tempsa2sec+'s)'
         
     return stimea1,stimea2,stemps1,stemps2
+
+stat,res,detstat=generate_test_data('2021-07-04','15:30','Flooding','Dwelling','NEWHAM','E7',51.2,0.2)
+print(detstat)

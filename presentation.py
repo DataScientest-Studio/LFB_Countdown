@@ -327,5 +327,6 @@ def affichage_pres():
                 
                 >   Cette première étape d'analyse des données nous confirme bien que les indicateurs étudiés seront indispensables dans le cadre de la modélisation du temps d'intervention de la LFB. 
                 """,unsafe_allow_html = True)
-                
-   
+            
+
+    
