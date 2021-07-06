@@ -5,6 +5,15 @@ Created on Fri Jul  2 14:12:44 2021
 @authors: Elora, Marie, Nicolas
 """
 import streamlit as st
+import pandas as pd
+from pyproj import Proj, transform
+from bokeh.palettes import brewer
+from bokeh.plotting import figure, output_notebook, show
+output_notebook()
+import bokeh.tile_providers
+from bokeh.models import ColumnDataSource, LabelSet,HoverTool,ColorBar,LinearColorMapper
+from bokeh.models.widgets import Panel, Tabs
+from bokeh.plotting import figure
 
 
 def affichage_pres():
@@ -19,19 +28,19 @@ def affichage_pres():
                 <h2>INTRODUCTION</h2>
                 <br/>
                 >   Dans le cadre de notre formation Data Analyst, un projet fil rouge nous est proposé nous donnant ainsi l'opportunité d'appliquer sur un cas concret et global les connaissances acquises tout au long de notre parcours. Le choix du sujet a été une étape cruciale pour notre équipe et nous avons finalement jeté notre dévolu sur un des projets proposés dans le catalogue fourni : « Prédiction du temps de réponse d’un véhicule de la Brigade des Pompiers de Londres ».
-                <br/><br/>
-                Au delà du sujet en lui-même, ce choix résulte en grande partie de la richesse des données exploitables, la variété des types d'analyse que nous avons rapidement identifiés (temporelles, géographiques, etc.) et des applications qu'elles entraîneraient. Nous avions également à coeur de travailler sur un sujet pour lequel nous percevions un challenge en Machine Learning. 
-                <br/><br/>
-                Ce projet vise à étudier l'ensemble des différents incidents auxquels ont répondu et pour lesquels sont intervenus les pompiers de la célèbre brigade de Londres entre 2009 et 2021, avec pour objectif final de pouvoir prédire le temps d'attente des pompiers pour les incidents ultérieurs. 
-                <br/><br/>
+                >   <br/><br/>
+                >   Au delà du sujet en lui-même, ce choix résulte en grande partie de la richesse des données exploitables, la variété des types d'analyse que nous avons rapidement identifiés (temporelles, géographiques, etc.) et des applications qu'elles entraîneraient. Nous avions également à coeur de travailler sur un sujet pour lequel nous percevions un challenge en Machine Learning. 
+                >   <br/><br/>
+                >   Ce projet vise à étudier l'ensemble des différents incidents auxquels ont répondu et pour lesquels sont intervenus les pompiers de la célèbre brigade de Londres entre 2009 et 2021, avec pour objectif final de pouvoir prédire le temps d'attente des pompiers pour les incidents ultérieurs. 
+                >   <br/><br/>
                 <h2>1 - ANALYSE DES DONNEES</h2>
                 <br/>
                 <h3>A - Introduction aux données</h3> 
-                > </br>Nous avons à notre disposition 3 jeux de données officielles afin d'analyser les contours du projet : 
-                > <ul><li>Un fichier regroupant tous les incidents entre 2009 et 2021 </li>
+                >   </br>Nous avons à notre disposition 3 jeux de données officielles afin d'analyser les contours du projet : 
+                >   <ul><li>Un fichier regroupant tous les incidents entre 2009 et 2021 </li>
                 >   <li>Un fichier regroupant tous les déploiements sur ces incidents (matériels) sur la même période </li> 
                 >   <li>Un fichier récent de la liste des casernes de la brigade </li></ul>
-                <br/>
+                >   <br/>
                 >   Les données fournies dans le fichier "Incident" sont indexées sur le numéro de l'incident. Pour chacun, de nombreuses informations nous sont fournies, à commencer par la date et l'heure de l'appel, plusieurs éléments relatifs au lieu de l'incident (adresse, type de lieu), la nature de l'incident, le temps d'attente entre l'appel et l'arrivée du premier véhicule, etc ...
                 <br/><br/>
                 >   Le fichier "Mobilisation" nous renseigne sur le déploiement des véhicules pour chaque incident, et contient le numéro de l'incident sur lequel ils sont envoyés, le type de véhicule, le temps de mobilisation avant le départ de ce véhicule, son temps de trajet, l'heure d'arrivée sur les lieux. Parfois, plusieurs véhicules peuvent être déployés sur le même incident. Dans ce cas de figure, nous disposons d'une variable indiquant l'ordre d'appel de ces véhicules. Enfin, pour une partie des données, la latitude et la longitude du lieu de l'incident sont renseignées.
@@ -184,17 +193,34 @@ def affichage_pres():
                 """,unsafe_allow_html = True)
                 
                 
-                
-                
-    #tuile=bokeh.tile_providers.get_provider('CARTODBPOSITRON')
-    ##p=figure(title='Densité des incidents en 2020',x_axis_label='Longitude',y_axis_label='Latitude',width=900,height=600,x_range=(-53000, 31000), y_range=(6660000, 6755000), x_axis_type='mercator', y_axis_type ='mercator')
-    #p.add_tile(tuile)
-    #p.circle(source=source20f,x='Longmerc',y='Latmerc',alpha=0.1)
-    #s=p.triangle(source=sourcest,x='Longmerc',y='Latmerc',color='red',size=10)
-    #hover=HoverTool(renderers=[s],tooltips=[("station", "@NomStation")])
-    #p.add_tools(hover) 
-    #st.bokeh_chart(p, use_container_width=True)
-    st.write('figures/Erreur.html')
+    stations=pd.read_csv('data/Stations_clean.csv',index_col=0)
+    df=pd.read_csv('data/LFB_incident_clean.csv', index_col=0)
+    dfgeo=df[['IncidentNumber','Latitude','Longitude','CallYear','DeployedFromStation_Name','AttendanceTimeSeconds']]
+    dfgeo['Longmerc'],dfgeo['Latmerc']=transform(Proj(init='epsg:4326'), Proj(init='epsg:3857'), dfgeo['Longitude'].values, dfgeo['Latitude'].values)
+    stations['Longmerc'],stations['Latmerc']=(transform(Proj(init='epsg:4326'), Proj(init='epsg:3857'), stations['Longitude'].values, stations['Latitude'].values));
+    dfgeo21=dfgeo[dfgeo['CallYear']==2021]
+    dfgeo20full=dfgeo[dfgeo['CallYear']==2020]
+    dfgeo20=dfgeo[dfgeo['CallYear']==2020].sample(50000)
+    dfgeo19=dfgeo[dfgeo['CallYear']==2019].sample(50000)
+    sourcest=ColumnDataSource(data=stations)
+
+    source21=ColumnDataSource(data=dfgeo21)
+    source20f=ColumnDataSource(data=dfgeo20full)
+    source20=ColumnDataSource(data=dfgeo20)
+    source19=ColumnDataSource(data=dfgeo19)
+    
+    
+    tuile=bokeh.tile_providers.get_provider('CARTODBPOSITRON')
+    p=figure(title='Densité des incidents en 2020',x_axis_label='Longitude',y_axis_label='Latitude',
+         width=900,height=600,x_range=(-53000, 31000), y_range=(6660000, 6755000), x_axis_type='mercator', y_axis_type ='mercator')
+    p.add_tile(tuile)
+    p.circle(source=source20f,x='Longmerc',y='Latmerc',alpha=0.1)
+    s=p.triangle(source=sourcest,x='Longmerc',y='Latmerc',color='red',size=10)
+    hover=HoverTool(renderers=[s],tooltips=[("station", "@NomStation")])
+    p.add_tools(hover) 
+    
+    st.bokeh_chart(p, use_container_width=True)
+    
     
     
     
@@ -210,6 +236,58 @@ def affichage_pres():
                 >
                 >   <br/>
                 > Nous avons ensuite souhaité voir la répartition géographique des incidents sur la carte de Londres, en filtrant les données par année et en colorant ces points par rapport aux temps d'attente (les points verts représentant les temps d'attente les plus faibles, les points rouges les plus longs). Nous avons inséré les stations sur cette carte (triangles noirs) afin de visualiser l'impact de la proximité avec une station sur le délai d'intervention.
+                """,unsafe_allow_html = True)
+                
+    sourcest2=ColumnDataSource(data=stations)            
+    tuile=bokeh.tile_providers.get_provider('CARTODBPOSITRON')
+
+
+    palette = brewer['RdYlGn'][10]
+    color_mapper = LinearColorMapper(palette=palette, low=179, high=476)
+    color_bar = ColorBar(color_mapper=color_mapper, width=8,location=(0,0), label_standoff=8)
+
+
+
+    p21=figure(title="Incidents colorés par temps d'attente (en s) en 2021",x_axis_label='Longitude',y_axis_label='Latitude',tools=['box_select','lasso_select'],
+         width=900,height=600,x_range=(-53000, 31000), y_range=(6660000, 6755000), x_axis_type='mercator', y_axis_type ='mercator')
+    p21.add_tile(tuile)
+    p21.circle(source=source21,x='Longmerc',y='Latmerc',alpha=0.3,color = {'field' :'AttendanceTimeSeconds', 'transform' : color_mapper})
+    s21=p21.triangle(source=sourcest2,x='Longmerc',y='Latmerc',color='black',size=7)
+
+
+    p20=figure(title="Incidents colorés par temps d'attente (en s) en 2020",x_axis_label='Longitude',y_axis_label='Latitude',
+         width=900,height=600,x_range = p21.x_range, y_range = p21.y_range, x_axis_type='mercator', y_axis_type ='mercator')
+    p20.add_tile(tuile)
+    p20.circle(source=source20,x='Longmerc',y='Latmerc',alpha=0.2,color = {'field' :'AttendanceTimeSeconds', 'transform' : color_mapper})
+    s20=p20.triangle(source=sourcest2,x='Longmerc',y='Latmerc',color='black',size=7)
+
+
+    p19=figure(title="Incidents colorés par temps d'attente (en s) en 2019",x_axis_label='Longitude',y_axis_label='Latitude',
+         width=900,height=600,x_range = p21.x_range, y_range = p21.y_range, x_axis_type='mercator', y_axis_type ='mercator')
+    p19.add_tile(tuile)
+    p19.circle(source=source19,x='Longmerc',y='Latmerc',alpha=0.2,color = {'field' :'AttendanceTimeSeconds', 'transform' : color_mapper})
+    s19=p19.triangle(source=sourcest2,x='Longmerc',y='Latmerc',color='black',size=7)
+
+
+    hover=HoverTool(renderers=[s19,s20,s21],tooltips=[("station", "@NomStation")])
+
+    p21.add_layout(color_bar,  'left')
+    p21.add_tools(hover)
+    tab21 = Panel(child=p21, title="2021")
+    p20.add_layout(color_bar, 'left')
+    p20.add_tools(hover)
+    tab20 = Panel(child=p20, title="2020")
+    p19.add_layout(color_bar, 'left')
+    p19.add_tools(hover)
+    tab19 = Panel(child=p19, title="2019")
+
+
+
+    tabs = Tabs(tabs=[tab19,tab20,tab21 ])
+      
+    st.bokeh_chart(tabs, use_container_width=True)          
+                
+    st.markdown("""           
                 > Cette dernière visualisation permet de bien identifier les zones en fonction de la réactivité des secours. On observe que plus l'incident est éloigné d'une station, plus le temps d'attente tend à augmenter. 
                 <br/><br/>
                 >   Le test ANOVA qui concerne le temps d'attente et le district (PostCode_district) du lieu d'incident indique un lien significatif entre ces variables (p value nulle).

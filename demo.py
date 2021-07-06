@@ -37,14 +37,15 @@ if page == 'Présentation':
 
 
 if page == 'Application':
-    st.title("Simulation d'un incident")
+    st.image("figures/header.png")
+    st.image("figures/simulation.png")
     
     date=str(st.date_input("Date d'appel"))
     timeofcall=str(st.time_input("Heure d'appel"))
 
     
     inc=st.selectbox("Choisissez le type d'incident",type_incident['type_incident'])
-    
+    st.image("figures/localisation.png")
     prop=st.selectbox('Choisissez le type de lieu',property_type['property_type'])
     
     options = ['Je renseigne les coordonnées géographiques',
