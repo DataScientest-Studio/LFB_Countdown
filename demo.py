@@ -16,8 +16,9 @@ from geopy.geocoders import Nominatim
 
 
 st.sidebar.image('figures/logoLFB.png')
+st.sidebar.markdown("<br>",unsafe_allow_html = True)
 page = st.sidebar.radio("", options = ['Présentation', 'Application']) 
-
+st.sidebar.markdown("<br><br><br>",unsafe_allow_html = True)
 st.sidebar.image('figures/LogoDatascientest.png')
 
 boroughs = pd.read_csv("data/boroughs.csv", index_col = 0)
@@ -27,7 +28,7 @@ property_type = pd.read_csv("data/property_type.csv", index_col = 0)
 
 
 if page == 'Présentation':
-    st.title("Démo Streamlit Mar21 DA DS")
+    st.title("Projet London Fire Brigade CountDown")
     
     affichage_pres()
     
@@ -36,10 +37,10 @@ if page == 'Présentation':
 
 
 if page == 'Application':
-    #st.title,image...
+    st.title("Simulation d'un incident")
     
     date=str(st.date_input("Date d'appel"))
-    timeofcall=str(st.time_input("Heure d'appel", datetime.time(23, 59)))
+    timeofcall=str(st.time_input("Heure d'appel"))
 
     
     inc=st.selectbox("Choisissez le type d'incident",type_incident['type_incident'])
@@ -110,22 +111,38 @@ if page == 'Application':
             timea1=timea1-86400
         if timea2>=86400:
             timea2=timea2-86400
-        timea1h=int(timea1//3600)
+        timea1h=str(int(timea1//3600))
+        if int(timea1h)<10:
+            timea1h='0'+timea1h
         timea1s=timea1%3600
-        timea1m=int(timea1s//60)
-        timea1s=int(timea1s%60)
-        stimea1=str(timea1h)+':'+str(timea1m)+':'+str(timea1s)
-        timea2h=int(timea2//3600)
+        timea1m=str(int(timea1s//60))
+        if int(timea1m)<10:
+            timea1m='0'+timea1m
+        timea1s=str(int(timea1s%60))
+        if int(timea1s)<10:
+            timea1s='0'+timea1s
+        stimea1=timea1h+':'+timea1m+':'+timea1s
+        timea2h=str(int(timea2//3600))
+        if int(timea2h)<10:
+            timea2h='0'+timea2h
         timea2s=timea2%3600
-        timea2m=int(timea2s//60)
-        timea2s=int(timea2s%60)
-        stimea2=str(timea2h)+':'+str(timea2m)+':'+str(timea2s)
+        timea2m=str(int(timea2s//60))
+        if int(timea2m)<10:
+            timea2m='0'+timea2m
+        timea2s=str(int(timea2s%60))
+        if int(timea2s)<10:
+            timea2s='0'+timea2s
+        stimea2=timea2h+':'+timea2m+':'+timea2s
         tempsa1min=str(int(res[5]//60))
         tempsa1sec=str(int(res[5]%60))
+        if int(tempsa1sec)<10:
+            tempsa1sec='0'+tempsa1sec
         tempsa2min=str(int(res[1]//60))
         tempsa2sec=str(int(res[1]%60))
-        stemps1='('+str(tempsa1min)+'min '+str(tempsa1sec)+'s)'
-        stemps2='('+str(tempsa2min)+'min '+str(tempsa2sec)+'s)'
+        if int(tempsa2sec)<10:
+            tempsa2sec='0'+tempsa2sec
+        stemps1='('+tempsa1min+'min '+tempsa1sec+'s)'
+        stemps2='('+tempsa2min+'min '+tempsa2sec+'s)'
         st.write('Il devrait arriver entre ',stimea1,stemps1,' et ',stimea2,stemps2)
         
 

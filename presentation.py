@@ -4,6 +4,8 @@ Created on Fri Jul  2 14:12:44 2021
 
 @authors: Elora, Marie, Nicolas
 """
+import streamlit as st
+
 
 def affichage_pres():
     st.markdown("""
@@ -180,6 +182,10 @@ def affichage_pres():
                 <br/>
                 Nous avons également prêté attention à la densité des incidents répartis sur l'ensemble de la ville (ici en 2020) : 
                 """,unsafe_allow_html = True)
+                
+                
+                
+                
     #tuile=bokeh.tile_providers.get_provider('CARTODBPOSITRON')
     ##p=figure(title='Densité des incidents en 2020',x_axis_label='Longitude',y_axis_label='Latitude',width=900,height=600,x_range=(-53000, 31000), y_range=(6660000, 6755000), x_axis_type='mercator', y_axis_type ='mercator')
     #p.add_tile(tuile)
@@ -188,6 +194,10 @@ def affichage_pres():
     #hover=HoverTool(renderers=[s],tooltips=[("station", "@NomStation")])
     #p.add_tools(hover) 
     #st.bokeh_chart(p, use_container_width=True)
+    st.write('figures/Erreur.html')
+    
+    
+    
     st.markdown("""
                 >   Comme nous nous y attendions, les incidents sont plus nombreux au centre-ville qu'en périphérie, tout comme le sont les stations.
                 <br/><br/>
