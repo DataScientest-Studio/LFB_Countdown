@@ -266,7 +266,7 @@
 >   Pour cette première itération, nous obtenons pour l’ensemble de nos tests, hormis pour le HistGradientBoosting :
 > <ul><li> Des scores R² peu concluants</li>
 > <li>Des MAE d'environ une minute et 10 secondes pour la plupart des modèles.</li></ul>
->   <br>
+>   
 >   Suite à cette itération, nous avons essayé de renouveler l'expérience avec ces modèles sur le dataset complet.
 
 <br>
@@ -320,8 +320,8 @@
 	max_depth = 40
 	n_estimators = 488
    
-   <br/>  
->
+<br/>  
+
 >   | model                                                                         |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
 >   |:------------------------------------------------------------------------------|-----------:|----------:|------------:|-----------:|------------:|-----------:|
 >   |LGBMRegressor1 |   0.454652 |  0.409216 |     9284.22 |    8943.85 |     62.8125 |    63.2457 |
