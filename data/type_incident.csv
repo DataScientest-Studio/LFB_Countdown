@@ -1,0 +1,21 @@
+,type_incident
+0,Chimney Fire
+1,Automatic Fire Alarm
+2,Flooding
+3,Primary Fire
+4,Road Traffic Collision
+5,Effecting entry/exit
+6,Making Safe (not RTC)
+7,Secondary Fire
+8,Rescue or evacuation from water
+9,Removal of objects from people
+10,Animal assistance incidents
+11,Lift Release
+12,Medical Incident
+13,Other Transport incident
+14,Spills and Leaks (not RTC)
+15,Other rescue/release of persons
+16,Suicide/attempts
+17,Hazardous Materials incident
+18,Advice Only
+19,Evacuation (no fire)
