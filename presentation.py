@@ -203,14 +203,14 @@ def affichage_pres():
     
     dfgeo['Longmerc'],dfgeo['Latmerc']=transform(Proj(init='epsg:4326'), Proj(init='epsg:3857'), dfgeo['Longitude'].values, dfgeo['Latitude'].values)
     stations['Longmerc'],stations['Latmerc']=(transform(Proj(init='epsg:4326'), Proj(init='epsg:3857'), stations['Longitude'].values, stations['Latitude'].values));
-    dfgeo21=dfgeo[dfgeo['CallYear']==2021]
-    dfgeo20full=dfgeo[dfgeo['CallYear']==2020].sample(6000)
-    dfgeo20=dfgeo[dfgeo['CallYear']==2020].sample(5000)
-    dfgeo19=dfgeo[dfgeo['CallYear']==2019].sample(5000)
+    dfgeo21=dfgeo[dfgeo['CallYear']==2021].sample(7000)
+    dfgeo20f=dfgeo[dfgeo['CallYear']==2020].sample(5000)
+    dfgeo20=dfgeo[dfgeo['CallYear']==2020].sample(7000)
+    dfgeo19=dfgeo[dfgeo['CallYear']==2019].sample(7000)
     sourcest=ColumnDataSource(data=stations)
 
     source21=ColumnDataSource(data=dfgeo21)
-    source20f=ColumnDataSource(data=dfgeo20full)
+    source20f=ColumnDataSource(data=dfgeo20f)
     source20=ColumnDataSource(data=dfgeo20)
     source19=ColumnDataSource(data=dfgeo19)
     

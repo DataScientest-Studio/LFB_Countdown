@@ -18,7 +18,7 @@ from preprocessing import generate_test_data
 from modelisation import get_model
 
 from geopy.geocoders import Nominatim
-
+from presentation import affichage_pres
 
 
 page = st.sidebar.radio("", options = ['Présentation', 'Modélisation','Application']) 
@@ -37,19 +37,7 @@ property_type = pd.read_csv("data/property_type.csv", index_col = 0)
 if page == 'Présentation':
     st.title("LFB CountDown")
     
-    st.markdown("""
-                <center><h1>Projet London Fire Brigade CountDown</h1></center>\n
-                <br/> coucou
-                <br/>\n
-                    
-                                                     \n
-                                                     \n
-                <center><h3>Elora VABOIS, Marie LE COZ, Nicolas RAYMOND</h3></center>\n
-    
-                
-                                
-                
-                """,unsafe_allow_html = True)
+    affichage_pres()
     
 #    img = plt.imread("assets/titanic.jpg")
     
@@ -59,7 +47,7 @@ if page == 'Présentation':
     
     #fig = plt.gcf()
 
-    #st.pyplot(fig) 
+(    #st.pyplot(fig) 
     
     
     
