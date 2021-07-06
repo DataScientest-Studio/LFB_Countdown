@@ -310,18 +310,19 @@
 >   3 hyper-paramètres testés avec 200 trials :
 >   <br/>
 >   
->	learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
->	max_depth = trial.suggest_int('max_depth', 2, 50)
->	n_estimators = trial.suggest_int('n_estimators', 20,500)
+	learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
+	max_depth = trial.suggest_int('max_depth', 2, 50)
+	n_estimators = trial.suggest_int('n_estimators', 20,500)
 >  
 >   Best trial :
 <br/>
->   ```py
-learning_rate = 0.1012069771826192
-max_depth = 40
-n_estimators = 488
->   ```
+>   
+	learning_rate = 0.1012069771826192
+	max_depth = 40
+	n_estimators = 488
+>   
 >   <br/>  
+>
 >   | model                                                                         |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
 >   |:------------------------------------------------------------------------------|-----------:|----------:|------------:|-----------:|------------:|-----------:|
 >   |LGBMRegressor1 |   0.454652 |  0.409216 |     9284.22 |    8943.85 |     62.8125 |    63.2457 |
@@ -334,25 +335,26 @@ n_estimators = 488
 <u><em>Etape 2</em></u>
 >   6 hyper-paramètres testés avec 200 trials :
 >   <br/>
->   ```py
-learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
-max_depth = trial.suggest_int('max_depth', 2, 80)
-n_estimators = trial.suggest_int('n_estimators', 20,800)
-reg_alpha = trial.suggest_loguniform('reg_alpha', 1e-5,10)
-reg_lambda = trial.suggest_loguniform('reg_lambda', 1e-5,10)
-subsample_for_bin = trial.suggest_int('subsample_for_bin', 200000, 500000)
->   ```
+>   
+	learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
+	max_depth = trial.suggest_int('max_depth', 2, 80)
+	n_estimators = trial.suggest_int('n_estimators', 20,800)
+	reg_alpha = trial.suggest_loguniform('reg_alpha', 1e-5,10)
+	reg_lambda = trial.suggest_loguniform('reg_lambda', 1e-5,10)
+	subsample_for_bin = trial.suggest_int('subsample_for_bin', 200000, 500000)
+>   
 >   Best trial :
 <br/>
->   ```py
-learning_rate = 0.0735978242412042
-max_depth = 76
-n_estimators = 737
-reg_alpha = 0.000987737786289064
-reg_lambda = 3.6393223694815996e-05
-subsample_for_bin = 226071
->   ```
+>   
+	learning_rate = 0.0735978242412042
+	max_depth = 76
+	n_estimators = 737
+	reg_alpha = 0.000987737786289064
+	reg_lambda = 3.6393223694815996e-05
+	subsample_for_bin = 226071
+>   
 >   <br/> 
+>
 >   | model                                                                            |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
 >   |:---------------------------------------------------------------------------------|--------------:|-------------:|------------:|-----------:|------------:|-----------:|
 >   |LGBMRegressor2    |      0.459334 |     0.410594 |      9204.5 |       8923 |      62.532 |    63.1363 ||
@@ -362,29 +364,30 @@ subsample_for_bin = 226071
 <u><em>Etape 3</em></u>
 >   8 hyper-paramètres testés avec 200 trials :
 >   <br/>
->   ```py
-learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
-max_depth = trial.suggest_int('max_depth', 2, 40)
-n_estimators = trial.suggest_int('n_estimators', 20,500)
-reg_alpha = trial.suggest_loguniform('reg_alpha', 1e-5,10)
-reg_lambda = trial.suggest_loguniform('reg_lambda', 1e-5,10)
-num_leaves = trial.suggest_int('num_leaves', 10, 50)
-min_split_gain = trial.suggest_uniform('min_split_gain', 0,1)
-min_child_samples = trial.suggest_int('min_child_samples', 5, 50)
->   ```
+>   
+	learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
+	max_depth = trial.suggest_int('max_depth', 2, 40)
+	n_estimators = trial.suggest_int('n_estimators', 20,500)
+	reg_alpha = trial.suggest_loguniform('reg_alpha', 1e-5,10)
+	reg_lambda = trial.suggest_loguniform('reg_lambda', 1e-5,10)
+	num_leaves = trial.suggest_int('num_leaves', 10, 50)
+	min_split_gain = trial.suggest_uniform('min_split_gain', 0,1)
+	min_child_samples = trial.suggest_int('min_child_samples', 5, 50)
+>   
 >   Best trial :
 <br/>
->   ```py
-learning_rate = 0.08611376087571489
-max_depth = 28
-n_estimators = 467
-reg_alpha = 0.007369798680853325
-reg_lambda = 0.0002296807544488281
-num_leaves = 47
-min_split_gain = 0.5709551773016567
-min_child_samples = 32
->   ```
+>   
+	learning_rate = 0.08611376087571489
+	max_depth = 28
+	n_estimators = 467
+	reg_alpha = 0.007369798680853325
+	reg_lambda = 0.0002296807544488281
+	num_leaves = 47
+	min_split_gain = 0.5709551773016567
+	min_child_samples = 32
+>   
 >   <br/>
+>
 >   |model                                                                           |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
 >   |:--------------------------------------------------------------------------------|--------------:|-------------:|------------:|-----------:|------------:|-----------:|
 >   |LGBMRegressor3    |      0.463816 |     0.411167 |     9128.22 |    8914.33 |     62.1916 |     63.052 ||
@@ -394,29 +397,30 @@ min_child_samples = 32
 <u><em>Etape 4</em></u>
 >   8 hyper-paramètres testés avec 400 trials :
 <br/>
->   ```py 
-learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
-max_depth = trial.suggest_int('max_depth', 2, 20)
-n_estimators = trial.suggest_int('n_estimators', 20,300)
-reg_alpha = trial.suggest_loguniform('reg_alpha', 1e-5,10)
-reg_lambda = trial.suggest_loguniform('reg_lambda', 1e-5,10)
-num_leaves = trial.suggest_int('num_leaves', 10, 35)
-min_split_gain = trial.suggest_uniform('min_split_gain', 0,1)
-min_child_samples = trial.suggest_int('min_child_samples', 40, 200)
->   ```
+>   
+	learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
+	max_depth = trial.suggest_int('max_depth', 2, 20)
+	n_estimators = trial.suggest_int('n_estimators', 20,300)
+	reg_alpha = trial.suggest_loguniform('reg_alpha', 1e-5,10)
+	reg_lambda = trial.suggest_loguniform('reg_lambda', 1e-5,10)
+	num_leaves = trial.suggest_int('num_leaves', 10, 35)
+	min_split_gain = trial.suggest_uniform('min_split_gain', 0,1)
+	min_child_samples = trial.suggest_int('min_child_samples', 40, 200)
+>   
 >   Best trial :
 >   <br/>
->   ```py
-learning_rate = 0.1512198354101122
-max_depth = 17
-n_estimators = 295
-reg_alpha = 0.0005383830447172724
-reg_lambda = 0.00011538095876075694
-num_leaves = 32
-min_split_gain = 0.473924522550586
-min_child_samples = 43
->   ```
+>   
+	learning_rate = 0.1512198354101122
+	max_depth = 17
+	n_estimators = 295
+	reg_alpha = 0.0005383830447172724
+	reg_lambda = 0.00011538095876075694
+	num_leaves = 32
+	min_split_gain = 0.473924522550586
+	min_child_samples = 43
+>   
 >   <br/>
+>
 >   |model                                                                        |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
 >   |:-----------------------------------------------------------------------------|--------------:|-------------:|------------:|-----------:|------------:|-----------:|
 >   |LGBMRegressor4 |      0.445746 |     0.410001 |     9435.83 |    8931.97 |     63.1968 |    63.1481 ||
