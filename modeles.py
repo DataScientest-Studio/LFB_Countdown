@@ -91,7 +91,133 @@ def affichage_mod():
                 Nous avons également remplacé HistGradientBoosting par LightGBM qui est optimisé en temps de calcul.
                 <br/><br/>
                 Au cours des différentes itérations, il a fallu déterminer si nous étions en régime de sur ou sous-apprentissage et le combattre.
-                <br/><br/>
+                <br/>
+                
+                <h5><li> Modèles entraînés et ajustement réalisés </li></h5>
+                <br/>
+                Nous avons entraîné le modèle LGBMRegressor avec le package Optuna. Nous avons procédé en plusieurs itérations pour trouver quels hyper-paramètres tester et sur quelles plages.
+                <br/>
+                <h3>C - Choix et interprétabilité du modèle</h3>
 
+                <h4> i - Modèle retenu  </h4> 
+                <br/>
+                
+                >   | model                                                                            |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
+                |:---------------------------------------------------------------------------------|--------------:|-------------:|------------:|-----------:|------------:|-----------:|
+                | LGBMRegressor1    |      0.454652 |     0.409216 |     9284.22 |    8943.85 |     62.8125 |    63.2457 ||
+                | LGBMRegressor2   |      0.459334 |     0.410594 |     9204.50  |    8923.00    |     62.5320  |    63.1363 ||
+                | LGBMRegressor3    |      0.463816 |     0.411167 |     9128.22 |    8914.33 |     62.1916 |    63.0520  ||
+                | LGBMRegressor4     |      0.445746 |     0.410001 |     9435.83 |    8931.97 |     63.1968 |    63.1481 ||            |
+                <br/><br/>  
+                Finalement, nous avons décidé de retenir le modèle LGBMRegressor4 qui produit de bons résultats tout en exigeant un temps de calcul très raisonnable (non seulement par rapport aux modèles de la première itération puisque LightGBM est optimisé, mais également par rapport aux 3 premiers LGBMRegressor car c'est celui qui présente le n_estimators le plus faible). On pourra lui reprocher d’être peu interprétable mais nous allons essayer d’y remédier dans la partie suivante grâce aux packages Skater et Shap.
+                <br/>
+                <h4> ii - Interprétabilité du modèle  </h4> 
+
+                <h5><li> Visualisation géographique de l'erreur </li></h5>
+                <br/>
+                Avant d'utiliser les packages d'interprétabilité, nous allons visualiser géographiquement l'erreur sur le jeu de données test, de manière à repérer d'éventuelles anomalies ou bien à confirmer la performance du modèle.
+                <br/>
+                
                 """,unsafe_allow_html = True)
 
+    st.markdown("""
+                <br/>
+                On peut voir sur cette figure que les erreurs importantes (nous avons représenté les erreurs de plus de 2 minutes en rouge) sont réparties de manière à peu près homogènes sur la carte. On peut cependant repérer qu'elles sont un peu plus présentes en périphérie de la ville. Cela peut être dû au fait que ces incidents - éloignés des stations - sont peu nombreux et subissent des conditions de trafic différentes de celles du centre-ville - où se trouvent la majorité des incidents.
+
+                <h5><li> Features importance du modèle LGBMRegressor </li></h5>
+
+                <br/>
+                Voici les features importantes d'après le modèle :
+                <br>
+                """,unsafe_allow_html = True)
+    st.image("figures\Feature_importance_LGBM.png")
+    st.markdown("""
+                <br/>
+                Ce graphique nous permet de hiérarchiser les variables selon leur importance pour la détermination du temps d’attente des pompiers d’après notre modèle. La variable la plus importante est la distance entre le lieu de l’incident et la station depuis laquelle est déployé le véhicule (distFromStation). 
+                <br/><br/>
+                Nous voyons ensuite que l’heure d’appel (TimeOfCall) est également déterminante : en effet, on peut supposer que le trafic routier n’est pas le même en fonction de l’heure de la journée et que cela joue un rôle important. <br/>Le nombre de véhicules déployés (NumPumpsAttending) est ensuite représenté, on peut supposer que l’urgence de la situation impacte le nombre de véhicules et le temps de déploiement, ce qui pourrait lier ces deux variables.
+                <br/><br/>
+                Le fait que l’incident ait lieu dans un logement (Property_Dwelling) et non à l'extérieur, sur la route ou autre, semble également être un critère important. On peut effectivement penser qu’il est plus facile de se rendre dans une habitation qu’en extérieur sans repère précis, car le fait de connaître l'adresse réduira le temps nécessaire pour se rendre sur place.
+
+                <h5><li> Package Skater </li></h5>
+                <br/>
+                Le package Skater nous permet également de faire émerger l'importance des features dans la détermination du modèle. Ci-dessous le top 10 des features les plus importants :
+                <br>
+                """,unsafe_allow_html = True)
+                
+   st.image("figures\Skater_top10.png", width=700)
+   st.markdown("""
+               <br/>
+               Comme identifié précédemment avec les features_Importance du modèle LGBM retenu, la distance entre le lieu de l’incident et la station depuis laquelle le véhicule est déployé (distFromStation) est à nouveau de le feature qui contribue de très loin le plus au modèle. 
+               <br/><br/>
+               Nous voyons à nouveau ressortir le nombre de véhicules déployés (NumPumpsAttending) ainsi que l'heure d'appel (TimeOfCall) et certains types de propriétés (Property_NonResidential et Property_Outdoor).
+               <br/><br/>
+               Le package Skater nous permet par ailleurs de disposer d'informations plus précises sur l'impact de ces features dans la prédiction du modèle.
+               <br/>   
+               Ainsi, la distance (distFromStation) affiche une relation quasi linéaire avec le temps d’attente prédit. Ceci paraît logique puisque plus la station est loin de l’incident, plus le temps de trajet a des chances d'être important.
+               <br/>
+               """,unsafe_allow_html = True)
+               
+    st.image("figures\distFromStation.png", width=500)
+    st.markdown("""
+                <br/>
+                S'agissant du nombre de véhicules déployés (NumPumpsAttending), on constate que plus le nombre de camions qui interviennent est important, plus le temps d’attente prédit est court. Cela pourrait s'expliquer par le fait que les incidents necéssitant l'intervention de plusieurs véhicules ont probablement un niveau de gravité plus important et nécessitent en conséquence une réactivité plus forte des secours.
+                <br/>
+                """,unsafe_allow_html = True)
+                
+    st.image("figures\NumPumpsAttending.png", width=500)
+    st.markdown("""
+                <br/>
+                L'heure à laquelle est donnée l'alerte (TimeOfCall) est ensuite le troisième feature en termes d'importance. Le temps d’attente prédit est plus long durant les heures de nuit qu’en journée. On peut supposer qu'il y a moins d'équipes disponibles la nuit, ce qui allongerait les temps d'attente. 
+                <br/>
+                """,unsafe_allow_html = True)
+                
+    st.image("figures\TimeOfCall.png", width=500)
+    st.markdown("""
+                <br/>
+                Lorsqu’on compare cette courbe avec celle du temps d'attente réel (ci-dessous), on se rend compte que le modèle prend bien en compte les disparités observées selon les tranches horaires. 
+                <br/>
+                """,unsafe_allow_html = True)
+                
+    st.image("figures\Temps_attente_par_heures_Xtrain.png", width=500)
+    st.markdown("""
+                <br/> 
+                Enfin, parmi les autres facteurs qui contribuent le plus au modèle, on retrouve différents features issus de la variable PropertyType (Outdoor, NonResidential, Roadvehicle). Si Skater identifie la nature du lieu d'intervention parmi les facteurs les plus contributifs au modèle, les graphiques ci-dessous ne montrent cependant pas de différence marquée au niveau de la prédiction. Nous pouvons en déduire que ces critères, pris indépendamment, ne jouent pas un rôle important, mais que leur importance est conditionnée par le fait d'être combinée avec un ou plusieurs autres features.
+                <br/>
+                """,unsafe_allow_html = True)
+                
+    st.image("figures\Property_Outdoor.png", width=500)
+    st.image("figures\Property_NonResidential.png", width=500)
+    st.image("figures\Property_RoadVehicle.png", width=500)
+    st.markdown("""
+                <h5><li> Package Shap </li></h5>
+                <br/>
+                Le package Shap nous propose également une autre lecture de l'importance des features pour le modèle. Celui-ci détermine le classement suivant des 10 features les plus importants :
+                <br/>
+                """,unsafe_allow_html = True)
+    st.image("figures\Shap_feature_importance.png", width=700)
+    st.markdown("""
+                <br/>
+                On retrouve à nouveau la distance entre la station et l’incident (distFromStation) comme étant le facteur principal de la prédiction. Nous trouvons ensuite le nombre de véhicules déployés (NumPumpsAttending), l’heure d’appel (TimeOfCall) et le fait que le lieu de l'incident soit non résidentiel (Property_NonResidential).
+                <br/>   
+                """,unsafe_allow_html = True)
+    st.image("figures\Shap_value_feature.png", width=700)
+    st.markdown("""
+                <br/>   
+                Sur ce second graphique, nous pouvons voir que plus la distance entre la station et l’incident est grande, plus elle influe positivement sur le temps d’attente. Et à l'inverse, une diminution de la distance tend à réduire le temps d’attente&#8239;: cela confirme la relation forte existante entre la distance séparant le lieu d'incident et la caserne avec le temps d'attente. 
+                <br><br> 
+                Concernant les deux variables suivantes, les différentes valeurs sont moins dissociées, il est donc plus difficile de tirer des conclusions. On peut tout de même dire que lorsque peu de camions sont déployés (NumPumpsAttending), le temps d'attente augmente légèrement.
+                <br><br>
+                Lorsque l'incident a lieu dans un lieu non résidentiel (Property_NonResidential), le temps d'attente diminue légèrement.
+                <br><br> Les incidents en extérieur (Property_Outdoor) peuvent soit faire diminuer, soit faire augmenter le temps d'attente.
+                <br><br>Les incidents ayant lieu le dimanche semble bénéficier d'un temps d'attente légèrement inférieur comme nous l'avons vu lors de l'exploration de données.
+                <br><br>Comme nous l’avions identifié lors de l’analyse des données, le modèle a bien retranscrit le fait que lorsque l’incident est de type médical (IncidentType_MedicalIncident), le temps d’attente diminue grandement. C'est également le cas en moindre proportion pour les accidents de la route (IncidentType_RoadTrafficCollision).
+                <br/>
+                
+                <h3>D - Conclusion sur la partie modélisation</h3>
+                <br/>
+                Notre modèle présente une précision moyenne (MAE) d'environ 1 minute (63 secondes). Ceci semble être raisonnable lorsqu'on pense aux applications qui peuvent en être faites. En effet, si un opérateur téléphonique des pompiers l'utilise pour annoncer un temps d'attente estimé aux victimes, une minute d'erreur semble être acceptable. D'autre part, le calcul de cette estimation par notre modèle sera suffisament rapide pour cette utilisation.
+                <br><br>
+                Grâce à cette étude d'interprétabilité, nous avons pu voir que notre modèle semble présenter une logique plutôt compréhensible. Les variables utilisées semblent logiquement influentes et correspondent globalement à ce que l'on avait pu identifier lors de l'analyse des données.
+                <br/>
+                """,unsafe_allow_html = True)
