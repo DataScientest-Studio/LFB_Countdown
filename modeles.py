@@ -6,6 +6,12 @@ Created on Tue Jul  6 16:31:26 2021
 """
 
 import streamlit as st
+import pandas as pd
+from pyproj import Proj, transform
+from bokeh.palettes import brewer
+import bokeh.tile_providers
+from bokeh.models import ColumnDataSource, HoverTool,ColorBar,LinearColorMapper
+from bokeh.plotting import figure
 
 
 
@@ -13,7 +19,7 @@ def affichage_mod():
 
     st.markdown("""
 
-                <h2>2 - MODELISATION</h2>
+                
 
                 <h3>A - Preprocessing des données</h3> 
                 <br>
@@ -104,10 +110,10 @@ def affichage_mod():
                 
                 | model                                                                            |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
                 |:---------------------------------------------------------------------------------|--------------:|-------------:|------------:|-----------:|------------:|-----------:|
-                | LGBMRegressor1    |      0.454652 |     0.409216 |     9284.22 |    8943.85 |     62.8125 |    63.2457 ||
-                | LGBMRegressor2   |      0.459334 |     0.410594 |     9204.50  |    8923.00    |     62.5320  |    63.1363 ||
-                | LGBMRegressor3    |      0.463816 |     0.411167 |     9128.22 |    8914.33 |     62.1916 |    63.0520  ||
-                | LGBMRegressor4     |      0.445746 |     0.410001 |     9435.83 |    8931.97 |     63.1968 |    63.1481 ||            |
+                | LGBMRegressor1    |      0.454652 |     0.409216 |     9284.22 |    8943.85 |     62.8125 |    63.2457 |
+                | LGBMRegressor2   |      0.459334 |     0.410594 |     9204.50  |    8923.00    |     62.5320  |    63.1363 |
+                | LGBMRegressor3    |      0.463816 |     0.411167 |     9128.22 |    8914.33 |     62.1916 |    63.0520  |
+                | LGBMRegressor4     |      0.445746 |     0.410001 |     9435.83 |    8931.97 |     63.1968 |    63.1481 |
                 <br/>
                 Finalement, nous avons décidé de retenir le modèle LGBMRegressor4 qui produit de bons résultats tout en exigeant un temps de calcul très raisonnable (non seulement par rapport aux modèles de la première itération puisque LightGBM est optimisé, mais également par rapport aux 3 premiers LGBMRegressor car c'est celui qui présente le n_estimators le plus faible). On pourra lui reprocher d’être peu interprétable mais nous allons essayer d’y remédier dans la partie suivante grâce aux packages Skater et Shap.
                 <br/>
@@ -119,13 +125,41 @@ def affichage_mod():
                 <br/>
                 
                 
-                
-                
                 """, unsafe_allow_html = True)
                 
-                
-                
-                
+    dferreur=pd.read_csv('data/erreur.csv')            
+    source_erreur=ColumnDataSource(data=dferreur)      
+
+    stations=pd.read_csv('data/Stations_clean.csv',index_col=0)
+    stations['Longmerc'],stations['Latmerc']=(transform(Proj(init='epsg:4326'), Proj(init='epsg:3857'), stations['Longitude'].values, stations['Latitude'].values));
+    sourcest=ColumnDataSource(data=stations)
+      
+    tuile=bokeh.tile_providers.get_provider('CARTODBPOSITRON')
+
+    #Création de la colorbar
+    palette = brewer['RdYlGn'][5]
+    color_mapper = LinearColorMapper(palette=palette, low=0, high=150)
+    color_bar = ColorBar(color_mapper=color_mapper, width=8,location=(0,0), label_standoff=8)
+
+    #Création de la figure
+    p=figure(title="Erreur de prédiction (en s)",x_axis_label='Longitude',y_axis_label='Latitude',
+         width=900,height=600,x_range=(-53000, 31000), y_range=(6660000, 6755000), x_axis_type='mercator', y_axis_type ='mercator')
+    p.add_tile(tuile)
+    #Plot des erreurs pour chanque incident
+    p.circle(source=source_erreur,x='Longmerc',y='Latmerc',alpha=0.5,line_alpha =0.5,size=2.5,color = {'field' :'erreur', 'transform' : color_mapper})
+    #Plot des stations
+    s=p.triangle(source=sourcest,x='Longmerc',y='Latmerc',color='black',size=7)
+
+    #Outil de survol pour les informations de chaque station
+    hover=HoverTool(renderers=[s],tooltips=[("station", "@NomStation")])
+
+    #Ajout de la colorbar à la figure
+    p.add_layout(color_bar, 'left')
+    #Ajout de l'outil de survoll à la figure
+    p.add_tools(hover)
+
+    #Affichage de la figure
+    st.bokeh_chart(p, use_container_width=True)
                 
                 
                 

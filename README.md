@@ -6,7 +6,7 @@
 
 <h3>Elora VABOIS, Marie LE COZ, Nicolas RAYMOND</h3>
 <h3>DA Bootcamp Mai 2021</h3>
-<br/><br/>
+<br/>
 
 
 <h2>INTRODUCTION</h2>
@@ -20,11 +20,12 @@
 
 <br/><br/>
 <h2>1 - ANALYSE DES DONNEES</h2>
-<br/>
 
 <h3>A - Introduction aux données</h3> 
 
-> </br>Nous avons à notre disposition 3 jeux de données officielles afin d'analyser les contours du projet : 
+</br>
+
+> Nous avons à notre disposition 3 jeux de données officielles afin d'analyser les contours du projet : 
 > <ul><li>Un fichier regroupant tous les incidents entre 2009 et 2021 </li>
 >   <li>Un fichier regroupant tous les déploiements sur ces incidents (matériels) sur la même période </li> 
 >   <li>Un fichier récent de la liste des casernes de la brigade </li></ul>
@@ -38,8 +39,6 @@
 >   Le but de notre étude est de pouvoir mettre en place un modèle prédictif qui indiquera le temps d'attente entre un appel et l'arrivée des secours sur place en fonction de plusieurs critères à déterminer. 
 <br/>
 
-
-<br/>
 <h3>B - Nettoyage des données</h3> 
 
 >   Dans un premier temps, un nettoyage et une réduction du jeu de données s'avère indispensable afin de :
@@ -49,9 +48,8 @@
 >   Nous avons donc réduit et nettoyé au maximum notre dataset pour en faciliter l'étude. Notre action majeure a été d'éliminer toutes les données antérieures à 2014 en raison de la fermeture d'une dizaine de stations à cette date, cela induisant inévitablement un problème de comparabilité de plusieurs indicateurs.<br/>
 >  Nous avons également éliminé nombre de variables inutiles à notre étude et avons reconstitué les données manquantes, notamment les coordonnées géographiques des incidents et des stations. <br/>
 >  Enfin, nous avons supprimé quelques incidents ayant peu de sens pour notre étude, comme les incidents de type "Water Provision" pour lequels nous avions très peu d'observations.
-
-
 <br/>
+
 <h3>C - Analyse des données</h3> 
 
 <h4>i - Analyse des incidents en fonction des variables temporelles </h4> 
@@ -88,18 +86,19 @@
 >  <br/>
 >   Nous nous sommes également intéressés à savoir si ces mêmes variables pouvaient avoir une incidence sur le temps d'attente, c'est-à-dire le temps passé entre l'appel des secours et leur arrivée sur place.
 >   
->  <br/>
+>  <br/><br/>
 >   <p align="center"><img src=figures\Temps_attente_par_mois.png width=600></p>
 >   <p align="center"><img src=figures\Temps_attente_par_jour.png width=600></p>
 >   <p align="center"><img src=figures\Temps_attente_par_heures.png width=600></p>
->  <br/><br/>
+>  
 >   Les variations sur le temps d'attente sont moins flagrantes, mais s'expliquent en grande partie par le fait que cette variable n'a pas une grande amplitude de manière générale.<br/><br/>
 >  Néanmoins, certains enseignements se recoupent avec la distribution des incidents décrite plus haut :
 >   <ul><li> Le temps d'attente est sensiblement plus important sur les mois estivaux, tout comme l'était la densité des incidents.</li>
 >   <li> En revanche, nous n'observons pas de relation clairement visible entre le temps d'attente et le jour de la semaine ou l'heure de la journée.</li></ul>
->  <br/><br/>
+>  
 >   Nous avons également vérifié à l'aide de tests ANOVA si ces variables temporelles influencent significativement le temps d'attente. 
->   <br/>
+>   <br/><br>
+>
 >   |          |    df |      sum_sq |        mean_sq |        F |        PR(>F) |
 >  |:---------|------:|------------:|---------------:|---------:|--------------:|
 >  | Mois     |     1 | 1.2569e+06  |     1.2569e+06 |  18.1985 |   1.99319e-05 |
@@ -127,9 +126,10 @@
 >  Regardons tout d'abord la répartition des types d'incidents traités par la London Fire Brigade depuis 2014 :
 >  <br/><br/>
 >   <p align="center"><img src=figures\Moyenne_par_type.png width=600></p>
->  <br/><br/>
->   On remarque que la grande majorité des sources d'intervention sont liées aux Alarmes Automatiques d'Incendie. Ensuite, et dans une moindre mesure, on retrouve comme autres raisons principales : les incendies, les opérations d'entrée-sortie de personnes, les innondations puis les accidents de la route. D'après notre test ANOVA, le type d'incident a un lien significatif avec le nombre d'incidents (p value nulle).
 >  <br/>
+>   On remarque que la grande majorité des sources d'intervention sont liées aux Alarmes Automatiques d'Incendie. Ensuite, et dans une moindre mesure, on retrouve comme autres raisons principales : les incendies, les opérations d'entrée-sortie de personnes, les innondations puis les accidents de la route. D'après notre test ANOVA, le type d'incident a un lien significatif avec le nombre d'incidents (p value nulle).
+>  <br/><br/>
+>
 >  |          |    df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >  |:---------|------:|------------:|----------------:|--------:|---------:|
 >  | type     |    25 | 9.44883e+07 |     3.77953e+06 | 238.183 |        0 |
@@ -137,12 +137,13 @@
 >  
 >  <br/><br/>
 >  Ici encore, nous vérifions l'incidence sur le temps d'attente visuellement puis statistiquement.
->  <br/><br/>
+>  <br/>
 >   <p align="center"><img src=figures\Temps_attente_par_type.png width=800></p>
->  <br/><br/>
+>  <br/>
 >   Le temps d'attente évolue donc du simple au double selon le type d'incident. La LFB met deux fois plus de temps pour se rendre sur un incendie que pour porter secours lors d'une noyade.
 >  Cette influence de la nature de l'intervention sur le temps d'attente est par ailleurs confirmée par le test ANOVA qui indique un lien significatif entre les deux variables (p value nulle).
->  <br/>
+>  <br/><br/>
+>
 >  |          |    df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >  |:---------|------:|------------:|----------------:|--------:|---------:|
 >  | type     |    25 | 1.34913e+08 |     5.39652e+06 |  69.132 |        0 |
@@ -154,11 +155,10 @@
 >   Dans un premier temps, nous avons souhaité visualiser l'ensemble des incidents en fonction de leur localisation, en colorant chaque point, représentant un incident, en fonction de la station qui a répondu en premier sur l'intervention.
 >  <br/><br/>
 >  Ceci nous permet de voir la répartition des stations et leur rayon d'action :
->  <br/><br/>
 >   <p align="center"><img src=figures\Carte_incident_station.png></p>
->  <br/><br/>
 >   Le test ANOVA évaluant l'indépendance de la station de déploiement du temps d'attente nous montre un lien significatif entre ces variables (p value nulle). On peut donc supposer que : soit certaines stations sont intrinsèquement plus performantes que d'autres (grâce à des équipes plus expérimentées par exemple), soit c'est l'emplacement des stations qui va agir indirectement sur le temps d'attente.
 >   <br/>
+>
 >  |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >  |:-------------------------|-------:|------------:|----------------:|--------:|---------:|
 >  | DeployedFromStation_Code |    101 | 5.69136e+08 |     5.63501e+06 | 315.144 |        0 |
@@ -166,13 +166,14 @@
 >   
 >  <br/>
 >  Nous avons également prêté attention à la densité des incidents répartis sur l'ensemble de la ville (ici en 2020) : 
->
+> <br>
 >  voir figure CarteDeDensiteBokeh.html
 >
 >   Comme nous nous y attendions, les incidents sont plus nombreux au centre-ville qu'en périphérie, tout comme le sont les stations.
 > <br/><br/>
 > Le test ANOVA entre le nombre d'incidents et le district (PostCode_district) du lieu d'incident indique un lien significatif entre ces variables (p value nulle).
 >   <br/>
+>
 >   |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
 > |:-------------------------|-------:|------------:|----------------:|--------:|---------:|
 > | District |    328.0 | 3.343984e+08 |     1.019507e+06 | 22.724574 |        0 |
@@ -180,13 +181,14 @@
 >
 >   <br/>
 > Nous avons ensuite souhaité voir la répartition géographique des incidents sur la carte de Londres, en filtrant les données par année et en colorant ces points par rapport aux temps d'attente (les points verts représentant les temps d'attente les plus faibles, les points rouges les plus longs). Nous avons inséré les stations sur cette carte (triangles noirs) afin de visualiser l'impact de la proximité avec une station sur le délai d'intervention.
->
+><br>
 >  voir figure TempsDAttenteParAn.html
 >
 >   Cette dernière visualisation permet de bien identifier les zones en fonction de la réactivité des secours. On observe que plus l'incident est éloigné d'une station, plus le temps d'attente tend à augmenter. 
 >   <br/><br/>
 >   Le test ANOVA qui concerne le temps d'attente et le district (PostCode_district) du lieu d'incident indique un lien significatif entre ces variables (p value nulle).
 >   <br/>
+>
 >   |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >   |:-------------------------|-------:|------------:|----------------:|--------:|---------:|
 >   | District |    328.0 | 9.468728e+05 |     2886.807444 | 88.86169 |        0 |
@@ -194,7 +196,8 @@
 >  
 >   <br/>
 >   De plus, le test de Pearson liant la distance entre le lieu d'incident et la station de déploiement avec le temps d'attente nous indique que ces variables ont un lien significatif (p value nulle) et que leur corrélation est relativement importante (coefficient de Pearson : 51.5%).
->   <br/>
+>   <br/><br/>
+>
 >   |                          |     résultat test |
 >   |:-------------------------|-------:|
 >   | pearson_coeff |    0.515065 | 
@@ -205,25 +208,26 @@
 
 >   Nous avons également étudié la corrélation entre le type de retard éventuel (DelayCode_Description) et le temps d'attente et notre test ANOVA indique un lien significatif entre ces variables (p value nulle). Cependant, nous ne pourrons pas conserver cette variable pour la modélisation car elle n'est connu qu'à posteriori : elle ne peut donc pas servir à la prédiction.
 >   <br/>
+>
 >   |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >   |:-------------------------|-------:|------------:|----------------:|--------:|---------:|
 >   | DelayCode_Description |    9.0 | 3.273134e+09 |     3.636815e+08 | 26118.986271 |        0 |
 >   | Residual                 | 683811.0 | 9.521404e+09 | 1.392403e+04         | nan     |      nan |
 
-
 <br/>
 <h3>D - Conclusion sur l'analyse des données</h3> 
 
 >   Cette première étape d'analyse des données nous confirme bien que les indicateurs étudiés seront indispensables dans le cadre de la modélisation du temps d'intervention de la LFB. 
-<h2>2 - MODELISATION</h2>
 <br/>
+
+<h2>2 - MODELISATION</h2>
 
 <h3>A - Preprocessing des données</h3> 
 
 >   Une fois l’analyse du dataset réalisée, nous avons procédé au nettoyage et au preprocessing des données, afin d’assurer le bon déroulement de la phase de modélisation.
 >   Nous avons donc déterminé : </br><ul><li>Les variables explicatives à supprimer : celles n’ayant pas influence sur notre variable cible ou étant redondantes avec d’autres variables ainsi que celles n'étant connues qu'à posteriori. </li></br><li>Les variables explicatives à convertir : dichotomisation des variables catégorielles, conversion de la variable ‘TimeOfCall’ en variable numérique (float). </li> </br><li>Les variables explicatives à créer : fusion des 2 variables liées ‘SpecialServiceType’ et ‘StopCodeDescription’ en une variable unique ‘IncidentTypeGlobal’, puis, une fois les coordonnées géographiques des casernes récupérées, création d’une variable ‘distFromStation’ indiquant la distance entre le lieu de l’intervention et la caserne étant intervenue et suppression des coordonnées (car nous avons déjà les variables Borough - quartier - et DeployedFromStation - station de déploiement - qui donnent des indications sur l’emplacement de l’incident). </li></ul>
 >   </br>
->   La majeure partie de nos features étant des variables catégorielles contenant de nombreuses modalités pour la plupart, la dichotomisation a ainsi généré un dataset final avant modélisation de dimension conséquente avec 549 colonnes pour environ 680 000 lignes.<br/><br/>
+>   La majeure partie de nos features étant des variables catégorielles contenant de nombreuses modalités pour la plupart, la dichotomisation a ainsi généré un dataset final avant modélisation de dimension conséquente avec 549 colonnes pour environ 680&#8239;000 lignes.<br/><br/>
 >   Nous avons ensuite mis en place un Train Test split en nous assurant que les données les plus récentes soient conservées pour le test.<br/><br/>
 >   Enfin, nous avons procédé à l’étape de scaling afin de générer un dataset normalisé pour les modèles qui le nécessitent.
 
@@ -262,7 +266,7 @@
 >   Pour cette première itération, nous obtenons pour l’ensemble de nos tests, hormis pour le HistGradientBoosting :
 > <ul><li> Des scores R² peu concluants</li>
 > <li>Des MAE d'environ une minute et 10 secondes pour la plupart des modèles.</li></ul>
->   <br>
+>   
 >   Suite à cette itération, nous avons essayé de renouveler l'expérience avec ces modèles sur le dataset complet.
 
 <br>
@@ -305,19 +309,19 @@
 <u><em>Etape 1</em></u>
 >   3 hyper-paramètres testés avec 200 trials :
 >   <br/>
->   ```py
-learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
-max_depth = trial.suggest_int('max_depth', 2, 50)
-n_estimators = trial.suggest_int('n_estimators', 20,500)
->   ```
+>   
+	learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
+	max_depth = trial.suggest_int('max_depth', 2, 50)
+	n_estimators = trial.suggest_int('n_estimators', 20,500)
+>  
 >   Best trial :
-<br/>
->   ```py
-learning_rate = 0.1012069771826192
-max_depth = 40
-n_estimators = 488
->   ```
->   <br/>  
+
+	learning_rate = 0.1012069771826192
+	max_depth = 40
+	n_estimators = 488
+   
+<br/>  
+
 >   | model                                                                         |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
 >   |:------------------------------------------------------------------------------|-----------:|----------:|------------:|-----------:|------------:|-----------:|
 >   |LGBMRegressor1 |   0.454652 |  0.409216 |     9284.22 |    8943.85 |     62.8125 |    63.2457 |
@@ -330,25 +334,25 @@ n_estimators = 488
 <u><em>Etape 2</em></u>
 >   6 hyper-paramètres testés avec 200 trials :
 >   <br/>
->   ```py
-learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
-max_depth = trial.suggest_int('max_depth', 2, 80)
-n_estimators = trial.suggest_int('n_estimators', 20,800)
-reg_alpha = trial.suggest_loguniform('reg_alpha', 1e-5,10)
-reg_lambda = trial.suggest_loguniform('reg_lambda', 1e-5,10)
-subsample_for_bin = trial.suggest_int('subsample_for_bin', 200000, 500000)
->   ```
+>   
+	learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
+	max_depth = trial.suggest_int('max_depth', 2, 80)
+	n_estimators = trial.suggest_int('n_estimators', 20,800)
+	reg_alpha = trial.suggest_loguniform('reg_alpha', 1e-5,10)
+	reg_lambda = trial.suggest_loguniform('reg_lambda', 1e-5,10)
+	subsample_for_bin = trial.suggest_int('subsample_for_bin', 200000, 500000)
+>   
 >   Best trial :
-<br/>
->   ```py
-learning_rate = 0.0735978242412042
-max_depth = 76
-n_estimators = 737
-reg_alpha = 0.000987737786289064
-reg_lambda = 3.6393223694815996e-05
-subsample_for_bin = 226071
->   ```
->   <br/> 
+  
+	learning_rate = 0.0735978242412042
+	max_depth = 76
+	n_estimators = 737
+	reg_alpha = 0.000987737786289064
+	reg_lambda = 3.6393223694815996e-05
+	subsample_for_bin = 226071
+
+<br/> 
+
 >   | model                                                                            |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
 >   |:---------------------------------------------------------------------------------|--------------:|-------------:|------------:|-----------:|------------:|-----------:|
 >   |LGBMRegressor2    |      0.459334 |     0.410594 |      9204.5 |       8923 |      62.532 |    63.1363 ||
@@ -358,29 +362,30 @@ subsample_for_bin = 226071
 <u><em>Etape 3</em></u>
 >   8 hyper-paramètres testés avec 200 trials :
 >   <br/>
->   ```py
-learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
-max_depth = trial.suggest_int('max_depth', 2, 40)
-n_estimators = trial.suggest_int('n_estimators', 20,500)
-reg_alpha = trial.suggest_loguniform('reg_alpha', 1e-5,10)
-reg_lambda = trial.suggest_loguniform('reg_lambda', 1e-5,10)
-num_leaves = trial.suggest_int('num_leaves', 10, 50)
-min_split_gain = trial.suggest_uniform('min_split_gain', 0,1)
-min_child_samples = trial.suggest_int('min_child_samples', 5, 50)
->   ```
+>   
+	learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
+	max_depth = trial.suggest_int('max_depth', 2, 40)
+	n_estimators = trial.suggest_int('n_estimators', 20,500)
+	reg_alpha = trial.suggest_loguniform('reg_alpha', 1e-5,10)
+	reg_lambda = trial.suggest_loguniform('reg_lambda', 1e-5,10)
+	num_leaves = trial.suggest_int('num_leaves', 10, 50)
+	min_split_gain = trial.suggest_uniform('min_split_gain', 0,1)
+	min_child_samples = trial.suggest_int('min_child_samples', 5, 50)
+>   
 >   Best trial :
+
+
+	learning_rate = 0.08611376087571489
+	max_depth = 28
+	n_estimators = 467
+	reg_alpha = 0.007369798680853325
+	reg_lambda = 0.0002296807544488281
+	num_leaves = 47
+	min_split_gain = 0.5709551773016567
+	min_child_samples = 32
+   
 <br/>
->   ```py
-learning_rate = 0.08611376087571489
-max_depth = 28
-n_estimators = 467
-reg_alpha = 0.007369798680853325
-reg_lambda = 0.0002296807544488281
-num_leaves = 47
-min_split_gain = 0.5709551773016567
-min_child_samples = 32
->   ```
->   <br/>
+
 >   |model                                                                           |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
 >   |:--------------------------------------------------------------------------------|--------------:|-------------:|------------:|-----------:|------------:|-----------:|
 >   |LGBMRegressor3    |      0.463816 |     0.411167 |     9128.22 |    8914.33 |     62.1916 |     63.052 ||
@@ -389,30 +394,31 @@ min_child_samples = 32
 
 <u><em>Etape 4</em></u>
 >   8 hyper-paramètres testés avec 400 trials :
-<br/>
->   ```py 
-learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
-max_depth = trial.suggest_int('max_depth', 2, 20)
-n_estimators = trial.suggest_int('n_estimators', 20,300)
-reg_alpha = trial.suggest_loguniform('reg_alpha', 1e-5,10)
-reg_lambda = trial.suggest_loguniform('reg_lambda', 1e-5,10)
-num_leaves = trial.suggest_int('num_leaves', 10, 35)
-min_split_gain = trial.suggest_uniform('min_split_gain', 0,1)
-min_child_samples = trial.suggest_int('min_child_samples', 40, 200)
->   ```
+> <br/>
+>   
+	learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
+	max_depth = trial.suggest_int('max_depth', 2, 20)
+	n_estimators = trial.suggest_int('n_estimators', 20,300)
+	reg_alpha = trial.suggest_loguniform('reg_alpha', 1e-5,10)
+	reg_lambda = trial.suggest_loguniform('reg_lambda', 1e-5,10)
+	num_leaves = trial.suggest_int('num_leaves', 10, 35)
+	min_split_gain = trial.suggest_uniform('min_split_gain', 0,1)
+	min_child_samples = trial.suggest_int('min_child_samples', 40, 200)
+>   
 >   Best trial :
->   <br/>
->   ```py
-learning_rate = 0.1512198354101122
-max_depth = 17
-n_estimators = 295
-reg_alpha = 0.0005383830447172724
-reg_lambda = 0.00011538095876075694
-num_leaves = 32
-min_split_gain = 0.473924522550586
-min_child_samples = 43
->   ```
->   <br/>
+
+
+	learning_rate = 0.1512198354101122
+	max_depth = 17
+	n_estimators = 295
+	reg_alpha = 0.0005383830447172724
+	reg_lambda = 0.00011538095876075694
+	num_leaves = 32
+	min_split_gain = 0.473924522550586
+	min_child_samples = 43
+   
+
+
 >   |model                                                                        |   R² train |   R² test |   mse train |   mse test |   mae train |   mae test |
 >   |:-----------------------------------------------------------------------------|--------------:|-------------:|------------:|-----------:|------------:|-----------:|
 >   |LGBMRegressor4 |      0.445746 |     0.410001 |     9435.83 |    8931.97 |     63.1968 |    63.1481 ||
@@ -440,5 +446,109 @@ min_child_samples = 43
 <h5><li> Visualisation géographique de l'erreur </li></h5>
 
 >   Avant d'utiliser les packages d'interprétabilité, nous allons visualiser géographiquement l'erreur sur le jeu de données test, de manière à repérer d'éventuelles anomalies ou bien à confirmer la performance du modèle.
+> <br>
+>  voir figure Erreur.html
+>
+> On peut voir sur cette figure que les erreurs importantes (nous avons représenté les erreurs de plus de 2 minutes en rouge) sont réparties de manière à peu près homogènes sur la carte. On peut cependant repérer qu'elles sont un peu plus présentes en périphérie de la ville. Cela peut s’expliquer par le fait que les temps d’attente sont en moyenne plus importants lorsque l’on s’écarte du centre de Londres car les distances ont plus de chance d’être grandes entre les casernes et le lieu d’incident en périphérie. Or, plus les temps sont importants, plus les erreurs risquent d'être élevées.
+
+<h5><li> Features importance du modèle LGBMRegressor </li></h5>
+
+>   Voici les features importantes d'après le modèle :
+><br><br>
+>   <p align="center"><img src=figures\Feature_importance_LGBM.png></p>
+>   
+>   Ce graphique nous permet de hiérarchiser les variables selon leur importance pour la détermination du temps d’attente des pompiers d’après notre modèle. La variable la plus importante est la distance entre le lieu de l’incident et la station depuis laquelle est déployé le véhicule (distFromStation). 
+<br/><br/>
+Nous voyons ensuite que l’heure d’appel (TimeOfCall) est également déterminante : en effet, on peut supposer que le trafic routier n’est pas le même en fonction de l’heure de la journée et que cela joue un rôle important. <br/>Le nombre de véhicules déployés (NumPumpsAttending) est ensuite représenté, on peut supposer que l’urgence de la situation impacte le nombre de véhicules et le temps de déploiement, ce qui pourrait lier ces deux variables.
+<br/><br/>
+Le fait que l’incident ait lieu dans un logement (Property_Dwelling) et non à l'extérieur, sur la route ou autre, semble également être un critère important. On peut effectivement penser qu’il est plus facile de se rendre dans une habitation qu’en extérieur sans repère précis, car le fait de connaître l'adresse réduira le temps nécessaire pour se rendre sur place.
+
+<h5><li> Package Skater </li></h5>
 
 
+>   Le package Skater nous permet également de faire émerger l'importance des features dans la détermination du modèle. Ci-dessous le top 10 des features les plus importants :
+><br><br>
+>   <p align="center"><img src=figures\Skater_top10.png width=700> </p>
+>    
+> <br/>
+>   Comme identifié précédemment avec les features_Importance du modèle LGBM retenu, la distance entre le lieu de l’incident et la station depuis laquelle le véhicule est déployé (distFromStation) est à nouveau de le feature qui contribue de très loin le plus au modèle. 
+> <br/>Nous voyons à nouveau ressortir le nombre de véhicules déployés (NumPumpsAttending) ainsi que l'heure d'appel (TimeOfCall) et certains types de propriétés (Property_NonResidential et Property_Outdoor).
+> <br/><br/>
+>Le package Skater nous permet par ailleurs de disposer d'informations plus précises sur l'impact de ces features dans la prédiction du modèle.
+> <br/>
+>   
+>   Ainsi, la distance (distFromStation) affiche une relation quasi linéaire avec le temps d’attente prédit. Ceci paraît logique puisque plus la station est loin de l’incident, plus le temps de trajet a des chances d'être important.
+> <br/><br/>
+>   <p align="center"><img src=figures\distFromStation.png width=500> </p>
+>  
+> <br/>
+>  S'agissant du nombre de véhicules déployés (NumPumpsAttending), on constate que plus le nombre de camions qui interviennent est important, plus le temps d’attente prédit est court. Cela pourrait s'expliquer par le fait que les incidents necéssitant l'intervention de plusieurs véhicules ont probablement un niveau de gravité plus important et nécessitent en conséquence une réactivité plus forte des secours.
+> <br/><br/> 
+>   <p align="center"><img src=figures\NumPumpsAttending.png width=500> </p>
+>   
+> <br/>
+>   L'heure à laquelle est donnée l'alerte (TimeOfCall) est ensuite le troisième feature en termes d'importance. Le temps d’attente prédit est plus long durant les heures de nuit qu’en journée. On peut supposer qu'il y a moins d'équipes disponibles la nuit, ce qui allongerait les temps d'attente. 
+>   <br/><br/>
+>   <p align="center"><img src=figures\TimeOfCall.png width=500> </p>
+>   
+>   <br/>
+>   Lorsqu’on compare cette courbe avec celle du temps d'attente réel (ci-dessous), on se rend compte que le modèle prend bien en compte les disparités observées selon les tranches horaires. 
+>   <br/><br/>
+>   <p align="center"><img src=figures\Temps_attente_par_heures_Xtrain.png width=500> </p>
+>   
+>   <br/> 
+>   Enfin, parmi les autres facteurs qui contribuent le plus au modèle, on retrouve différents features issus de la variable PropertyType (Outdoor, NonResidential, Roadvehicle). Si Skater identifie la nature du lieu d'intervention parmi les facteurs les plus contributifs au modèle, les graphiques ci-dessous ne montrent cependant pas de différence marquée au niveau de la prédiction. Nous pouvons en déduire que ces critères, pris indépendamment, ne jouent pas un rôle important, mais que leur importance est conditionnée par le fait d'être combinée avec un ou plusieurs autres features.
+>
+>   
+>   <p align="center"><img src=figures\Property_Outdoor.png width=500> </p>
+>
+>   <p align="center"><img src=figures\Property_NonResidential.png width=500> </p>
+>
+>   <p align="center"><img src=figures\Property_RoadVehicle.png width=500> </p>
+> 
+
+
+
+<h5><li> Package Shap </li></h5>
+
+>   Le package Shap nous propose également une autre lecture de l'importance des features pour le modèle. Celui-ci détermine le classement suivant des 10 features les plus importants :
+>   
+>   <p align="center"><img src=figures\Shap_feature_importance.png width=700> </p>
+>   
+>   On retrouve à nouveau la distance entre la station et l’incident (distFromStation) comme étant le facteur principal de la prédiction. Nous trouvons ensuite le nombre de véhicules déployés (NumPumpsAttending), l’heure d’appel (TimeOfCall) et le fait que le lieu de l'incident soit non résidentiel (Property_NonResidential).
+>   
+>   <p align="center"><img src=figures\Shap_value_feature.png width=700> </p>
+>   
+>   Sur ce second graphique, nous pouvons voir que plus la distance entre la station et l’incident est grande, plus elle influe positivement sur le temps d’attente. Et à l'inverse, une diminution de la distance tend à réduire le temps d’attente&#8239;: cela confirme la relation forte existante entre la distance séparant le lieu d'incident et la caserne avec le temps d'attente. 
+>   <br><br> 
+>   Concernant les deux variables suivantes, les différentes valeurs sont moins dissociées, il est donc plus difficile de tirer des conclusions. On peut tout de même dire que lorsque peu de camions sont déployés (NumPumpsAttending), le temps d'attente augmente légèrement.
+>   <br><br>
+>   Lorsque l'incident a lieu dans un lieu non résidentiel (Property_NonResidential), le temps d'attente diminue légèrement.
+>   <br><br> Les incidents en extérieur (Property_Outdoor) peuvent soit faire diminuer, soit faire augmenter le temps d'attente.
+>   <br><br>Les incidents ayant lieu le dimanche semble bénéficier d'un temps d'attente légèrement inférieur comme nous l'avons vu lors de l'exploration de données.
+>   <br><br>Comme nous l’avions identifié lors de l’analyse des données, le modèle a bien retranscrit le fait que lorsque l’incident est de type médical (IncidentType_MedicalIncident), le temps d’attente diminue grandement. C'est également le cas en moindre proportion pour les accidents de la route (IncidentType_RoadTrafficCollision).
+
+<h3>D - Conclusion sur la partie modélisation</h3>
+
+>  Notre modèle présente une précision moyenne (MAE) d'environ 1 minute (63 secondes). Ceci semble être raisonnable lorsqu'on pense aux applications qui peuvent en être faites. En effet, si un opérateur téléphonique des pompiers l'utilise pour annoncer un temps d'attente estimé aux victimes, une minute d'erreur semble être acceptable. D'autre part, le calcul de cette estimation par notre modèle sera suffisament rapide pour cette utilisation.
+>   <br><br>
+>   Grâce à cette étude d'interprétabilité, nous avons pu voir que notre modèle semble présenter une logique plutôt compréhensible. Les variables utilisées semblent logiquement influentes et correspondent globalement à ce que l'on avait pu identifier lors de l'analyse des données.
+<br/>
+<h2>3 - BILAN</h2>
+<br/>
+
+>   Plus ou moins abstrait pour chacun des membres de notre groupe en début de formation, ce projet nous a permis de bien nous familiariser avec les principes de machine learning, tant du point de vue théorique que pratique. Les travaux effectués dans le cadre de cette étude ont en effet eu un rôle complémentaire aux apprentissages via les notebooks de la plateforme. Ils ont permis une réflexion et une application au travers d'un cas concret.
+>   <br/><br/>
+>   Au-delà, c'est toute la chaîne d'un projet de data analyse qu'il nous a été proposé de mettre en oeuvre : récupération des données, compréhension/interprétation des variables et de leurs modalités, cleaning et structuration des données, transformation et création de nouvelles variables, analyse des données et dataviz, preprocessing, entraînement d'algorithmes, recherche d'hyperparamètres optimaux, choix et interprétation d'un modèle.
+>   <br/><br/>
+>   Autre découverte intéressante dans la cadre de ce projet, impulsée par notre mentor : la prise en main de différentes plateformes collaboratives pour contribuer ensemble au projet : tout d'abord Google Colab, puis Datalore et enfin GitHub.
+>   <br/><br/>
+>   La phase d'exploration des données nous a amené à faire une recherche approfondie sur la signification des différentes variables, issues des 3 sources de données différentes. Nous avons également dû traiter des données de diverses natures (numériques, catégorielles, temporelles, géographiques) nous permettant de faire une analyse des données sous différents angles : distribution, temporel, géographique.
+>   <br/><br/>
+>   Nous avons également été confrontés aux contraintes, notamment techniques, que pouvait engendrer le traitement d'un dataset volumineux (plus d'un million de lignes à la base) : des temps de calcul potentiellement très longs, voire trop lourds pour pouvoir faire tourner certains modèles sur nos ordinateurs personnels. Une difficulté qui nous a amené à faire des choix (limitation du nombre d'observations, appui technique de notre mentor...). Une contrainte qui aurait éventuellement pu être contournée avec l'utilisation d'outils pour le big data, comme Pyspark par exemple (que nous n'avions pas encore abordé dans le cadre de la formation lorsque nous aurions pu l'utiliser).
+>   <br/><br/>
+>   En dépit de très nombreux tests et recherches (tant en termes de modèles que d'hyperparamètres), notre meilleur modèle enregistre des performances relativement modestes. Mais celui-ci a néanmoins le mérite d'afficher une interprétabilité assez claire et plutôt logique compte tenu des variables explicatives injectées dans le modèle.
+>   Quelques pistes pourraient néanmoins permettre ultérieurement d'optimiser notre modèle :
+>   <ul><li>Faire appel à des machines plus puissantes pour pouvoir faire tourner d'autres modèles</li>
+>   <li>Utiliser des outils de big data plus performants dans le traitement de datasets volumineux</li>
+>   <li>Recueillir d'autres données autour des interventions qui pourraient aider à mieux expliquer le modèle</li>
