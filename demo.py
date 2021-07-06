@@ -98,11 +98,11 @@ if page == 'Application':
     if st.button('Calculer'):
         stat,res=generate_test_data(date,timeofcall,inc,prop,bor,dis,lat,lon)
         
-        st.write('Le premier véhicule sera déployé depuis :', stat)
+        st.write('Le premier véhicule sera déployé depuis la caserne de', stat)
         
         hour=int(timeofcall.split(':')[0])
         minute=int(timeofcall.split(':')[1])
-        second=int(timeofcall.split(':')[2])
+        second=int(timeofcall.split(':')[2].replace('.',','))
         
         timecall=second+60*minute+3600*hour
         
@@ -149,7 +149,3 @@ if page == 'Application':
 
     
         
-
-#proposer le meilleur et également le top 3 des meilleures options
-
-#streamlit.bokeh_chart
