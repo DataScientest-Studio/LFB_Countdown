@@ -7,7 +7,7 @@ Created on Fri Jul  2 14:12:44 2021
 
 import streamlit as st
 import pandas as pd
-import datetime
+
 
 from preprocessing import generate_test_data
 from presentation import affichage_pres
@@ -105,9 +105,15 @@ if page == 'Application':
         second=int(timeofcall.split(':')[2][:2])
         
         timecall=second+60*minute+3600*hour
-        
-        timea1=timecall+res[5]
-        timea2=timecall+res[1]
+        if res[5]<res[1]:
+            reslow=res[5]
+            reshigh=res[1]
+        else :
+            reslow=res[1]
+            reshigh=res[5]
+            
+        timea1=timecall+reslow
+        timea2=timecall+reshigh
         if timea1>=86400:
             timea1=timea1-86400
         if timea2>=86400:
@@ -134,12 +140,12 @@ if page == 'Application':
         if int(timea2s)<10:
             timea2s='0'+timea2s
         stimea2=timea2h+':'+timea2m+':'+timea2s
-        tempsa1min=str(int(res[5]//60))
-        tempsa1sec=str(int(res[5]%60))
+        tempsa1min=str(int(reslow//60))
+        tempsa1sec=str(int(reslow%60))
         if int(tempsa1sec)<10:
             tempsa1sec='0'+tempsa1sec
-        tempsa2min=str(int(res[1]//60))
-        tempsa2sec=str(int(res[1]%60))
+        tempsa2min=str(int(reshigh//60))
+        tempsa2sec=str(int(reshigh%60))
         if int(tempsa2sec)<10:
             tempsa2sec='0'+tempsa2sec
         stemps1='('+tempsa1min+'min '+tempsa1sec+'s)'
