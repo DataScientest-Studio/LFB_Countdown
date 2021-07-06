@@ -27,6 +27,7 @@ def affichage_pres():
                 
                 <h2>INTRODUCTION</h2>
                 <br/>
+                
                 >   Dans le cadre de notre formation Data Analyst, un projet fil rouge nous est proposé nous donnant ainsi l'opportunité d'appliquer sur un cas concret et global les connaissances acquises tout au long de notre parcours. Le choix du sujet a été une étape cruciale pour notre équipe et nous avons finalement jeté notre dévolu sur un des projets proposés dans le catalogue fourni : « Prédiction du temps de réponse d’un véhicule de la Brigade des Pompiers de Londres ».
                 >   <br/><br/>
                 >   Au delà du sujet en lui-même, ce choix résulte en grande partie de la richesse des données exploitables, la variété des types d'analyse que nous avons rapidement identifiés (temporelles, géographiques, etc.) et des applications qu'elles entraîneraient. Nous avions également à coeur de travailler sur un sujet pour lequel nous percevions un challenge en Machine Learning. 
@@ -195,13 +196,17 @@ def affichage_pres():
                 
     stations=pd.read_csv('data/Stations_clean.csv',index_col=0)
     df=pd.read_csv('data/LFB_incident_clean.csv', index_col=0)
+    
+    
+    
     dfgeo=df[['IncidentNumber','Latitude','Longitude','CallYear','DeployedFromStation_Name','AttendanceTimeSeconds']]
+    
     dfgeo['Longmerc'],dfgeo['Latmerc']=transform(Proj(init='epsg:4326'), Proj(init='epsg:3857'), dfgeo['Longitude'].values, dfgeo['Latitude'].values)
     stations['Longmerc'],stations['Latmerc']=(transform(Proj(init='epsg:4326'), Proj(init='epsg:3857'), stations['Longitude'].values, stations['Latitude'].values));
     dfgeo21=dfgeo[dfgeo['CallYear']==2021]
-    dfgeo20full=dfgeo[dfgeo['CallYear']==2020]
-    dfgeo20=dfgeo[dfgeo['CallYear']==2020].sample(50000)
-    dfgeo19=dfgeo[dfgeo['CallYear']==2019].sample(50000)
+    dfgeo20full=dfgeo[dfgeo['CallYear']==2020].sample(6000)
+    dfgeo20=dfgeo[dfgeo['CallYear']==2020].sample(5000)
+    dfgeo19=dfgeo[dfgeo['CallYear']==2019].sample(5000)
     sourcest=ColumnDataSource(data=stations)
 
     source21=ColumnDataSource(data=dfgeo21)
@@ -227,6 +232,7 @@ def affichage_pres():
     st.markdown("""
                 >   Comme nous nous y attendions, les incidents sont plus nombreux au centre-ville qu'en périphérie, tout comme le sont les stations.
                 <br/><br/>
+                
                 >   Le test ANOVA entre le nombre d'incidents et le district (PostCode_district) du lieu d'incident indique un lien significatif entre ces variables (p value nulle).
                   
                 >   |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
@@ -290,6 +296,7 @@ def affichage_pres():
     st.markdown("""           
                 > Cette dernière visualisation permet de bien identifier les zones en fonction de la réactivité des secours. On observe que plus l'incident est éloigné d'une station, plus le temps d'attente tend à augmenter. 
                 <br/><br/>
+                
                 >   Le test ANOVA qui concerne le temps d'attente et le district (PostCode_district) du lieu d'incident indique un lien significatif entre ces variables (p value nulle).
                 
                 >   |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
@@ -297,7 +304,9 @@ def affichage_pres():
                 | District |    328.0 | 9.468728e+05 |     2886.807444 | 88.86169 |        0 |
                 | Residual                 | 134211.0 | 4.360049e+06 | 32.486524         | nan     |      nan |
                 >  
+                
                 <br/>
+                
                 >   De plus, le test de Pearson liant la distance entre le lieu d'incident et la station de déploiement avec le temps d'attente nous indique que ces variables ont un lien significatif (p value nulle) et que leur corrélation est relativement importante (coefficient de Pearson : 51.5%).
                    
                 >   |                          |     résultat test |
@@ -306,15 +315,18 @@ def affichage_pres():
                 | p-value                 | 0.000000 |
                 
                 <h4>iv - Autres tests statistiques réalisés </h4> 
+                
                 >   Nous avons également étudié la corrélation entre le type de retard éventuel (DelayCode_Description) et le temps d'attente et notre test ANOVA indique un lien significatif entre ces variables (p value nulle). Cependant, nous ne pourrons pas conserver cette variable pour la modélisation car elle n'est connu qu'à posteriori : elle ne peut donc pas servir à la prédiction.
-                >
+                
                 >   |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
                 |:-------------------------|-------:|------------:|----------------:|--------:|---------:|
                 | DelayCode_Description |    9.0 | 3.273134e+09 |     3.636815e+08 | 26118.986271 |        0 |
                 | Residual                 | 683811.0 | 9.521404e+09 | 1.392403e+04         | nan     |      nan |
                 
                 <br/>
+                
                 <h3>C - Conclusion sur l'analyse des données</h3> 
+                
                 >   Cette première étape d'analyse des données nous confirme bien que les indicateurs étudiés seront indispensables dans le cadre de la modélisation du temps d'intervention de la LFB. 
                 """,unsafe_allow_html = True)
                 
