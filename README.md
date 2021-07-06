@@ -155,9 +155,7 @@
 >   Dans un premier temps, nous avons souhaité visualiser l'ensemble des incidents en fonction de leur localisation, en colorant chaque point, représentant un incident, en fonction de la station qui a répondu en premier sur l'intervention.
 >  <br/><br/>
 >  Ceci nous permet de voir la répartition des stations et leur rayon d'action :
->  
 >   <p align="center"><img src=figures\Carte_incident_station.png></p>
->  
 >   Le test ANOVA évaluant l'indépendance de la station de déploiement du temps d'attente nous montre un lien significatif entre ces variables (p value nulle). On peut donc supposer que : soit certaines stations sont intrinsèquement plus performantes que d'autres (grâce à des équipes plus expérimentées par exemple), soit c'est l'emplacement des stations qui va agir indirectement sur le temps d'attente.
 >   <br/>
 >
@@ -311,11 +309,11 @@
 <u><em>Etape 1</em></u>
 >   3 hyper-paramètres testés avec 200 trials :
 >   <br/>
->   ```py
-	learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
-	max_depth = trial.suggest_int('max_depth', 2, 50)
-	n_estimators = trial.suggest_int('n_estimators', 20,500)
->   ```
+>   
+	>learning_rate = trial.suggest_loguniform('learning_rate', 1e-5,10)
+	>max_depth = trial.suggest_int('max_depth', 2, 50)
+	>n_estimators = trial.suggest_int('n_estimators', 20,500)
+>  
 >   Best trial :
 <br/>
 >   ```py
