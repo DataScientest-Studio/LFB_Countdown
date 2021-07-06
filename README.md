@@ -92,7 +92,7 @@
 >   <p align="center"><img src=figures\Temps_attente_par_mois.png width=600></p>
 >   <p align="center"><img src=figures\Temps_attente_par_jour.png width=600></p>
 >   <p align="center"><img src=figures\Temps_attente_par_heures.png width=600></p>
->  <br/><br/>
+>  
 >   Les variations sur le temps d'attente sont moins flagrantes, mais s'expliquent en grande partie par le fait que cette variable n'a pas une grande amplitude de manière générale.<br/><br/>
 >  Néanmoins, certains enseignements se recoupent avec la distribution des incidents décrite plus haut :
 >   <ul><li> Le temps d'attente est sensiblement plus important sur les mois estivaux, tout comme l'était la densité des incidents.</li>
@@ -159,7 +159,7 @@
 >  Ceci nous permet de voir la répartition des stations et leur rayon d'action :
 >  <br/><br/>
 >   <p align="center"><img src=figures\Carte_incident_station.png></p>
->  <br/><br/>
+>  
 >   Le test ANOVA évaluant l'indépendance de la station de déploiement du temps d'attente nous montre un lien significatif entre ces variables (p value nulle). On peut donc supposer que : soit certaines stations sont intrinsèquement plus performantes que d'autres (grâce à des équipes plus expérimentées par exemple), soit c'est l'emplacement des stations qui va agir indirectement sur le temps d'attente.
 >   <br/><br/>
 >
@@ -177,6 +177,7 @@
 > <br/><br/>
 > Le test ANOVA entre le nombre d'incidents et le district (PostCode_district) du lieu d'incident indique un lien significatif entre ces variables (p value nulle).
 >   <br/>
+>
 >   |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
 > |:-------------------------|-------:|------------:|----------------:|--------:|---------:|
 > | District |    328.0 | 3.343984e+08 |     1.019507e+06 | 22.724574 |        0 |
@@ -191,6 +192,7 @@
 >   <br/><br/>
 >   Le test ANOVA qui concerne le temps d'attente et le district (PostCode_district) du lieu d'incident indique un lien significatif entre ces variables (p value nulle).
 >   <br/>
+>
 >   |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >   |:-------------------------|-------:|------------:|----------------:|--------:|---------:|
 >   | District |    328.0 | 9.468728e+05 |     2886.807444 | 88.86169 |        0 |
@@ -199,6 +201,7 @@
 >   <br/>
 >   De plus, le test de Pearson liant la distance entre le lieu d'incident et la station de déploiement avec le temps d'attente nous indique que ces variables ont un lien significatif (p value nulle) et que leur corrélation est relativement importante (coefficient de Pearson : 51.5%).
 >   <br/>
+>
 >   |                          |     résultat test |
 >   |:-------------------------|-------:|
 >   | pearson_coeff |    0.515065 | 
@@ -209,6 +212,7 @@
 
 >   Nous avons également étudié la corrélation entre le type de retard éventuel (DelayCode_Description) et le temps d'attente et notre test ANOVA indique un lien significatif entre ces variables (p value nulle). Cependant, nous ne pourrons pas conserver cette variable pour la modélisation car elle n'est connu qu'à posteriori : elle ne peut donc pas servir à la prédiction.
 >   <br/>
+>
 >   |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >   |:-------------------------|-------:|------------:|----------------:|--------:|---------:|
 >   | DelayCode_Description |    9.0 | 3.273134e+09 |     3.636815e+08 | 26118.986271 |        0 |
