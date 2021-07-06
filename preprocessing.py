@@ -59,15 +59,15 @@ def generate_test_data(date,time,inc,prop,bor,dis,lat,lon):
     #        distance = stations.iloc[i]['dist']
     #        station_proche=stations.iloc[i]['NomStation']
     stat=stations.sort_values('dist',ascending=True)
-    
+
     lgbm4=load("models/lgbm4.joblib")
     
 
     df0=df.copy()        
-    df0.loc['distFromStation']=stat['dist'][0]
-    stat_col='DeployedFromSt_'+stat['NomStation'][0]
-    stat_col=re.sub('[^A-Za-z0-9_]+', '', stat_col)
-    stat0=stat['NomStation'][0]
+    df0.loc['distFromStation']=stat['dist'].head(1).values
+    stat_col='DeployedFromSt_'+stat['NomStation'].head(1).values
+    stat_col=re.sub('[^A-Za-z0-9_]+', '', *stat_col)
+    stat0=stat['NomStation'].head(1).values
     df0.loc[stat_col]=1
     
     df0=df0.transpose()
@@ -82,10 +82,10 @@ def generate_test_data(date,time,inc,prop,bor,dis,lat,lon):
     
     
     df1=df.copy()
-    df1.loc['distFromStation']=stat['dist'][1]
-    stat_col='DeployedFromSt_'+stat['NomStation'][1]
-    stat_col=re.sub('[^A-Za-z0-9_]+', '', stat_col)
-    stat1=stat['NomStation'][1]
+    df1.loc['distFromStation']=stat['dist'].head(2).tail(1).values
+    stat_col='DeployedFromSt_'+stat['NomStation'].head(2).tail(1).values
+    stat_col=re.sub('[^A-Za-z0-9_]+', '', *stat_col)
+    stat1=stat['NomStation'].head(2).tail(1).values
     df1.loc[stat_col]=1
     
     df1=df1.transpose()
@@ -99,10 +99,10 @@ def generate_test_data(date,time,inc,prop,bor,dis,lat,lon):
         res1.append(*tab)
     
     df2=df.copy()
-    df2.loc['distFromStation']=stat['dist'][2]
-    stat_col='DeployedFromSt_'+stat['NomStation'][2]
-    stat_col=re.sub('[^A-Za-z0-9_]+', '', stat_col)
-    stat2=stat['NomStation'][2]
+    df2.loc['distFromStation']=stat['dist'].head(3).tail(1).values
+    stat_col='DeployedFromSt_'+stat['NomStation'].head(3).tail(1).values
+    stat_col=re.sub('[^A-Za-z0-9_]+', '', *stat_col)
+    stat2=stat['NomStation'].head(3).tail(1).values
     df2.loc[stat_col]=1
     
     df2=df2.transpose()
@@ -117,7 +117,7 @@ def generate_test_data(date,time,inc,prop,bor,dis,lat,lon):
         
     res=pd.DataFrame({'Nb vehicules':range(1,6),'Stat0':res0,'Stat1':res1,'Stat2':res2}).set_index('Nb vehicules')
     
-    stations=[stat0,stat1,stat2]
+    stations=[*stat0,*stat1,*stat2]
     station=stations[res.describe().loc['mean'].argmin()]
     res=res[res.columns[res.describe().loc['mean'].argmin()]]
     
@@ -127,4 +127,4 @@ def generate_test_data(date,time,inc,prop,bor,dis,lat,lon):
     
 
 
-#generate_test_data('2021-07-04','23:40','Flooding','Dwelling','Newham','E7',51.5,0)
+#print(generate_test_data('2021-07-04','23:40','Flooding','Dwelling','Newham','E7',51.5,0))
