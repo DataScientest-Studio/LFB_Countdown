@@ -143,6 +143,7 @@
 >   Le temps d'attente évolue donc du simple au double selon le type d'incident. La LFB met deux fois plus de temps pour se rendre sur un incendie que pour porter secours lors d'une noyade.
 >  Cette influence de la nature de l'intervention sur le temps d'attente est par ailleurs confirmée par le test ANOVA qui indique un lien significatif entre les deux variables (p value nulle).
 >  <br/>
+>
 >  |          |    df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >  |:---------|------:|------------:|----------------:|--------:|---------:|
 >  | type     |    25 | 1.34913e+08 |     5.39652e+06 |  69.132 |        0 |
