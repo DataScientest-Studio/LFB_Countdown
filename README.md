@@ -100,6 +100,7 @@
 >  <br/><br/>
 >   Nous avons également vérifié à l'aide de tests ANOVA si ces variables temporelles influencent significativement le temps d'attente. 
 >   <br/>
+>
 >   |          |    df |      sum_sq |        mean_sq |        F |        PR(>F) |
 >  |:---------|------:|------------:|---------------:|---------:|--------------:|
 >  | Mois     |     1 | 1.2569e+06  |     1.2569e+06 |  18.1985 |   1.99319e-05 |
