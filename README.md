@@ -97,7 +97,7 @@
 >  Néanmoins, certains enseignements se recoupent avec la distribution des incidents décrite plus haut :
 >   <ul><li> Le temps d'attente est sensiblement plus important sur les mois estivaux, tout comme l'était la densité des incidents.</li>
 >   <li> En revanche, nous n'observons pas de relation clairement visible entre le temps d'attente et le jour de la semaine ou l'heure de la journée.</li></ul>
->  <br/>
+>  
 >   Nous avons également vérifié à l'aide de tests ANOVA si ces variables temporelles influencent significativement le temps d'attente. 
 >   <br/><br>
 >
@@ -130,7 +130,8 @@
 >   <p align="center"><img src=figures\Moyenne_par_type.png width=600></p>
 >  <br/><br/>
 >   On remarque que la grande majorité des sources d'intervention sont liées aux Alarmes Automatiques d'Incendie. Ensuite, et dans une moindre mesure, on retrouve comme autres raisons principales : les incendies, les opérations d'entrée-sortie de personnes, les innondations puis les accidents de la route. D'après notre test ANOVA, le type d'incident a un lien significatif avec le nombre d'incidents (p value nulle).
->  <br/>
+>  <br/><br/>
+>
 >  |          |    df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >  |:---------|------:|------------:|----------------:|--------:|---------:|
 >  | type     |    25 | 9.44883e+07 |     3.77953e+06 | 238.183 |        0 |
@@ -143,7 +144,7 @@
 >  <br/><br/>
 >   Le temps d'attente évolue donc du simple au double selon le type d'incident. La LFB met deux fois plus de temps pour se rendre sur un incendie que pour porter secours lors d'une noyade.
 >  Cette influence de la nature de l'intervention sur le temps d'attente est par ailleurs confirmée par le test ANOVA qui indique un lien significatif entre les deux variables (p value nulle).
->  <br/>
+>  <br/><br/>
 >
 >  |          |    df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >  |:---------|------:|------------:|----------------:|--------:|---------:|
@@ -160,7 +161,8 @@
 >   <p align="center"><img src=figures\Carte_incident_station.png></p>
 >  <br/><br/>
 >   Le test ANOVA évaluant l'indépendance de la station de déploiement du temps d'attente nous montre un lien significatif entre ces variables (p value nulle). On peut donc supposer que : soit certaines stations sont intrinsèquement plus performantes que d'autres (grâce à des équipes plus expérimentées par exemple), soit c'est l'emplacement des stations qui va agir indirectement sur le temps d'attente.
->   <br/>
+>   <br/><br/>
+>
 >  |                          |     df |      sum_sq |         mean_sq |       F |   PR(>F) |
 >  |:-------------------------|-------:|------------:|----------------:|--------:|---------:|
 >  | DeployedFromStation_Code |    101 | 5.69136e+08 |     5.63501e+06 | 315.144 |        0 |
