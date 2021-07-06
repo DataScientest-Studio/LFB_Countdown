@@ -10,7 +10,7 @@ import pandas as pd
 import datetime
 
 from preprocessing import generate_test_data
-
+from presentation import affichage_pres
 
 from geopy.geocoders import Nominatim
 
@@ -29,17 +29,7 @@ property_type = pd.read_csv("data/property_type.csv", index_col = 0)
 if page == 'Présentation':
     st.title("Démo Streamlit Mar21 DA DS")
     
-    st.markdown("""
-                Ce projet va entraîner un modèle de Machine Learning
-                sur le dataset du [titanic](https://www.kaggle.com/c/titanic/overview).
-                
-                                
-                <center><h3>Elora VABOIS, Marie LE COZ, Nicolas RAYMOND</h3></center>
-                <center><h3>DA Bootcamp Mai 2021</h3></center>
-                <br/><br/>
-                """)
-                
-    st.header('titre')
+    affichage_pres()
     
 
 
@@ -105,16 +95,17 @@ if page == 'Application':
 
     if st.button('Calculer'):
         stat,res=generate_test_data(date,timeofcall,inc,prop,bor,dis,lat,lon)
+        
         st.write('Le premier véhicule sera déployé depuis :', stat)
-        st.dataframe(res)
+        
         hour=int(timeofcall.split(':')[0])
         minute=int(timeofcall.split(':')[1])
         second=int(timeofcall.split(':')[2])
         
         timecall=second+60*minute+3600*hour
         
-        timea1=timecall+res[4]
-        timea2=timecall+res[0]
+        timea1=timecall+res[5]
+        timea2=timecall+res[1]
         if timea1>=86400:
             timea1=timea1-86400
         if timea2>=86400:
@@ -129,11 +120,13 @@ if page == 'Application':
         timea2m=int(timea2s//60)
         timea2s=int(timea2s%60)
         stimea2=str(timea2h)+':'+str(timea2m)+':'+str(timea2s)
-        tempsa1min=str(int(res[4]//60))
-        tempsa1sec=str(int(res[4]%60))
-        tempsa2min=str(int(res[0]//60))
-        tempsa2sec=str(int(res[0]%60))
-        st.write('Il devrait arriver entre ',stimea1,' (',tempsa1min,'min ',tempsa1sec,'s) et ',stimea2,' (',tempsa2min,'min ',tempsa2sec,'s)',sep='')
+        tempsa1min=str(int(res[5]//60))
+        tempsa1sec=str(int(res[5]%60))
+        tempsa2min=str(int(res[1]//60))
+        tempsa2sec=str(int(res[1]%60))
+        stemps1='('+str(tempsa1min)+'min '+str(tempsa1sec)+'s)'
+        stemps2='('+str(tempsa2min)+'min '+str(tempsa2sec)+'s)'
+        st.write('Il devrait arriver entre ',stimea1,stemps1,' et ',stimea2,stemps2)
         
 
     

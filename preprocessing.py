@@ -67,6 +67,7 @@ def generate_test_data(date,time,inc,prop,bor,dis,lat,lon):
     df0.loc['distFromStation']=stat['dist'][0]
     stat_col='DeployedFromSt_'+stat['NomStation'][0]
     stat_col=re.sub('[^A-Za-z0-9_]+', '', stat_col)
+    stat0=stat['NomStation'][0]
     df0.loc[stat_col]=1
     
     df0=df0.transpose()
@@ -84,6 +85,7 @@ def generate_test_data(date,time,inc,prop,bor,dis,lat,lon):
     df1.loc['distFromStation']=stat['dist'][1]
     stat_col='DeployedFromSt_'+stat['NomStation'][1]
     stat_col=re.sub('[^A-Za-z0-9_]+', '', stat_col)
+    stat1=stat['NomStation'][1]
     df1.loc[stat_col]=1
     
     df1=df1.transpose()
@@ -100,6 +102,7 @@ def generate_test_data(date,time,inc,prop,bor,dis,lat,lon):
     df2.loc['distFromStation']=stat['dist'][2]
     stat_col='DeployedFromSt_'+stat['NomStation'][2]
     stat_col=re.sub('[^A-Za-z0-9_]+', '', stat_col)
+    stat2=stat['NomStation'][2]
     df2.loc[stat_col]=1
     
     df2=df2.transpose()
@@ -114,10 +117,14 @@ def generate_test_data(date,time,inc,prop,bor,dis,lat,lon):
         
     res=pd.DataFrame({'Nb vehicules':range(1,6),'Stat0':res0,'Stat1':res1,'Stat2':res2}).set_index('Nb vehicules')
     
-    print(res)
+    stations=[stat0,stat1,stat2]
+    station=stations[res.describe().loc['mean'].argmin()]
+    res=res[res.columns[res.describe().loc['mean'].argmin()]]
     
-    return station_proche,res
+    
+    
+    return station,res
     
 
 
-generate_test_data('2021-07-04','23:40','Flooding','Dwelling','Newham','E7',51.5,0)
+#generate_test_data('2021-07-04','23:40','Flooding','Dwelling','Newham','E7',51.5,0)
