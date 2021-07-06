@@ -7,6 +7,7 @@ Created on Fri Jul  2 14:12:44 2021
 
 import pandas as pd
 import numpy as np
+import datetime
 import re
 from joblib import load
 
@@ -53,68 +54,33 @@ def generate_test_data(date,time,inc,prop,bor,dis,lat,lon):
     dist=pd.Series(dist,name='dist')
     stations=stations.join(dist)
     
+    distance=2.0
+    station_proche=''
+    for i in range(len(stations)):
+        if stations.iloc[i]['dist']<distance:
+            distance = stations.iloc[i]['dist']
+            station_proche=stations.iloc[i]['NomStation']
+            
+    df.loc['distFromStation']=distance
+    stat_col='DeployedFromSt_'+station_proche
+    stat_col=re.sub('[^A-Za-z0-9_]+', '', stat_col)
+    df.loc[stat_col]=1
     
-    #for i in range(len(stations)):
-    #    if stations.iloc[i]['dist']<distance:
-    #        distance = stations.iloc[i]['dist']
-    #        station_proche=stations.iloc[i]['NomStation']
-    stat=stations.sort_values('dist',ascending=True)
+    df=df.transpose()
+    
     
     lgbm4=load("models/lgbm4.joblib")
-    
-
-            
-    df.loc['distFromStation']=stat['dist'][0]
-    stat_col='DeployedFromSt_'+stat['NomStation'][0]
-    stat_col=re.sub('[^A-Za-z0-9_]+', '', stat_col)
-    df.loc[stat_col]=1
-    
-    df=df.transpose()
-    
-    
-    
-    res0=[]
-    for pumps in range(1,6):
+    res=[]
+    for pumps in range(1,11):
         df['NumPumpsAttending']=[pumps]
         tab=lgbm4.predict(df)
-        res0.append(*tab)
-    
-    
-    df.transpose()
-    df.loc['distFromStation']=stat['dist'][1]
-    stat_col='DeployedFromSt_'+stat['NomStation'][1]
-    stat_col=re.sub('[^A-Za-z0-9_]+', '', stat_col)
-    df.loc[stat_col]=1
-    
-    df=df.transpose()
-    
-    print(df.columns)
-    
-    res1=[]
-    for pumps in range(1,6):
-        df['NumPumpsAttending']=[pumps]
-        tab=lgbm4.predict(df)
-        res1.append(*tab)
-    
-    df.transpose()
-    df.loc['distFromStation']=stat['dist'][2]
-    stat_col='DeployedFromSt_'+stat['NomStation'][2]
-    stat_col=re.sub('[^A-Za-z0-9_]+', '', stat_col)
-    df.loc[stat_col]=1
-    
-    df=df.transpose()
+        res.append(*tab)
     
     
     
-    res2=[]
-    for pumps in range(1,6):
-        df['NumPumpsAttending']=[pumps]
-        tab=lgbm4.predict(df)
-        res2.append(*tab)
-        
-    res=pd.DataFrame({'Nb vehicules':range(1,6),'Stat0':res0,'Stat1':res1,'Stat2':res2}).set_index('Nb vehicules')
+    
+    
     return station_proche,res
     
 
 
-generate_test_data('2021-07-04','23:40','Flooding','Dwelling','Newham','E7',51.5,0)

@@ -7,9 +7,9 @@ Created on Fri Jul  2 14:12:44 2021
 
 import streamlit as st
 import pandas as pd
-import datetime
 
-from preprocessing import generate_test_data
+
+from preprocessing2 import generate_test_data
 
 
 from geopy.geocoders import Nominatim
@@ -49,7 +49,7 @@ if page == 'Application':
     #st.title,image...
     
     date=str(st.date_input("Date d'appel"))
-    timeofcall=str(st.time_input("Heure d'appel", datetime.time(23, 59)))
+    time=str(st.time_input("Heure d'appel"))
 
     
     inc=st.selectbox("Choisissez le type d'incident",type_incident['type_incident'])
@@ -104,37 +104,11 @@ if page == 'Application':
 
 
     if st.button('Calculer'):
-        stat,res=generate_test_data(date,timeofcall,inc,prop,bor,dis,lat,lon)
+        stat,res=generate_test_data(date,time,inc,prop,bor,dis,lat,lon)
         st.write('Le premier véhicule sera déployé depuis :', stat)
-        st.dataframe(res)
-        hour=int(timeofcall.split(':')[0])
-        minute=int(timeofcall.split(':')[1])
-        second=int(timeofcall.split(':')[2])
-        
-        timecall=second+60*minute+3600*hour
-        
-        timea1=timecall+res[4]
-        timea2=timecall+res[0]
-        if timea1>=86400:
-            timea1=timea1-86400
-        if timea2>=86400:
-            timea2=timea2-86400
-        timea1h=int(timea1//3600)
-        timea1s=timea1%3600
-        timea1m=int(timea1s//60)
-        timea1s=int(timea1s%60)
-        stimea1=str(timea1h)+':'+str(timea1m)+':'+str(timea1s)
-        timea2h=int(timea2//3600)
-        timea2s=timea2%3600
-        timea2m=int(timea2s//60)
-        timea2s=int(timea2s%60)
-        stimea2=str(timea2h)+':'+str(timea2m)+':'+str(timea2s)
-        tempsa1min=str(int(res[4]//60))
-        tempsa1sec=str(int(res[4]%60))
-        tempsa2min=str(int(res[0]//60))
-        tempsa2sec=str(int(res[0]%60))
-        st.write('Il devrait arriver entre ',stimea1,' (',tempsa1min,'min ',tempsa1sec,'s) et ',stimea2,' (',tempsa2min,'min ',tempsa2sec,'s)',sep='')
-        
+        st.write('Le temps de déploiement dépend du nombre de camions envoyés :')
+        df=pd.DataFrame({'Nombre de camions':range(1,11),"Temps d'attente (en s)":res})
+        st.dataframe(df)
 
     
         
