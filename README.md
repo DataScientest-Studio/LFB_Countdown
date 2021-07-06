@@ -470,33 +470,33 @@ Le fait que l’incident ait lieu dans un logement (Property_Dwelling) et non à l'
 ><br><br>
 >   <p align="center"><img src=figures\Skater_top10.png width=700> </p>
 >    
-<br/>
+> <br/>
 >   Comme identifié précédemment avec les features_Importance du modèle LGBM retenu, la distance entre le lieu de l’incident et la station depuis laquelle le véhicule est déployé (distFromStation) est à nouveau de le feature qui contribue de très loin le plus au modèle. 
 > <br/>Nous voyons à nouveau ressortir le nombre de véhicules déployés (NumPumpsAttending) ainsi que l'heure d'appel (TimeOfCall) et certains types de propriétés (Property_NonResidential et Property_Outdoor).
 > <br/><br/>
 >Le package Skater nous permet par ailleurs de disposer d'informations plus précises sur l'impact de ces features dans la prédiction du modèle.
-<br/>
+> <br/>
 >   
 >   Ainsi, la distance (distFromStation) affiche une relation quasi linéaire avec le temps d’attente prédit. Ceci paraît logique puisque plus la station est loin de l’incident, plus le temps de trajet a des chances d'être important.
-<br/><br/>
+> <br/><br/>
 >   <p align="center"><img src=figures\distFromStation.png width=500> </p>
 >  
-<br/>
+> <br/>
 >  S'agissant du nombre de véhicules déployés (NumPumpsAttending), on constate que plus le nombre de camions qui interviennent est important, plus le temps d’attente prédit est court. Cela pourrait s'expliquer par le fait que les incidents necéssitant l'intervention de plusieurs véhicules ont probablement un niveau de gravité plus important et nécessitent en conséquence une réactivité plus forte des secours.
-<br/><br/> 
+> <br/><br/> 
 >   <p align="center"><img src=figures\NumPumpsAttending.png width=500> </p>
 >   
-<br/>
+> <br/>
 >   L'heure à laquelle est donnée l'alerte (TimeOfCall) est ensuite le troisième feature en termes d'importance. Le temps d’attente prédit est plus long durant les heures de nuit qu’en journée. On peut supposer qu'il y a moins d'équipes disponibles la nuit, ce qui allongerait les temps d'attente. 
-<br/><br/>
+>   <br/><br/>
 >   <p align="center"><img src=figures\TimeOfCall.png width=500> </p>
 >   
-<br/>
+>   <br/>
 >   Lorsqu’on compare cette courbe avec celle du temps d'attente réel (ci-dessous), on se rend compte que le modèle prend bien en compte les disparités observées selon les tranches horaires. 
-<br/><br/>
+>   <br/><br/>
 >   <p align="center"><img src=figures\Temps_attente_par_heures_Xtrain.png width=500> </p>
 >   
-<br/> 
+>   <br/> 
 >   Enfin, parmi les autres facteurs qui contribuent le plus au modèle, on retrouve différents features issus de la variable PropertyType (Outdoor, NonResidential, Roadvehicle). Si Skater identifie la nature du lieu d'intervention parmi les facteurs les plus contributifs au modèle, les graphiques ci-dessous ne montrent cependant pas de différence marquée au niveau de la prédiction. Nous pouvons en déduire que ces critères, pris indépendamment, ne jouent pas un rôle important, mais que leur importance est conditionnée par le fait d'être combinée avec un ou plusieurs autres features.
 >
 >   
@@ -520,35 +520,35 @@ Le fait que l’incident ait lieu dans un logement (Property_Dwelling) et non à l'
 >   <p align="center"><img src=figures\Shap_value_feature.png width=700> </p>
 >   
 >   Sur ce second graphique, nous pouvons voir que plus la distance entre la station et l’incident est grande, plus elle influe positivement sur le temps d’attente. Et à l'inverse, une diminution de la distance tend à réduire le temps d’attente&#8239;: cela confirme la relation forte existante entre la distance séparant le lieu d'incident et la caserne avec le temps d'attente. 
-<br><br> 
-Concernant les deux variables suivantes, les différentes valeurs sont moins dissociées, il est donc plus difficile de tirer des conclusions. On peut tout de même dire que lorsque peu de camions sont déployés (NumPumpsAttending), le temps d'attente augmente légèrement.
-<br><br>
-Lorsque l'incident a lieu dans un lieu non résidentiel (Property_NonResidential), le temps d'attente diminue légèrement.
-<br><br> Les incidents en extérieur (Property_Outdoor) peuvent soit faire diminuer, soit faire augmenter le temps d'attente.
-<br><br>Les incidents ayant lieu le dimanche semble bénéficier d'un temps d'attente légèrement inférieur comme nous l'avons vu lors de l'exploration de données.
-<br><br>Comme nous l’avions identifié lors de l’analyse des données, le modèle a bien retranscrit le fait que lorsque l’incident est de type médical (IncidentType_MedicalIncident), le temps d’attente diminue grandement. C'est également le cas en moindre proportion pour les accidents de la route (IncidentType_RoadTrafficCollision).
+>   <br><br> 
+>   Concernant les deux variables suivantes, les différentes valeurs sont moins dissociées, il est donc plus difficile de tirer des conclusions. On peut tout de même dire que lorsque peu de camions sont déployés (NumPumpsAttending), le temps d'attente augmente légèrement.
+>   <br><br>
+>   Lorsque l'incident a lieu dans un lieu non résidentiel (Property_NonResidential), le temps d'attente diminue légèrement.
+>   <br><br> Les incidents en extérieur (Property_Outdoor) peuvent soit faire diminuer, soit faire augmenter le temps d'attente.
+>   <br><br>Les incidents ayant lieu le dimanche semble bénéficier d'un temps d'attente légèrement inférieur comme nous l'avons vu lors de l'exploration de données.
+>   <br><br>Comme nous l’avions identifié lors de l’analyse des données, le modèle a bien retranscrit le fait que lorsque l’incident est de type médical (IncidentType_MedicalIncident), le temps d’attente diminue grandement. C'est également le cas en moindre proportion pour les accidents de la route (IncidentType_RoadTrafficCollision).
 
 <h3>D - Conclusion sur la partie modélisation</h3>
 
 >  Notre modèle présente une précision moyenne (MAE) d'environ 1 minute (63 secondes). Ceci semble être raisonnable lorsqu'on pense aux applications qui peuvent en être faites. En effet, si un opérateur téléphonique des pompiers l'utilise pour annoncer un temps d'attente estimé aux victimes, une minute d'erreur semble être acceptable. D'autre part, le calcul de cette estimation par notre modèle sera suffisament rapide pour cette utilisation.
-<br><br>
-Grâce à cette étude d'interprétabilité, nous avons pu voir que notre modèle semble présenter une logique plutôt compréhensible. Les variables utilisées semblent logiquement influentes et correspondent globalement à ce que l'on avait pu identifier lors de l'analyse des données.
+>   <br><br>
+>   Grâce à cette étude d'interprétabilité, nous avons pu voir que notre modèle semble présenter une logique plutôt compréhensible. Les variables utilisées semblent logiquement influentes et correspondent globalement à ce que l'on avait pu identifier lors de l'analyse des données.
 <br/>
 <h2>3 - BILAN</h2>
 <br/>
 
 >   Plus ou moins abstrait pour chacun des membres de notre groupe en début de formation, ce projet nous a permis de bien nous familiariser avec les principes de machine learning, tant du point de vue théorique que pratique. Les travaux effectués dans le cadre de cette étude ont en effet eu un rôle complémentaire aux apprentissages via les notebooks de la plateforme. Ils ont permis une réflexion et une application au travers d'un cas concret.
-<br/><br/>
-Au-delà, c'est toute la chaîne d'un projet de data analyse qu'il nous a été proposé de mettre en oeuvre : récupération des données, compréhension/interprétation des variables et de leurs modalités, cleaning et structuration des données, transformation et création de nouvelles variables, analyse des données et dataviz, preprocessing, entraînement d'algorithmes, recherche d'hyperparamètres optimaux, choix et interprétation d'un modèle.
-<br/><br/>
-Autre découverte intéressante dans la cadre de ce projet, impulsée par notre mentor : la prise en main de différentes plateformes collaboratives pour contribuer ensemble au projet : tout d'abord Google Colab, puis Datalore et enfin GitHub.
-<br/><br/>
-La phase d'exploration des données nous a amené à faire une recherche approfondie sur la signification des différentes variables, issues des 3 sources de données différentes. Nous avons également dû traiter des données de diverses natures (numériques, catégorielles, temporelles, géographiques) nous permettant de faire une analyse des données sous différents angles : distribution, temporel, géographique.
-<br/><br/>
-Nous avons également été confrontés aux contraintes, notamment techniques, que pouvait engendrer le traitement d'un dataset volumineux (plus d'un million de lignes à la base) : des temps de calcul potentiellement très longs, voire trop lourds pour pouvoir faire tourner certains modèles sur nos ordinateurs personnels. Une difficulté qui nous a amené à faire des choix (limitation du nombre d'observations, appui technique de notre mentor...). Une contrainte qui aurait éventuellement pu être contournée avec l'utilisation d'outils pour le big data, comme Pyspark par exemple (que nous n'avions pas encore abordé dans le cadre de la formation lorsque nous aurions pu l'utiliser).
-<br/><br/>
-En dépit de très nombreux tests et recherches (tant en termes de modèles que d'hyperparamètres), notre meilleur modèle enregistre des performances relativement modestes. Mais celui-ci a néanmoins le mérite d'afficher une interprétabilité assez claire et plutôt logique compte tenu des variables explicatives injectées dans le modèle.
-Quelques pistes pourraient néanmoins permettre ultérieurement d'optimiser notre modèle :
+>   <br/><br/>
+>   Au-delà, c'est toute la chaîne d'un projet de data analyse qu'il nous a été proposé de mettre en oeuvre : récupération des données, compréhension/interprétation des variables et de leurs modalités, cleaning et structuration des données, transformation et création de nouvelles variables, analyse des données et dataviz, preprocessing, entraînement d'algorithmes, recherche d'hyperparamètres optimaux, choix et interprétation d'un modèle.
+>   <br/><br/>
+>   Autre découverte intéressante dans la cadre de ce projet, impulsée par notre mentor : la prise en main de différentes plateformes collaboratives pour contribuer ensemble au projet : tout d'abord Google Colab, puis Datalore et enfin GitHub.
+>   <br/><br/>
+>   La phase d'exploration des données nous a amené à faire une recherche approfondie sur la signification des différentes variables, issues des 3 sources de données différentes. Nous avons également dû traiter des données de diverses natures (numériques, catégorielles, temporelles, géographiques) nous permettant de faire une analyse des données sous différents angles : distribution, temporel, géographique.
+>   <br/><br/>
+>   Nous avons également été confrontés aux contraintes, notamment techniques, que pouvait engendrer le traitement d'un dataset volumineux (plus d'un million de lignes à la base) : des temps de calcul potentiellement très longs, voire trop lourds pour pouvoir faire tourner certains modèles sur nos ordinateurs personnels. Une difficulté qui nous a amené à faire des choix (limitation du nombre d'observations, appui technique de notre mentor...). Une contrainte qui aurait éventuellement pu être contournée avec l'utilisation d'outils pour le big data, comme Pyspark par exemple (que nous n'avions pas encore abordé dans le cadre de la formation lorsque nous aurions pu l'utiliser).
+>   <br/><br/>
+>   En dépit de très nombreux tests et recherches (tant en termes de modèles que d'hyperparamètres), notre meilleur modèle enregistre des performances relativement modestes. Mais celui-ci a néanmoins le mérite d'afficher une interprétabilité assez claire et plutôt logique compte tenu des variables explicatives injectées dans le modèle.
+>   Quelques pistes pourraient néanmoins permettre ultérieurement d'optimiser notre modèle :
 >   <ul><li>Faire appel à des machines plus puissantes pour pouvoir faire tourner d'autres modèles</li>
-    <li>Utiliser des outils de big data plus performants dans le traitement de datasets volumineux</li>
-    <li>Recueillir d'autres données autour des interventions qui pourraient aider à mieux expliquer le modèle</li>
+>   <li>Utiliser des outils de big data plus performants dans le traitement de datasets volumineux</li>
+>   <li>Recueillir d'autres données autour des interventions qui pourraient aider à mieux expliquer le modèle</li>
