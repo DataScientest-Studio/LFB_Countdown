@@ -1,0 +1,6 @@
+pandas
+geopy
+bokeh
+streamlit
+pyproj
+sklearn
