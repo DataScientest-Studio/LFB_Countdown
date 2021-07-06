@@ -7,7 +7,6 @@ Created on Fri Jul  2 14:12:44 2021
 
 import pandas as pd
 import numpy as np
-import datetime
 import re
 from joblib import load
 
@@ -46,41 +45,86 @@ def generate_test_data(date,time,inc,prop,bor,dis,lat,lon):
     
     
     day=pd.to_datetime(date,format='%Y-%m-%d')
-    #day=day.dt.weekday
-    day=day.day_of_week
+    day=day.weekday
+    #day=day.day_of_week
     
     stations=pd.read_csv('data/Stations_clean.csv',index_col=0)
     dist=stations.apply(lambda row :np.sqrt((row['Longitude']-lon)**2+(row['Latitude']-lat)**2),axis=1) 
     dist=pd.Series(dist,name='dist')
     stations=stations.join(dist)
     
-    distance=2.0
-    station_proche=''
-    for i in range(len(stations)):
-        if stations.iloc[i]['dist']<distance:
-            distance = stations.iloc[i]['dist']
-            station_proche=stations.iloc[i]['NomStation']
-            
-    df.loc['distFromStation']=distance
-    stat_col='DeployedFromSt_'+station_proche
-    stat_col=re.sub('[^A-Za-z0-9_]+', '', stat_col)
-    df.loc[stat_col]=1
     
-    df=df.transpose()
-    
-    
+    #for i in range(len(stations)):
+    #    if stations.iloc[i]['dist']<distance:
+    #        distance = stations.iloc[i]['dist']
+    #        station_proche=stations.iloc[i]['NomStation']
+    stat=stations.sort_values('dist',ascending=True)
+
     lgbm4=load("models/lgbm4.joblib")
-    res=[]
-    for pumps in range(1,11):
-        df['NumPumpsAttending']=[pumps]
-        tab=lgbm4.predict(df)
-        res.append(*tab)
+    
+
+    df0=df.copy()        
+    df0.loc['distFromStation']=stat['dist'].head(1).values
+    stat_col='DeployedFromSt_'+stat['NomStation'].head(1).values
+    stat_col=re.sub('[^A-Za-z0-9_]+', '', *stat_col)
+    stat0=stat['NomStation'].head(1).values
+    df0.loc[stat_col]=1
+    
+    df0=df0.transpose()
     
     
     
+    res0=[]
+    for pumps in range(1,6):
+        df0['NumPumpsAttending']=[pumps]
+        tab=lgbm4.predict(df0)
+        res0.append(*tab)
     
     
-    return station_proche,res
+    df1=df.copy()
+    df1.loc['distFromStation']=stat['dist'].head(2).tail(1).values
+    stat_col='DeployedFromSt_'+stat['NomStation'].head(2).tail(1).values
+    stat_col=re.sub('[^A-Za-z0-9_]+', '', *stat_col)
+    stat1=stat['NomStation'].head(2).tail(1).values
+    df1.loc[stat_col]=1
+    
+    df1=df1.transpose()
+    
+  
+    
+    res1=[]
+    for pumps in range(1,6):
+        df1['NumPumpsAttending']=[pumps]
+        tab=lgbm4.predict(df1)
+        res1.append(*tab)
+    
+    df2=df.copy()
+    df2.loc['distFromStation']=stat['dist'].head(3).tail(1).values
+    stat_col='DeployedFromSt_'+stat['NomStation'].head(3).tail(1).values
+    stat_col=re.sub('[^A-Za-z0-9_]+', '', *stat_col)
+    stat2=stat['NomStation'].head(3).tail(1).values
+    df2.loc[stat_col]=1
+    
+    df2=df2.transpose()
+    
+    
+    
+    res2=[]
+    for pumps in range(1,6):
+        df2['NumPumpsAttending']=[pumps]
+        tab=lgbm4.predict(df2)
+        res2.append(*tab)
+        
+    res=pd.DataFrame({'Nb vehicules':range(1,6),'Stat0':res0,'Stat1':res1,'Stat2':res2}).set_index('Nb vehicules')
+    
+    stations=[*stat0,*stat1,*stat2]
+    station=stations[res.describe().loc['mean'].argmin()]
+    res=res[res.columns[res.describe().loc['mean'].argmin()]]
+    
+    
+    
+    return station,res
     
 
 
+#print(generate_test_data('2021-07-04','23:40','Flooding','Dwelling','Newham','E7',51.5,0))
