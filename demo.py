@@ -75,8 +75,8 @@ if page == 'Application':
         if location==None:
             st.write("Les coordonnées de votre adresse sont inconnues.")
         else:
-            lat=location.latitude
-            lon=location.longitude
+            lat=round(location.latitude,7)
+            lon=round(location.longitude,7)
             coord=lat,lon
             location = geolocator.reverse(coord)
             st.write("L'adresse suivante a été reconnue :", location.address)
