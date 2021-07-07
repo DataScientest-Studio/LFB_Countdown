@@ -28,6 +28,7 @@ def bokeh_simulation(lat,lon,detstat):
     p.square(source=sourcei,x='Longmerc',y='Latmerc',color='red',legend_label='incident')
     p.triangle(source=sources,x='Longmerc',y='Latmerc',color='black',size=10,legend_label='caserne')
     
-    
+   
+    p.legend.location = "top_left" 
     st.bokeh_chart(p, use_container_width=True)
     
