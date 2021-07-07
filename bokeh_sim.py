@@ -25,7 +25,7 @@ def bokeh_simulation(lat,lon,detstat):
     p=figure(title='Incident et station de déploiement',x_axis_label='Longitude',y_axis_label='Latitude',
          width=900,height=600,x_range=(-53000, 31000), y_range=(6660000, 6755000), x_axis_type='mercator', y_axis_type ='mercator')
     p.add_tile(tuile)
-    p.square(source=sourcei,x='Longmerc',y='Latmerc',color='red',legend_label='incident')
+    p.square(source=sourcei,x='Longmerc',y='Latmerc',color='red',size=10,legend_label='incident')
     p.triangle(source=sources,x='Longmerc',y='Latmerc',color='black',size=10,legend_label='caserne')
     
    
