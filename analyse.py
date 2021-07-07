@@ -174,10 +174,10 @@ def affichage_ana():
     
     dfgeo['Longmerc'],dfgeo['Latmerc']=transform(Proj(init='epsg:4326'), Proj(init='epsg:3857'), dfgeo['Longitude'].values, dfgeo['Latitude'].values)
     stations['Longmerc'],stations['Latmerc']=(transform(Proj(init='epsg:4326'), Proj(init='epsg:3857'), stations['Longitude'].values, stations['Latitude'].values));
-    dfgeo21=dfgeo[dfgeo['CallYear']==2021].sample(7000)
-    dfgeo20f=dfgeo[dfgeo['CallYear']==2020].sample(5000)
-    dfgeo20=dfgeo[dfgeo['CallYear']==2020].sample(7000)
-    dfgeo19=dfgeo[dfgeo['CallYear']==2019].sample(7000)
+    dfgeo21=dfgeo[dfgeo['CallYear']==2021].sample(20000)
+    dfgeo20f=dfgeo[dfgeo['CallYear']==2020].sample(20000)
+    dfgeo20=dfgeo[dfgeo['CallYear']==2020].sample(20000)
+    dfgeo19=dfgeo[dfgeo['CallYear']==2019].sample(20000)
     sourcest=ColumnDataSource(data=stations)
 
     source21=ColumnDataSource(data=dfgeo21)
@@ -190,7 +190,7 @@ def affichage_ana():
     p=figure(title='Densité des incidents en 2020',x_axis_label='Longitude',y_axis_label='Latitude',
          width=900,height=600,x_range=(-53000, 31000), y_range=(6660000, 6755000), x_axis_type='mercator', y_axis_type ='mercator')
     p.add_tile(tuile)
-    p.circle(source=source20f,x='Longmerc',y='Latmerc',alpha=0.1)
+    p.circle(source=source20f,x='Longmerc',y='Latmerc',alpha=0.4)
     s=p.triangle(source=sourcest,x='Longmerc',y='Latmerc',color='red',size=10)
     hover=HoverTool(renderers=[s],tooltips=[("station", "@NomStation")])
     p.add_tools(hover) 
@@ -228,21 +228,21 @@ def affichage_ana():
     p21=figure(title="Incidents colorés par temps d'attente (en s) en 2021",x_axis_label='Longitude',y_axis_label='Latitude',tools=['box_select','lasso_select'],
          width=900,height=600,x_range=(-53000, 31000), y_range=(6660000, 6755000), x_axis_type='mercator', y_axis_type ='mercator')
     p21.add_tile(tuile)
-    p21.circle(source=source21,x='Longmerc',y='Latmerc',alpha=0.3,color = {'field' :'AttendanceTimeSeconds', 'transform' : color_mapper})
+    p21.circle(source=source21,x='Longmerc',y='Latmerc',alpha=0.5,color = {'field' :'AttendanceTimeSeconds', 'transform' : color_mapper})
     s21=p21.triangle(source=sourcest2,x='Longmerc',y='Latmerc',color='black',size=7)
 
 
     p20=figure(title="Incidents colorés par temps d'attente (en s) en 2020",x_axis_label='Longitude',y_axis_label='Latitude',
          width=900,height=600,x_range = p21.x_range, y_range = p21.y_range, x_axis_type='mercator', y_axis_type ='mercator')
     p20.add_tile(tuile)
-    p20.circle(source=source20,x='Longmerc',y='Latmerc',alpha=0.2,color = {'field' :'AttendanceTimeSeconds', 'transform' : color_mapper})
+    p20.circle(source=source20,x='Longmerc',y='Latmerc',alpha=0.5,color = {'field' :'AttendanceTimeSeconds', 'transform' : color_mapper})
     s20=p20.triangle(source=sourcest2,x='Longmerc',y='Latmerc',color='black',size=7)
 
 
     p19=figure(title="Incidents colorés par temps d'attente (en s) en 2019",x_axis_label='Longitude',y_axis_label='Latitude',
          width=900,height=600,x_range = p21.x_range, y_range = p21.y_range, x_axis_type='mercator', y_axis_type ='mercator')
     p19.add_tile(tuile)
-    p19.circle(source=source19,x='Longmerc',y='Latmerc',alpha=0.2,color = {'field' :'AttendanceTimeSeconds', 'transform' : color_mapper})
+    p19.circle(source=source19,x='Longmerc',y='Latmerc',alpha=0.5,color = {'field' :'AttendanceTimeSeconds', 'transform' : color_mapper})
     s19=p19.triangle(source=sourcest2,x='Longmerc',y='Latmerc',color='black',size=7)
 
 
