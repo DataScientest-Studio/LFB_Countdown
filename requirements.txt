@@ -1,6 +1,6 @@
 pandas
 geopy
-bokeh
+bokeh==2.2.3
 streamlit
 pyproj
 sklearn
